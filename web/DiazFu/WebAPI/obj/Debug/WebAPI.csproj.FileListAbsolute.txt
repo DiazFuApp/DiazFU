@@ -1,0 +1,94 @@
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\csc.exe
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\csc.exe.config
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\csc.rsp
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\csi.exe
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\csi.rsp
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.CSharp.Core.targets
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.AppContext.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.Collections.Immutable.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.Diagnostics.StackTrace.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.IO.FileSystem.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.IO.FileSystem.Primitives.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\System.Reflection.Metadata.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\vbc.exe
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\vbc.exe.config
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\vbc.rsp
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\VBCSCompiler.exe
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\roslyn\VBCSCompiler.exe.config
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\WebAPI.dll.config
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\WebAPI.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\WebAPI.pdb
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\Newtonsoft.Json.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Net.Http.Formatting.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Web.Http.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Web.Http.WebHost.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\Newtonsoft.Json.xml
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Net.Http.Formatting.xml
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Web.Http.xml
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\System.Web.Http.WebHost.xml
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\es\System.Net.Http.Formatting.resources.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\es\System.Web.Http.resources.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\bin\es\System.Web.Http.WebHost.resources.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\obj\Debug\WebAPI.dll
+c:\Users\Fred Gz\documents\visual studio 2017\Projects\DiazFu\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\obj\Debug\WebAPI.csprojResolveAssemblyReference.cache
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\obj\Debug\WebAPI.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\obj\Debug\WebAPI.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\csc.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\csc.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\csc.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\csi.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\csi.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.AppContext.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\vbc.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\vbc.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\vbc.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\VBCSCompiler.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\WebAPI.dll.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\WebAPI.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\WebAPI.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\DiazFu.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\Newtonsoft.Json.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Net.Http.Formatting.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Web.Http.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Web.Http.WebHost.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\DiazFu.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\DiazFu.dll.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\Newtonsoft.Json.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Net.Http.Formatting.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Web.Http.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\System.Web.Http.WebHost.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\es\System.Net.Http.Formatting.resources.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\es\System.Web.Http.resources.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\bin\es\System.Web.Http.WebHost.resources.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\WebAPI\obj\Debug\WebAPI.csproj.CoreCompileInputs.cache
