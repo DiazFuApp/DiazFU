@@ -1,0 +1,1 @@
+Se implementa retrofit2
