@@ -1,0 +1,1 @@
+- Se agrega webservice para servicio local.

@@ -168,7 +168,7 @@ namespace WebAPI.Models
         }
 
         /// <summary>
-        /// Función para ejecutar el procedimiento almacenado seleccionado.
+        /// Función para ejecutar el procedimiento almacenado seleccionado. PRUEBA
         /// </summary>
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public System.Data.DataSet EjecutarSP(int Opcion)
