@@ -7,7 +7,6 @@ namespace WebAPI
     {
         public static void Register(HttpConfiguration config)
         {
-            //BLA BLA BLA WEB API
             // Configuración y servicios de API web
             config.Formatters.Add(new BrowserJsonFormatter());
             //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
