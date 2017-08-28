@@ -32,3 +32,38 @@ c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\bin\Microso
 c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\DiazFu.csprojResolveAssemblyReference.cache
 c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\DiazFu.dll
 c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\DiazFu.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csi.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csi.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.AppContext.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.IO.FileSystem.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.rsp
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\VBCSCompiler.exe
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.dll.config
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.pdb
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.csprojResolveAssemblyReference.cache
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.csproj.CoreCompileInputs.cache
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.dll
+C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.pdb

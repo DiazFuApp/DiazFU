@@ -66,6 +66,14 @@ namespace DiazFu.App_Code.Entidades
             set { _FechaNacimiento = value; }
         }
 
+        private string _RFC;
+
+        public string RFC
+        {
+            get { return _RFC; }
+            set { _RFC = value; }
+        }
+
         private string _CURP;
 
         public string CURP
@@ -166,6 +174,7 @@ namespace DiazFu.App_Code.Entidades
                 this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
                 this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
                 this.FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                this.RFC = Fila["RFC"].ToString();
                 this.CURP = Fila["CURP"].ToString();
                 this.ClaveElector = Fila["ClaveElector"].ToString();
                 this.URLFoto = Fila["URLFoto"].ToString();
@@ -192,6 +201,7 @@ namespace DiazFu.App_Code.Entidades
             Parametros.Add(new SqlParameter("@TelefonoCelular", TelefonoCelular));
             Parametros.Add(new SqlParameter("@CorreoElectronico", CorreoElectronico));
             Parametros.Add(new SqlParameter("@FechaNacimiento", FechaNacimiento));
+            Parametros.Add(new SqlParameter("@RFC", RFC));
             Parametros.Add(new SqlParameter("@CURP", CURP));
             Parametros.Add(new SqlParameter("@ClaveElector", ClaveElector));
             Parametros.Add(new SqlParameter("@URLFoto", URLFoto));

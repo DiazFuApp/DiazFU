@@ -247,27 +247,29 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@Nombre", Nombre));
-            Parametros.Add(new SqlParameter("@TelefonoCasa", TelefonoCasa));
-            Parametros.Add(new SqlParameter("@TelefonoCelular", TelefonoCelular));
-            Parametros.Add(new SqlParameter("@Direccion", Direccion));
-            Parametros.Add(new SqlParameter("@FechaNacimiento", FechaNacimiento));
-            Parametros.Add(new SqlParameter("@CorreoElectronico", CorreoElectronico));
-            Parametros.Add(new SqlParameter("@URLFoto", URLFoto));
-            Parametros.Add(new SqlParameter("@NombreEmpresa", NombreEmpresa));
-            Parametros.Add(new SqlParameter("@PuestoEmpresa", PuestoEmpresa));
-            Parametros.Add(new SqlParameter("@DireccionEmpresa", DireccionEmpresa));
-            Parametros.Add(new SqlParameter("@HorarioEmpresa", HorarioEmpresa));
-            Parametros.Add(new SqlParameter("@Antiguedad", Antiguedad));
-            Parametros.Add(new SqlParameter("@TelefonoEmpresa", TelefonoEmpresa));
-            Parametros.Add(new SqlParameter("@SueldoMensual", SueldoMensual));
-            Parametros.Add(new SqlParameter("@NombreJefe", NombreJefe));
-            Parametros.Add(new SqlParameter("@TelefonoJefe", TelefonoJefe));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@Nombre", Nombre),
+                new SqlParameter("@TelefonoCasa", TelefonoCasa),
+                new SqlParameter("@TelefonoCelular", TelefonoCelular),
+                new SqlParameter("@Direccion", Direccion),
+                new SqlParameter("@FechaNacimiento", FechaNacimiento),
+                new SqlParameter("@CorreoElectronico", CorreoElectronico),
+                new SqlParameter("@URLFoto", URLFoto),
+                new SqlParameter("@NombreEmpresa", NombreEmpresa),
+                new SqlParameter("@PuestoEmpresa", PuestoEmpresa),
+                new SqlParameter("@DireccionEmpresa", DireccionEmpresa),
+                new SqlParameter("@HorarioEmpresa", HorarioEmpresa),
+                new SqlParameter("@Antiguedad", Antiguedad),
+                new SqlParameter("@TelefonoEmpresa", TelefonoEmpresa),
+                new SqlParameter("@SueldoMensual", SueldoMensual),
+                new SqlParameter("@NombreJefe", NombreJefe),
+                new SqlParameter("@TelefonoJefe", TelefonoJefe),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPClientes]", Parametros.ToArray());
         }

@@ -66,6 +66,14 @@ namespace WebAPI.Models
             set { _FechaNacimiento = value; }
         }
 
+        private string _RFC;
+
+        public string RFC
+        {
+            get { return _RFC; }
+            set { _RFC = value; }
+        }
+
         private string _CURP;
 
         public string CURP
@@ -160,6 +168,7 @@ namespace WebAPI.Models
                         TelefonoCelular = Fila["TelefonoCelular"].ToString(),
                         CorreoElectronico = Fila["CorreoElectronico"].ToString(),
                         FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString()),
+                        RFC = Fila["RFC"].ToString(),
                         CURP = Fila["CURP"].ToString(),
                         ClaveElector = Fila["ClaveElector"].ToString(),
                         URLFoto = Fila["URLFoto"].ToString(),
@@ -189,6 +198,7 @@ namespace WebAPI.Models
                     this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
                     this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
                     this.FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                    this.RFC = Fila["RFC"].ToString();
                     this.CURP = Fila["CURP"].ToString();
                     this.ClaveElector = Fila["ClaveElector"].ToString();
                     this.URLFoto = Fila["URLFoto"].ToString();
@@ -215,6 +225,7 @@ namespace WebAPI.Models
                 new SqlParameter("@TelefonoCelular", TelefonoCelular),
                 new SqlParameter("@CorreoElectronico", CorreoElectronico),
                 new SqlParameter("@FechaNacimiento", FechaNacimiento),
+                new SqlParameter("@RFC", RFC),
                 new SqlParameter("@CURP", CURP),
                 new SqlParameter("@ClaveElector", ClaveElector),
                 new SqlParameter("@URLFoto", URLFoto),

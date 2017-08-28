@@ -82,14 +82,6 @@ namespace WebAPI.Models
             set { _Direccion = value; }
         }
 
-        private string _ReferenciaDireccion;
-
-        public string ReferenciaDireccion
-        {
-            get { return _ReferenciaDireccion; }
-            set { _ReferenciaDireccion = value; }
-        }
-
         private string _TelefonoCasa;
 
         public string TelefonoCasa
@@ -114,68 +106,12 @@ namespace WebAPI.Models
             set { _CorreoElectronico = value; }
         }
 
-        private string _Parentesco;
-
-        public string Parentesco
-        {
-            get { return _Parentesco; }
-            set { _Parentesco = value; }
-        }
-
         private string _URLFoto;
 
         public string URLFoto
         {
             get { return _URLFoto; }
             set { _URLFoto = value; }
-        }
-
-        private string _Empresa;
-
-        public string Empresa
-        {
-            get { return _Empresa; }
-            set { _Empresa = value; }
-        }
-
-        private string _PuestoEmpresa;
-
-        public string PuestoEmpresa
-        {
-            get { return _PuestoEmpresa; }
-            set { _PuestoEmpresa = value; }
-        }
-
-        private string _DireccionEmpresa;
-
-        public string DireccionEmpresa
-        {
-            get { return _DireccionEmpresa; }
-            set { _DireccionEmpresa = value; }
-        }
-
-        private string _AntiguedadEmpresa;
-
-        public string AntiguedadEmpresa
-        {
-            get { return _AntiguedadEmpresa; }
-            set { _AntiguedadEmpresa = value; }
-        }
-
-        private string _TelefonoEmpresa;
-
-        public string TelefonoEmpresa
-        {
-            get { return _TelefonoEmpresa; }
-            set { _TelefonoEmpresa = value; }
-        }
-
-        private string _NombreJefe;
-
-        public string NombreJefe
-        {
-            get { return _NombreJefe; }
-            set { _NombreJefe = value; }
         }
 
         private int _IdEstatus;
@@ -250,18 +186,10 @@ namespace WebAPI.Models
                         FechaNacimiento = DateTime.Parse(Fila["RFC"].ToString()),
                         ClaveElector = Fila["ClaveElector"].ToString(),
                         Direccion = Fila["Direccion"].ToString(),
-                        ReferenciaDireccion = Fila["ReferenciaDireccion"].ToString(),
                         TelefonoCasa = Fila["TelefonoCasa"].ToString(),
                         TelefonoCelular = Fila["TelefonoCelular"].ToString(),
                         CorreoElectronico = Fila["CorreoElectronico"].ToString(),
-                        Parentesco = Fila["Parentesco"].ToString(),
                         URLFoto = Fila["URLFoto"].ToString(),
-                        Empresa = Fila["Empresa"].ToString(),
-                        PuestoEmpresa = Fila["PuestoEmpresa"].ToString(),
-                        DireccionEmpresa = Fila["DireccionEmpresa"].ToString(),
-                        AntiguedadEmpresa = Fila["AntiguedadEmpresa"].ToString(),
-                        TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString(),
-                        NombreJefe = Fila["NombreJefe"].ToString(),
                         IdEstatus = int.Parse(Fila["IdEstatus"].ToString())
                     };
                     Referencias.Add(obj);
@@ -293,18 +221,10 @@ namespace WebAPI.Models
                         FechaNacimiento = DateTime.Parse(Fila["RFC"].ToString()),
                         ClaveElector = Fila["ClaveElector"].ToString(),
                         Direccion = Fila["Direccion"].ToString(),
-                        ReferenciaDireccion = Fila["ReferenciaDireccion"].ToString(),
                         TelefonoCasa = Fila["TelefonoCasa"].ToString(),
                         TelefonoCelular = Fila["TelefonoCelular"].ToString(),
                         CorreoElectronico = Fila["CorreoElectronico"].ToString(),
-                        Parentesco = Fila["Parentesco"].ToString(),
                         URLFoto = Fila["URLFoto"].ToString(),
-                        Empresa = Fila["Empresa"].ToString(),
-                        PuestoEmpresa = Fila["PuestoEmpresa"].ToString(),
-                        DireccionEmpresa = Fila["DireccionEmpresa"].ToString(),
-                        AntiguedadEmpresa = Fila["AntiguedadEmpresa"].ToString(),
-                        TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString(),
-                        NombreJefe = Fila["NombreJefe"].ToString(),
                         IdEstatus = int.Parse(Fila["IdEstatus"].ToString())
                     };
                     Referencias.Add(obj);
@@ -331,18 +251,10 @@ namespace WebAPI.Models
                 new SqlParameter("@FechaNacimiento", FechaNacimiento),
                 new SqlParameter("@ClaveElector", ClaveElector),
                 new SqlParameter("@Direccion", Direccion),
-                new SqlParameter("@ReferenciaDireccion", ReferenciaDireccion),
                 new SqlParameter("@TelefonoCasa", TelefonoCasa),
                 new SqlParameter("@TelefonoCelular", TelefonoCelular),
                 new SqlParameter("@CorreoElectronico", CorreoElectronico),
-                new SqlParameter("@Parentesco", Parentesco),
                 new SqlParameter("@URLFoto", URLFoto),
-                new SqlParameter("@Empresa", Empresa),
-                new SqlParameter("@PuestoEmpresa", PuestoEmpresa),
-                new SqlParameter("@DireccionEmpresa", DireccionEmpresa),
-                new SqlParameter("@AntiguedadEmpresa", AntiguedadEmpresa),
-                new SqlParameter("@TelefonoEmpresa", TelefonoEmpresa),
-                new SqlParameter("@NombreJefe", NombreJefe),
                 new SqlParameter("@IdEstatus", IdEstatus),
                 new SqlParameter("@IdUsuarioActual", IdUsuario)
             };

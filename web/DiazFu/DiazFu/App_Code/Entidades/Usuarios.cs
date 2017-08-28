@@ -135,7 +135,7 @@ namespace DiazFu.App_Code.Entidades
         public void LogIn()
         {
             DataSet Consulta = new DataSet();
-            Consulta = EjecutarSP(4);
+            Consulta = EjecutarSP(3);
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
@@ -158,15 +158,17 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdActor", IdActor));
-            Parametros.Add(new SqlParameter("@IdTipoActor", IdTipoActor));
-            Parametros.Add(new SqlParameter("@Nombre", Nombre));
-            Parametros.Add(new SqlParameter("@Contrasena", Contrasena));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdActor", IdActor),
+                new SqlParameter("@IdTipoActor", IdTipoActor),
+                new SqlParameter("@Nombre", Nombre),
+                new SqlParameter("@Contrasena", Contrasena),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[seguridad].[SPUsuarios]", Parametros.ToArray());
         }

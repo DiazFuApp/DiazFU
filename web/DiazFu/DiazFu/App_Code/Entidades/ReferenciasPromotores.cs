@@ -82,14 +82,6 @@ namespace DiazFu.App_Code.Entidades
             set { _Direccion = value; }
         }
 
-        private string _ReferenciaDireccion;
-
-        public string ReferenciaDireccion
-        {
-            get { return _ReferenciaDireccion; }
-            set { _ReferenciaDireccion = value; }
-        }
-
         private string _TelefonoCasa;
 
         public string TelefonoCasa
@@ -114,68 +106,12 @@ namespace DiazFu.App_Code.Entidades
             set { _CorreoElectronico = value; }
         }
 
-        private string _Parentesco;
-
-        public string Parentesco
-        {
-            get { return _Parentesco; }
-            set { _Parentesco = value; }
-        }
-
         private string _URLFoto;
 
         public string URLFoto
         {
             get { return _URLFoto; }
             set { _URLFoto = value; }
-        }
-
-        private string _Empresa;
-
-        public string Empresa
-        {
-            get { return _Empresa; }
-            set { _Empresa = value; }
-        }
-
-        private string _PuestoEmpresa;
-
-        public string PuestoEmpresa
-        {
-            get { return _PuestoEmpresa; }
-            set { _PuestoEmpresa = value; }
-        }
-
-        private string _DireccionEmpresa;
-
-        public string DireccionEmpresa
-        {
-            get { return _DireccionEmpresa; }
-            set { _DireccionEmpresa = value; }
-        }
-
-        private string _AntiguedadEmpresa;
-
-        public string AntiguedadEmpresa
-        {
-            get { return _AntiguedadEmpresa; }
-            set { _AntiguedadEmpresa = value; }
-        }
-
-        private string _TelefonoEmpresa;
-
-        public string TelefonoEmpresa
-        {
-            get { return _TelefonoEmpresa; }
-            set { _TelefonoEmpresa = value; }
-        }
-
-        private string _NombreJefe;
-
-        public string NombreJefe
-        {
-            get { return _NombreJefe; }
-            set { _NombreJefe = value; }
         }
 
         private int _IdEstatus;
@@ -256,18 +192,10 @@ namespace DiazFu.App_Code.Entidades
                 this.FechaNacimiento = DateTime.Parse(Fila["RFC"].ToString());
                 this.ClaveElector = Fila["ClaveElector"].ToString();
                 this.Direccion = Fila["Direccion"].ToString();
-                this.ReferenciaDireccion = Fila["ReferenciaDireccion"].ToString();
                 this.TelefonoCasa = Fila["TelefonoCasa"].ToString();
                 this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
                 this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
-                this.Parentesco = Fila["Parentesco"].ToString();
                 this.URLFoto = Fila["URLFoto"].ToString();
-                this.Empresa = Fila["Empresa"].ToString();
-                this.PuestoEmpresa = Fila["PuestoEmpresa"].ToString();
-                this.DireccionEmpresa = Fila["DireccionEmpresa"].ToString();
-                this.AntiguedadEmpresa = Fila["AntiguedadEmpresa"].ToString();
-                this.TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString();
-                this.NombreJefe = Fila["NombreJefe"].ToString();
                 this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
@@ -293,18 +221,10 @@ namespace DiazFu.App_Code.Entidades
             Parametros.Add(new SqlParameter("@FechaNacimiento", FechaNacimiento));
             Parametros.Add(new SqlParameter("@ClaveElector", ClaveElector));
             Parametros.Add(new SqlParameter("@Direccion", Direccion));
-            Parametros.Add(new SqlParameter("@ReferenciaDireccion", ReferenciaDireccion));
             Parametros.Add(new SqlParameter("@TelefonoCasa", TelefonoCasa));
             Parametros.Add(new SqlParameter("@TelefonoCelular", TelefonoCelular));
             Parametros.Add(new SqlParameter("@CorreoElectronico", CorreoElectronico));
-            Parametros.Add(new SqlParameter("@Parentesco", Parentesco));
             Parametros.Add(new SqlParameter("@URLFoto", URLFoto));
-            Parametros.Add(new SqlParameter("@Empresa", Empresa));
-            Parametros.Add(new SqlParameter("@PuestoEmpresa", PuestoEmpresa));
-            Parametros.Add(new SqlParameter("@DireccionEmpresa", DireccionEmpresa));
-            Parametros.Add(new SqlParameter("@AntiguedadEmpresa", AntiguedadEmpresa));
-            Parametros.Add(new SqlParameter("@TelefonoEmpresa", TelefonoEmpresa));
-            Parametros.Add(new SqlParameter("@NombreJefe", NombreJefe));
             Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
             Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
 
