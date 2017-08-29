@@ -73,7 +73,7 @@ namespace WebAPI.Models
         public Usuarios(int IdUsuario)
         {
             this.IdUsuario = IdUsuario;
-            this.IdEstatus = 1;
+            IdEstatus = 1;
         }
         #endregion
 
@@ -131,16 +131,16 @@ namespace WebAPI.Models
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.Contrasena = Fila["Contrasena"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Contrasena = Fila["Contrasena"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -154,16 +154,16 @@ namespace WebAPI.Models
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.Contrasena = Fila["Contrasena"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Contrasena = Fila["Contrasena"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 

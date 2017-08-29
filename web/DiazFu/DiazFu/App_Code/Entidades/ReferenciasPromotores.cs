@@ -151,7 +151,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -169,7 +169,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todas las referencias de préstamos activas.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -183,24 +183,24 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoReferencia = int.Parse(Fila["IdTipoReferencia"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.RFC = Fila["RFC"].ToString();
-                this.CURP = Fila["CURP"].ToString();
-                this.FechaNacimiento = DateTime.Parse(Fila["RFC"].ToString());
-                this.ClaveElector = Fila["ClaveElector"].ToString();
-                this.Direccion = Fila["Direccion"].ToString();
-                this.TelefonoCasa = Fila["TelefonoCasa"].ToString();
-                this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
-                this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
-                this.URLFoto = Fila["URLFoto"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoReferencia = int.Parse(Fila["IdTipoReferencia"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                RFC = Fila["RFC"].ToString();
+                CURP = Fila["CURP"].ToString();
+                FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                ClaveElector = Fila["ClaveElector"].ToString();
+                Direccion = Fila["Direccion"].ToString();
+                TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                URLFoto = Fila["URLFoto"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -210,23 +210,25 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdActor", IdActor));
-            Parametros.Add(new SqlParameter("@IdTipoReferencia", IdTipoReferencia));
-            Parametros.Add(new SqlParameter("@Nombre", Nombre));
-            Parametros.Add(new SqlParameter("@RFC", RFC));
-            Parametros.Add(new SqlParameter("@CURP", CURP));
-            Parametros.Add(new SqlParameter("@FechaNacimiento", FechaNacimiento));
-            Parametros.Add(new SqlParameter("@ClaveElector", ClaveElector));
-            Parametros.Add(new SqlParameter("@Direccion", Direccion));
-            Parametros.Add(new SqlParameter("@TelefonoCasa", TelefonoCasa));
-            Parametros.Add(new SqlParameter("@TelefonoCelular", TelefonoCelular));
-            Parametros.Add(new SqlParameter("@CorreoElectronico", CorreoElectronico));
-            Parametros.Add(new SqlParameter("@URLFoto", URLFoto));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdActor", IdActor),
+                new SqlParameter("@IdTipoReferencia", IdTipoReferencia),
+                new SqlParameter("@Nombre", Nombre),
+                new SqlParameter("@RFC", RFC),
+                new SqlParameter("@CURP", CURP),
+                new SqlParameter("@FechaNacimiento", FechaNacimiento),
+                new SqlParameter("@ClaveElector", ClaveElector),
+                new SqlParameter("@Direccion", Direccion),
+                new SqlParameter("@TelefonoCasa", TelefonoCasa),
+                new SqlParameter("@TelefonoCelular", TelefonoCelular),
+                new SqlParameter("@CorreoElectronico", CorreoElectronico),
+                new SqlParameter("@URLFoto", URLFoto),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPReferenciasPromotores]", Parametros.ToArray());
         }

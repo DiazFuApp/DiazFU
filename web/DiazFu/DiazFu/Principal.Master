@@ -35,7 +35,7 @@
 
                 <!-- Login / register -->
                 <li class="nav-item ">
-                    <a href="#" id="show_login" class="nav-link waves-effect waves-light">
+                    <a href="Salir.aspx" id="show_login" class="nav-link waves-effect waves-light">
                         <i class="fa fa-sign-in mr-1"></i>
                         <span class="clearfix d-sm-inline-block">Cerrar Sesión</span>
                     </a>

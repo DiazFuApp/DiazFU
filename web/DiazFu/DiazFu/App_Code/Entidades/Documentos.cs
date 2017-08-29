@@ -89,7 +89,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -107,7 +107,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los documentos activos.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -121,16 +121,16 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdTipoDocumento = int.Parse(Fila["IdTipoDocumento"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.URLDocumento = Fila["URLDocumento"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdTipoDocumento = int.Parse(Fila["IdTipoDocumento"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                URLDocumento = Fila["URLDocumento"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -140,15 +140,17 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdTipoDocumento", IdTipoDocumento));
-            Parametros.Add(new SqlParameter("@IdActor", IdActor));
-            Parametros.Add(new SqlParameter("@IdTipoActor", IdTipoActor));
-            Parametros.Add(new SqlParameter("@URLDocumento", URLDocumento));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdTipoDocumento", IdTipoDocumento),
+                new SqlParameter("@IdActor", IdActor),
+                new SqlParameter("@IdTipoActor", IdTipoActor),
+                new SqlParameter("@URLDocumento", URLDocumento),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPDocumentos]", Parametros.ToArray());
         }

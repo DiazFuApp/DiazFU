@@ -58,7 +58,7 @@ namespace DiazFu.App_Code.Entidades
 
         public IntegrantesGrupos(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -70,7 +70,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -88,7 +88,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los clientes activos.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -102,14 +102,14 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdGrupo = int.Parse(Fila["Nombre"].ToString());
-                this.IdCliente = int.Parse(Fila["TelefonoCasa"].ToString());
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdGrupo = int.Parse(Fila["Nombre"].ToString());
+                IdCliente = int.Parse(Fila["TelefonoCasa"].ToString());
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -119,13 +119,15 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdGrupo", IdGrupo));
-            Parametros.Add(new SqlParameter("@IdCliente", IdCliente));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdGrupo", IdGrupo),
+                new SqlParameter("@IdCliente", IdCliente),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPIntegrantesGrupos]", Parametros.ToArray());
         }

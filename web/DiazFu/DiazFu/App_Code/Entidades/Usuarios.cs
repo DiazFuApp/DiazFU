@@ -73,7 +73,7 @@ namespace DiazFu.App_Code.Entidades
         public Usuarios(int IdUsuario)
         {
             this.IdUsuario = IdUsuario;
-            this.IdEstatus = 1;
+            IdEstatus = 1;
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -102,7 +102,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los usuarios activos.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -115,17 +115,17 @@ namespace DiazFu.App_Code.Entidades
             Consulta = EjecutarSP(3);
             if (Consulta.Tables[0].Rows.Count > 0)
             {
-                System.Data.DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.Contrasena = Fila["Contrasena"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Contrasena = Fila["Contrasena"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -139,16 +139,16 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.Contrasena = Fila["Contrasena"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Contrasena = Fila["Contrasena"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
