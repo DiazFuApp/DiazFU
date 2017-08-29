@@ -53,6 +53,10 @@ namespace WebAPI.Controllers
         [Route("api/redessociales/objeto")]
         public List<RedesSociales> Get([FromBody]RedesSociales Red)
         {
+            if (Red.IdTipoActor == 5)
+            {
+                return Red.ConsultarRedesSocialesReferenciasPromotores();
+            }
             return Red.Consultar();
         }
 

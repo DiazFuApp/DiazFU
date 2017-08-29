@@ -11,6 +11,10 @@ namespace DiazFu
                 lAlerta.Text = Session["Alerta"].ToString();
                 Session["Alerta"] = null;
             }
+            if (Session["Usuario"] == null)
+            {
+                Response.Redirect("~/Default.aspx");
+            }
         }
     }
 }

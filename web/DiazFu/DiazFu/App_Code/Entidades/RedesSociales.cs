@@ -74,7 +74,7 @@ namespace DiazFu.App_Code.Entidades
 
         public RedesSociales(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -86,7 +86,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -104,7 +104,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todas las actividades activas.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -118,16 +118,64 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString());
-                this.IdActor = int.Parse(Fila["IdActor"].ToString());
-                this.IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
-                this.URL = Fila["URL"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                URL = Fila["URL"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
+            }
+        }
+
+        /// <summary>
+        /// Método para consultar todas las redes sociales de las referencias del promotor
+        /// </summary>
+        /// <returns></returns>
+        public void ConsultarRedesSocialesReferenciasPromotores()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(4);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                URL = Fila["URL"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
+            }
+        }
+
+        /// <summary>
+        /// Función para consultar todas las redes sociales de las referencias del préstamo
+        /// </summary>
+        /// <returns></returns>
+        public void ConsultarRedesSocialesReferenciasPrestamos()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(5);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString());
+                IdActor = int.Parse(Fila["IdActor"].ToString());
+                IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString());
+                URL = Fila["URL"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
             }
         }
 
@@ -137,15 +185,17 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdTipoRedSocial", IdTipoRedSocial));
-            Parametros.Add(new SqlParameter("@IdActor", IdActor));
-            Parametros.Add(new SqlParameter("@IdTipoActor", IdTipoActor));
-            Parametros.Add(new SqlParameter("@URL", URL));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdTipoRedSocial", IdTipoRedSocial),
+                new SqlParameter("@IdActor", IdActor),
+                new SqlParameter("@IdTipoActor", IdTipoActor),
+                new SqlParameter("@URL", URL),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPRedesSociales]", Parametros.ToArray());
         }

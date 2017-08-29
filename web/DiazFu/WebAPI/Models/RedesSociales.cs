@@ -74,7 +74,7 @@ namespace WebAPI.Models
 
         public RedesSociales(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -86,7 +86,7 @@ namespace WebAPI.Models
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -134,6 +134,60 @@ namespace WebAPI.Models
             List<RedesSociales> Redes = new List<RedesSociales>();
             RedesSociales Red = new RedesSociales();
             using (DataSet Consulta = Red.EjecutarSP(3))
+            {
+                foreach (DataRow Fila in Consulta.Tables[0].Rows)
+                {
+                    RedesSociales obj = new RedesSociales
+                    {
+                        Id = int.Parse(Fila["Id"].ToString()),
+                        IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString()),
+                        IdActor = int.Parse(Fila["IdActor"].ToString()),
+                        IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString()),
+                        URL = Fila["URL"].ToString(),
+                        IdEstatus = int.Parse(Fila["IdEstatus"].ToString())
+                    };
+                    Redes.Add(obj);
+                }
+            }
+            return Redes;
+        }
+
+        /// <summary>
+        /// Método para consultar todas las redes sociales de las referencias del promotor
+        /// </summary>
+        /// <returns></returns>
+        public List<RedesSociales> ConsultarRedesSocialesReferenciasPromotores()
+        {
+            List<RedesSociales> Redes = new List<RedesSociales>();
+            RedesSociales Red = new RedesSociales();
+            using (DataSet Consulta = Red.EjecutarSP(4))
+            {
+                foreach (DataRow Fila in Consulta.Tables[0].Rows)
+                {
+                    RedesSociales obj = new RedesSociales
+                    {
+                        Id = int.Parse(Fila["Id"].ToString()),
+                        IdTipoRedSocial = int.Parse(Fila["IdTipoRedSocial"].ToString()),
+                        IdActor = int.Parse(Fila["IdActor"].ToString()),
+                        IdTipoActor = int.Parse(Fila["IdTipoActor"].ToString()),
+                        URL = Fila["URL"].ToString(),
+                        IdEstatus = int.Parse(Fila["IdEstatus"].ToString())
+                    };
+                    Redes.Add(obj);
+                }
+            }
+            return Redes;
+        }
+
+        /// <summary>
+        /// Función para consultar todas las redes sociales de las referencias del préstamo
+        /// </summary>
+        /// <returns></returns>
+        public List<RedesSociales> ConsultarRedesSocialesReferenciasPrestamos()
+        {
+            List<RedesSociales> Redes = new List<RedesSociales>();
+            RedesSociales Red = new RedesSociales();
+            using (DataSet Consulta = Red.EjecutarSP(5))
             {
                 foreach (DataRow Fila in Consulta.Tables[0].Rows)
                 {

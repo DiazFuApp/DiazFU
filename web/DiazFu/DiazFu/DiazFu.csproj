@@ -765,6 +765,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Salir.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -813,6 +814,13 @@
       <DependentUpon>Principal.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Salir.aspx.cs">
+      <DependentUpon>Salir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Salir.aspx.designer.cs">
+      <DependentUpon>Salir.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Ico\" />

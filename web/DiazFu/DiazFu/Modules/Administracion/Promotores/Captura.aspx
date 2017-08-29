@@ -103,6 +103,26 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
+                            <label class="">Foto</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="custom-file w-100">
+                                <asp:FileUpload ID="fu_Foto" runat="server" class="custom-file-input" onchange="file(this);" required="required" />
+                                <span class="custom-file-control" id="span_file_Foto">Seleccione la foto...</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="div_Foto" runat="server" visible="false" class="row">
+                        <div class="col">
+                            <a id="a_Foto" target="_blank" runat="server" href="#" download class="btn btn-primary">Foto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
                             <label class="">Acta De Nacimiento</label>
                         </div>
                     </div>
@@ -140,6 +160,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="row">
                         <div class="col">
@@ -160,9 +182,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">INE</label>
@@ -182,7 +202,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">Comprobante De Domicilio</label>
@@ -307,6 +327,26 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
+                            <label class="">Foto</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="custom-file w-100">
+                                <asp:FileUpload ID="fu_pr_Foto" runat="server" class="custom-file-input" onchange="file(this);" required="required" />
+                                <span class="custom-file-control" id="span_file_pr_Foto">Seleccione la foto...</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="div_pr_Foto" runat="server" visible="false" class="row">
+                        <div class="col">
+                            <a id="a_pr_Foto" target="_blank" runat="server" href="#" download class="btn btn-primary">Foto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
                             <label class="">Acta De Nacimiento</label>
                         </div>
                     </div>
@@ -344,6 +384,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="row">
                         <div class="col">
@@ -364,9 +406,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">INE</label>
@@ -386,7 +426,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">Comprobante De Domicilio</label>
@@ -511,6 +551,26 @@
                 <div class="col">
                     <div class="row">
                         <div class="col">
+                            <label class="">Foto</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="custom-file w-100">
+                                <asp:FileUpload ID="fu_sr_Foto" runat="server" class="custom-file-input" onchange="file(this);" required="required" />
+                                <span class="custom-file-control" id="span_file_sr_Foto">Seleccione la foto...</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="div_sr_Foto" runat="server" visible="false" class="row">
+                        <div class="col">
+                            <a id="a_sr_Foto" target="_blank" runat="server" href="#" download class="btn btn-primary">Foto</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                        <div class="col">
                             <label class="">Acta De Nacimiento</label>
                         </div>
                     </div>
@@ -548,6 +608,8 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <div class="col">
                     <div class="row">
                         <div class="col">
@@ -568,9 +630,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">INE</label>
@@ -590,7 +650,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col">
                     <div class="row">
                         <div class="col">
                             <label class="">Comprobante De Domicilio</label>
