@@ -78,6 +78,10 @@
     <Content Include="Images\Logos\dark_logo.png" />
     <Content Include="Images\Logos\light_logo.png" />
     <Content Include="Images\Logos\white_logo.png" />
+    <Content Include="Modules\Administracion\Clientes\Captura.aspx" />
+    <Content Include="Modules\Administracion\Clientes\Listado.aspx" />
+    <Content Include="Modules\Administracion\Grupos\Captura.aspx" />
+    <Content Include="Modules\Administracion\Grupos\Listado.aspx" />
     <Content Include="Modules\Administracion\Promotores\Captura.aspx" />
     <Content Include="Modules\Administracion\Promotores\Listado.aspx" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.js" />
@@ -791,6 +795,34 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Administracion\Promotores\Captura.aspx.cs">
       <DependentUpon>Captura.aspx</DependentUpon>

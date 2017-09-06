@@ -71,9 +71,11 @@
                                                 <asp:LinkButton ID="lbPromotores" runat="server" PostBackUrl="~/Modules/Administracion/Promotores/Listado.aspx"><i class="fa fa-user-secret mr-2" aria-hidden="true"></i>Promotores</asp:LinkButton>
                                             </li>
                                             <li>
-                                                <asp:LinkButton ID="lbClientes" runat="server" PostBackUrl="~/Modules/Administracion/Promotores/Listado.aspx"><i class="fa fa-user mr-2" aria-hidden="true"></i>Clientes</asp:LinkButton>
+                                                <asp:LinkButton ID="lbClientes" runat="server" PostBackUrl="~/Modules/Administracion/Clientes/Listado.aspx"><i class="fa fa-user mr-2" aria-hidden="true"></i>Clientes</asp:LinkButton>
                                             </li>
-                                            <li><a href="#"><i class="fa fa-users mr-2" aria-hidden="true"></i>Grupos</a></li>
+                                            <li>
+                                                <asp:LinkButton ID="lbGrupo" runat="server" PostBackUrl="~/Modules/Administracion/Grupos/Listado.aspx"><i class="fa fa-users mr-2" aria-hidden="true"></i>Grupos</asp:LinkButton>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>
