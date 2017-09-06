@@ -40,7 +40,7 @@ namespace DiazFu.Modules.Administracion.Promotores
             App_Code.Entidades.Promotores Promotor = new App_Code.Entidades.Promotores
             {
                 Id = id,
-                IdUsuario = 0
+                IdUsuario = IDUsuarioActual
             };
             Promotor.ConsultarID();
             Promotor.IdEstatus = 2;
