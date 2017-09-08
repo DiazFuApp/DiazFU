@@ -22,15 +22,6 @@ namespace DiazFu {
         protected global::System.Web.UI.HtmlControls.HtmlForm form_master;
         
         /// <summary>
-        /// Control sm_Master.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.ScriptManager sm_Master;
-        
-        /// <summary>
         /// Control lAlerta.
         /// </summary>
         /// <remarks>

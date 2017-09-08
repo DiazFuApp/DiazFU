@@ -121,33 +121,6 @@ namespace DiazFu.Modules.Administracion.Promotores {
         protected global::System.Web.UI.WebControls.TextBox tb_ClaveElector;
         
         /// <summary>
-        /// Control tb_Usuario.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb_Usuario;
-        
-        /// <summary>
-        /// Control tb_Contrasena.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb_Contrasena;
-        
-        /// <summary>
-        /// Control tb_ConfirmarContrasena.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox tb_ConfirmarContrasena;
-        
-        /// <summary>
         /// Control fu_Foto.
         /// </summary>
         /// <remarks>
