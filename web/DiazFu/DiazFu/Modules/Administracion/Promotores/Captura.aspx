@@ -98,6 +98,27 @@
                     </div>
                 </div>
             </div>
+            <%--USUARIO | CONTRASEÑAS--%>
+            <div class="row">
+                <div class="col">
+                    <div class="md-form">
+                        <asp:TextBox ID="tb_Usuario" runat="server" CssClass="form-control" required="required"></asp:TextBox>
+                        <label for="tb_Usuario" class="">Usuario</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="md-form">
+                        <asp:TextBox ID="tb_Contrasena" runat="server" CssClass="form-control" required="required" TextMode="Password"></asp:TextBox>
+                        <label for="tb_Contrasena" class="">Contraseña</label>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="md-form">
+                        <asp:TextBox ID="tb_ConfirmarContrasena" runat="server" CssClass="form-control" required="required" TextMode="Password"></asp:TextBox>
+                        <label for="tb_ConfirmarContrasena" class="">Confirmar Contraseña</label>
+                    </div>
+                </div>
+            </div>
             <%--DOCUMENTOS--%>
             <div class="row">
                 <div class="col">

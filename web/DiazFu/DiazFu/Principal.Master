@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs" Inherits="DiazFu.Principal" %>
+﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs" Inherits="DiazFu.Principal" %>
 
 <!DOCTYPE html>
 
@@ -16,6 +16,7 @@
 </head>
 <body>
     <form id="form_master" class="container-fluid h-100 p-0" runat="server">
+    <asp:ScriptManager ID="sm_Master" runat="server"></asp:ScriptManager>
         <%--ALERTA--%>
         <asp:Literal ID="lAlerta" runat="server">
         </asp:Literal>
@@ -35,7 +36,7 @@
 
                 <!-- Login / register -->
                 <li class="nav-item ">
-                    <a href="Salir.aspx" id="show_login" class="nav-link waves-effect waves-light">
+                    <a href="/Salir.aspx" id="show_login" class="nav-link waves-effect waves-light">
                         <i class="fa fa-sign-in mr-1"></i>
                         <span class="clearfix d-sm-inline-block">Cerrar Sesión</span>
                     </a>
@@ -59,7 +60,7 @@
                                 <li class="">
                                     <h4>Panel de 
                                     Control
-                                </h4>
+                                    </h4>
                                 </li>
                                 <li class="actual">
                                     <a href="#" data-toggle="collapse" data-target="#menu_administracion" data-parent="#sidenav01" class="collapsed">
@@ -107,7 +108,7 @@
                 </div>
             </div>
             <div class="col-sm-9 col-md-9 col-lg-10 affix-content mb-5" id="contenido">
-                    <asp:ContentPlaceHolder ID="cphContenido" runat="server"></asp:ContentPlaceHolder>
+                <asp:ContentPlaceHolder ID="cphContenido" runat="server"></asp:ContentPlaceHolder>
             </div>
         </div>
     </form>
@@ -137,5 +138,12 @@
     <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/locale/bootstrap-table-es-MX.js") %>"></script>
     <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/extensions/export/tableExport.js") %>"></script>
     <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/extensions/export/bootstrap-table-export.js") %>"></script>
+
+    <script type="text/javascript">
+        function RecargaEstiloGrid() {
+            var $table = $('.bootstrap-table');
+            $table.bootstrapTable();
+        }
+    </script>
 </body>
 </html>

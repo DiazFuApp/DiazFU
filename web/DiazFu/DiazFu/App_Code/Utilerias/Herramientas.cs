@@ -1,4 +1,7 @@
-﻿namespace DiazFu.App_Code.Utilerias
+﻿using DiazFu.App_Code.Entidades;
+using System;
+
+namespace DiazFu.App_Code.Utilerias
 {
     public static class Herramientas
     {
@@ -38,6 +41,19 @@
             js += "</div>";
             js += "</div>";
             return js;
+        }
+
+        public static void ValidaUsuario(int idActor, int idTipoActor, string nombre)
+        {
+            Usuarios Usuario = new Usuarios()
+            {
+                Nombre = nombre
+            };
+            Usuario.ConsultarID();
+            if (Usuario.Id != null && (Usuario.IdActor != idActor && Usuario.IdTipoActor != idTipoActor))
+            {
+                throw new Exception("El usuario especificado ya existe");
+            }
         }
     }
 }
