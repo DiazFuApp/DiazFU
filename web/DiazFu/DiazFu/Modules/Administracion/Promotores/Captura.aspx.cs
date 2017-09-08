@@ -44,6 +44,15 @@ namespace DiazFu.Modules.Administracion.Promotores
             div_Foto.Visible = true;
             a_Foto.HRef = Promotor.URLFoto;
             fu_Foto.Attributes.Remove("required");
+
+            Usuarios Usuario = new Usuarios()
+            {
+                IdActor = Promotor.Id,
+                IdTipoActor = 2
+            };
+            Usuario.ConsultarID();
+            tb_Usuario.Text = Usuario.Nombre;
+            tb_Contrasena.Text = tb_ConfirmarContrasena.Text = Usuario.Contrasena;
             //-------------------------------------------------------------------------------------------------
             //REDES
             RedesSociales PromotorFacebook = new RedesSociales
@@ -371,6 +380,17 @@ namespace DiazFu.Modules.Administracion.Promotores
             Promotor.ConsultarID();
             PromotorFormulario(Promotor);
             Promotor.Actualizar();
+            //USUARIO
+            Usuarios Usuario = new Usuarios()
+            {
+                IdActor = Promotor.Id,
+                IdTipoActor = 2,
+                IdUsuario = IDUsuarioActual
+            };
+            Usuario.ConsultarID();
+            Usuario.Nombre = tb_Usuario.Text;
+            Usuario.Contrasena = tb_Contrasena.Text;
+            Usuario.Actualizar();
             //REDES SOCIALES DEL PROMOTOR
             GuardarRedSocial(Promotor.Id, 2, 1, tb_Facebook.Text);
             GuardarRedSocial(Promotor.Id, 2, 2, tb_Twitter.Text);
@@ -440,6 +460,17 @@ namespace DiazFu.Modules.Administracion.Promotores
             App_Code.Entidades.Promotores Promotor = new App_Code.Entidades.Promotores(IDUsuarioActual);
             PromotorFormulario(Promotor);
             Promotor.Agregar();
+            //USUARIO
+            Usuarios Usuario = new Usuarios()
+            {
+                IdActor = Promotor.Id,
+                IdTipoActor = 2,
+                IdUsuario = IDUsuarioActual
+            };
+            Usuario.ConsultarID();
+            Usuario.Nombre = tb_Usuario.Text;
+            Usuario.Contrasena = tb_Contrasena.Text;
+            Usuario.Agregar();
             //REDES SOCIALES DEL PROMOTOR
             GuardarRedSocial(Promotor.Id, 2, 1, tb_Facebook.Text);
             GuardarRedSocial(Promotor.Id, 2, 2, tb_Twitter.Text);
@@ -635,6 +666,7 @@ namespace DiazFu.Modules.Administracion.Promotores
                 DateTime sr_fechaNacimiento = DateTime.Parse(tb_sr_FechaNacimiento.Text);
                 if (Request.QueryString["id"] == null)
                 {
+                    Herramientas.ValidaUsuario(0, 2, tb_Usuario.Text);
                     if (!fu_Foto.HasFile)
                     {
                         throw new Exception("Por favor, ingrese la foto del promotor.");
@@ -705,6 +737,14 @@ namespace DiazFu.Modules.Administracion.Promotores
                         throw new Exception("Por favor, ingrese el comsrobante de domicilio de la segunda referencia.");
                     }
                     /*/DOCUMENTOS DE LA SEGUNDA REFERENCIA*/
+                }
+                else
+                {
+                    Herramientas.ValidaUsuario(int.Parse(Request.QueryString["id"].ToString()), 2, tb_Usuario.Text);
+                }
+                if (tb_Contrasena.Text != tb_ConfirmarContrasena.Text)
+                {
+                    throw new Exception("Las contraseñas indicadas no coinciden");
                 }
                 return true;
             }
