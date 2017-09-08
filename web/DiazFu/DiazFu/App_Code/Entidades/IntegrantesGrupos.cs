@@ -103,8 +103,8 @@ namespace DiazFu.App_Code.Entidades
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
                 Id = int.Parse(Fila["Id"].ToString());
-                IdGrupo = int.Parse(Fila["Nombre"].ToString());
-                IdCliente = int.Parse(Fila["TelefonoCasa"].ToString());
+                IdGrupo = int.Parse(Fila["IdGrupo"].ToString());
+                IdCliente = int.Parse(Fila["IdCliente"].ToString());
                 IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
