@@ -1,4 +1,4 @@
-package com.skillcoders.diazfu.data.remote;
+package com.skillcoders.diazfu.data.remote.rest;
 
 import com.skillcoders.diazfu.data.model.Usuarios;
 
@@ -12,16 +12,16 @@ import retrofit2.http.Path;
 import rx.Observable;
 
 /**
- * Created by jvier on 11/08/2017.
+ * Created by jvier on 04/09/2017.
  */
 
-public interface SOService {
-
-    @GET("usuarios/usuario/{id}")
-    Observable<Usuarios> getUsuario(@Path("id") long id);
+public interface UsuariosRest {
 
     @GET("usuarios")
     Call<List<Usuarios>> getUsuarios();
+
+    @GET("usuarios/{id}")
+    Observable<Usuarios> getUsuario(@Path("id") long id);
 
     @POST("usuarios/login")
     Call<Usuarios> usuariosLogin(@Body Usuarios usuario);
