@@ -67,6 +67,24 @@ namespace DiazFu {
         protected global::System.Web.UI.WebControls.LinkButton lbGrupo;
         
         /// <summary>
+        /// Control lbPrestamosGrupales.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbPrestamosGrupales;
+        
+        /// <summary>
+        /// Control lbPrestamosIndividuales.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbPrestamosIndividuales;
+        
+        /// <summary>
         /// Control cphContenido.
         /// </summary>
         /// <remarks>

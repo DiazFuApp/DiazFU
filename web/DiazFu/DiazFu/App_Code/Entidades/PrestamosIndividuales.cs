@@ -42,6 +42,14 @@ namespace DiazFu.App_Code.Entidades
             set { _CantidadSolicitada = value; }
         }
 
+        private float _CantidadOtorgada;
+
+        public float CantidadOtorgada
+        {
+            get { return _CantidadOtorgada; }
+            set { _CantidadOtorgada = value; }
+        }
+
         private float _Interes;
 
         public float Interes
@@ -140,6 +148,7 @@ namespace DiazFu.App_Code.Entidades
                 IdCliente = int.Parse(Fila["IdCliente"].ToString());
                 Motivo = Fila["Motivo"].ToString();
                 CantidadSolicitada = float.Parse(Fila["CantidadSolicitada"].ToString());
+                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString());
                 Interes = float.Parse(Fila["Interes"].ToString());
                 FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
                 Observaciones = Fila["Observaciones"].ToString();
@@ -164,6 +173,7 @@ namespace DiazFu.App_Code.Entidades
                 new SqlParameter("@IdCliente", IdCliente),
                 new SqlParameter("@Motivo", Motivo),
                 new SqlParameter("@CantidadSolicitada", CantidadSolicitada),
+                new SqlParameter("@CantidadOtorgada", CantidadOtorgada),
                 new SqlParameter("@Interes", Interes),
                 new SqlParameter("@FechaEntrega", FechaEntrega),
                 new SqlParameter("@Observaciones", Observaciones),

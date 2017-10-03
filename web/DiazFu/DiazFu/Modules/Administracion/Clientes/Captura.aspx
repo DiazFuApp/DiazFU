@@ -300,6 +300,7 @@
             var filename = $('#' + control.id).val();
             $('#' + control.parentElement.lastElementChild.id).html(filename);
         }
+        document.getElementById("liAdministracion").className = "actual";
     </script>
     <%--/SCRIPTS--%>
 </asp:Content>

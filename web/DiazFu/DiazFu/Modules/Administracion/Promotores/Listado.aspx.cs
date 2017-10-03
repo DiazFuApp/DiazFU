@@ -10,9 +10,27 @@ namespace DiazFu.Modules.Administracion.Promotores
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ConsultaUsuario();
             if (!IsPostBack)
             {
                 CargarGrid();
+            }
+        }
+
+        /// <summary>
+        /// MÉTODO PARA DETERMINAR EL USUARIO
+        /// </summary>
+        private void ConsultaUsuario()
+        {
+            int IdTipoActor = 0;
+            int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
+            switch (IdTipoActor)
+            {
+                case 2:
+                    Response.Redirect("~/Modules/Prestamos/PrestamosGrupales/Listado.aspx");
+                    break;
+                default:
+                    break;
             }
         }
 
