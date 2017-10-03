@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DiazFu.App_Code.Entidades;
+using System;
 
 namespace DiazFu
 {
@@ -14,6 +15,19 @@ namespace DiazFu
             if (Session["Usuario"] == null)
             {
                 Response.Redirect("~/Default.aspx");
+            }
+            else
+            {
+                int IdTipoActor = 0;
+                int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
+                switch (IdTipoActor)
+                {
+                    case 2:
+                        lbPromotores.Visible = false;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

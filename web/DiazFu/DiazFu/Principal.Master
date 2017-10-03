@@ -55,18 +55,18 @@
                                 <span class="icon-bar"></span>
                             </button>
                         </div>
-                        <div class="navbar-collapse collapse sidebar-navbar-collapse d-xl-block d-sm-none d-md-block d-lg-block pt-4">
+                        <div id="div_menu" class="navbar-collapse collapse sidebar-navbar-collapse d-xl-block d-sm-none d-md-block d-lg-block pt-4">
                             <ul class="nav navbar-nav" id="sidenav01">
                                 <li class="">
                                     <h4>Panel de 
                                     Control
                                     </h4>
                                 </li>
-                                <li class="actual">
+                                <li id="liAdministracion">
                                     <a href="#" data-toggle="collapse" data-target="#menu_administracion" data-parent="#sidenav01" class="collapsed">
                                         <i class="fa fa-cogs mr-2" aria-hidden="true"></i>Administración<span class="caret pull-right"></span>
                                     </a>
-                                    <div class="collapse" id="menu_administracion" style="height: 0px;">
+                                    <div class="collapse" id="menu_administracion">
                                         <ul class="nav nav-list">
                                             <li>
                                                 <asp:LinkButton ID="lbPromotores" runat="server" PostBackUrl="~/Modules/Administracion/Promotores/Listado.aspx"><i class="fa fa-user-secret mr-2" aria-hidden="true"></i>Promotores</asp:LinkButton>
@@ -80,14 +80,17 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                <li id="liPrestamos">
                                     <a href="#" data-toggle="collapse" data-target="#menu_prestamos" data-parent="#sidenav01" class="collapsed">
                                         <i class="fa fa-credit-card mr-2" aria-hidden="true"></i>Préstamos<span class="caret pull-right"></span>
                                     </a>
                                     <div class="collapse" id="menu_prestamos" style="height: 0px;">
                                         <ul class="nav nav-list">
-                                            <li><a href="#"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-users mr-2" aria-hidden="true"></i>Préstamos Grupales</a></li>
-                                            <li><a href="#"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-user mr-2" aria-hidden="true"></i>Préstamos Individuales</a></li>
+                                            <li>
+                                                <asp:LinkButton ID="lbPrestamosGrupales" runat="server" PostBackUrl="~/Modules/Prestamos/PrestamosGrupales/Listado.aspx"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-users mr-2" aria-hidden="true"></i>Préstamos Grupales</asp:LinkButton>
+                                            <li>
+                                                <asp:LinkButton ID="lbPrestamosIndividuales" runat="server" PostBackUrl="~/Modules/Prestamos/PrestamosIndividuales/Listado.aspx"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-user mr-2" aria-hidden="true"></i>Préstamos Individuales</asp:LinkButton>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>
@@ -144,6 +147,14 @@
             var $table = $('.bootstrap-table');
             $table.bootstrapTable();
         }
+        //$("#div_menu .collapse ul li").on("click", function () {
+        //    $("#div_menu ul li").removeClass("actual");
+        //    $(this).parent().parent().parent().addClass("actual");
+        //})
+        $("#div_menu ul li").on("click", function () {
+            $("#div_menu ul li").removeClass("selected");
+            $(this).addClass("selected");
+        })
     </script>
 </body>
 </html>

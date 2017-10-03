@@ -88,11 +88,11 @@ namespace DiazFu.Modules.Administracion.Grupos
                 {
                     App_Code.Entidades.IntegrantesGrupos Integrantes = new App_Code.Entidades.IntegrantesGrupos
                     {
-                        Id = 0
+                        IdGrupo = 0
                     };
                     if (Request.QueryString["id"] != null)
                     {
-                        Integrantes.Id = int.Parse(Request.QueryString["id"].ToString());
+                        Integrantes.IdGrupo = int.Parse(Request.QueryString["id"].ToString());
                     }
                     DataSet BD = Integrantes.ConsultarTodo();
                     BD.Tables[0].TableName = "ASP";
@@ -126,17 +126,20 @@ namespace DiazFu.Modules.Administracion.Grupos
             DataRowView drv;
             if (e.Row.RowType == DataControlRowType.DataRow && e.Row.DataItem != null)
             {
-                int ID = int.Parse(Request.QueryString["id"].ToString());
-                App_Code.Entidades.Grupos Grupos = new App_Code.Entidades.Grupos
+                if (Request.QueryString["id"] != null)
                 {
-                    Id = ID
-                };
-                Grupos.ConsultarID();
-                drv = (DataRowView)e.Row.DataItem;
-                if (drv["IdCliente"].ToString() == Grupos.IdClienteResponsable.ToString())
-                {
-                    RadioButton rb = (RadioButton)e.Row.FindControl("rbReponsable");
-                    rb.Checked = true;
+                    int ID = int.Parse(Request.QueryString["id"].ToString());
+                    App_Code.Entidades.Grupos Grupos = new App_Code.Entidades.Grupos
+                    {
+                        Id = ID
+                    };
+                    Grupos.ConsultarID();
+                    drv = (DataRowView)e.Row.DataItem;
+                    if (drv["IdCliente"].ToString() == Grupos.IdClienteResponsable.ToString())
+                    {
+                        RadioButton rb = (RadioButton)e.Row.FindControl("rbReponsable");
+                        rb.Checked = true;
+                    } 
                 }
             }
         }

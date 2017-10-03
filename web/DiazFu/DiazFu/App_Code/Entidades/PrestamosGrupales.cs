@@ -58,6 +58,15 @@ namespace DiazFu.App_Code.Entidades
             set { _Interes = value; }
         }
 
+        private string _Garantia;
+
+        public string Garantia
+        {
+            get { return _Garantia; }
+            set { _Garantia = value; }
+        }
+
+
         private float _Anticipo;
 
         public float Anticipo
@@ -155,10 +164,14 @@ namespace DiazFu.App_Code.Entidades
                 IdGrupo = int.Parse(Fila["IdGrupo"].ToString());
                 Motivo = Fila["Motivo"].ToString();
                 CantidadSolicitada = float.Parse(Fila["CantidadSolicitada"].ToString());
-                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString());
+                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString() == string.Empty ? "0" : Fila["CantidadOtorgada"].ToString());
                 Interes = float.Parse(Fila["Interes"].ToString());
+                Garantia = Fila["Garantia"].ToString();
                 Anticipo = float.Parse(Fila["Anticipo"].ToString());
-                FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
+                if (Fila["FechaEntrega"].ToString() != string.Empty)
+                {
+                    FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
+                }
                 Observaciones = Fila["Observaciones"].ToString();
                 IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
@@ -183,6 +196,7 @@ namespace DiazFu.App_Code.Entidades
                 new SqlParameter("@CantidadSolicitada", CantidadSolicitada),
                 new SqlParameter("@CantidadOtorgada", CantidadOtorgada),
                 new SqlParameter("@Interes", Interes),
+                new SqlParameter("@Garantia", Garantia),
                 new SqlParameter("@Anticipo", Anticipo),
                 new SqlParameter("@FechaEntrega", FechaEntrega),
                 new SqlParameter("@Observaciones", Observaciones),

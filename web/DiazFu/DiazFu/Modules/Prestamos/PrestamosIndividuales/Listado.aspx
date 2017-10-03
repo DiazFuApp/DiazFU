@@ -1,10 +1,10 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="Listado.aspx.cs" Inherits="DiazFu.Modules.Administracion.Promotores.Listado" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="Listado.aspx.cs" Inherits="DiazFu.Modules.Prestamos.PrestamosIndividuales.Listado" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="cphContenido" runat="server">
     <div class="jumbotron mt-4">
-        <h1 class="h1-responsive">Promotores</h1>
+        <h1 class="h1-responsive">Préstamos Individuales</h1>
         <p class="lead">
-            Crea, edita o elimina los promotores disponibles en la aplicación.
+            Crea y monitorea los préstamos individuales disponibles en la aplicación.
         </p>
         <hr class="my-2">
         <div class="col-12 p-0">
@@ -15,32 +15,27 @@
                     <option value="selected">Exportar Página</option>
                 </select>
             </div>
-            <asp:GridView ID="gvPromotores" runat="server" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true"
+            <asp:GridView ID="gvPrestamos" runat="server" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true"
                 data-toggle="table" data-classes="table table-hover table-no-bordered" data-striped="true"
                 data-pagination="true" data-page-size="10" data-search="true"
                 data-show-toggle="true" data-show-pagination-switch="true" data-show-columns="true"
                 data-show-export="true" data-toolbar="#toolbar">
                 <Columns>
-                    <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                    <asp:BoundField DataField="Grupo" HeaderText="Grupo" />
                     <asp:TemplateField HeaderStyle-Width="40" HeaderText="Editar">
                         <ItemTemplate>
-                            <a href='<%# "/Modules/Administracion/Promotores/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Editar
+                            <a href='<%# "/Modules/Prestamos/PrestamosIndividuales/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Editar
                             </a>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Eliminar">
-                        <ItemTemplate>
-                            <asp:Button ID="bEliminar" runat="server" CssClass="btn btn-danger" Text="Eliminar" CommandArgument='<%# Bind("Id") %>' OnClick="bEliminar_Click" />
                         </ItemTemplate>
                     </asp:TemplateField>
                 </Columns>
             </asp:GridView>
         </div>
         <div class="col-12 p-0 text-right">
-            <a href="Captura.aspx" class="btn btn-default">Crear Promotor</a>
+            <a href="Captura.aspx" class="btn btn-default">Crear Préstamo Individual</a>
         </div>
     </div>
     <script type="text/javascript">
-        document.getElementById("liAdministracion").className = "actual";
+        document.getElementById("liPrestamos").className = "actual";
     </script>
 </asp:Content>

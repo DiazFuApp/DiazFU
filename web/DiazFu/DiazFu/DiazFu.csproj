@@ -84,6 +84,10 @@
     <Content Include="Modules\Administracion\Grupos\Listado.aspx" />
     <Content Include="Modules\Administracion\Promotores\Captura.aspx" />
     <Content Include="Modules\Administracion\Promotores\Listado.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.min.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table.css" />
@@ -770,7 +774,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Salir.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Entidades\Usuarios.cs" />
@@ -836,6 +842,34 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Modules\Administracion\Promotores\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx.designer.cs">
       <DependentUpon>Listado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.Master.cs">

@@ -19,9 +19,14 @@
                 data-toggle="table" data-classes="table table-hover table-no-bordered" data-striped="true"
                 data-pagination="true" data-page-size="10" data-search="true"
                 data-show-toggle="true" data-show-pagination-switch="true" data-show-columns="true"
-                data-show-export="true" data-toolbar="#toolbar">
+                data-show-export="true" data-toolbar="#toolbar" OnRowDataBound="gvClientes_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Autorizar">
+                        <ItemTemplate>
+                            <asp:Button ID="bAutorizar" runat="server" CssClass="btn btn-primary" Text="Autorizar" CommandArgument='<%# Bind("Id") %>' OnClick="bAutorizar_Click" Visible="false"/>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderStyle-Width="40" HeaderText="Editar">
                         <ItemTemplate>
                             <a href='<%# "/Modules/Administracion/Clientes/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Editar
@@ -40,4 +45,7 @@
             <a href="Captura.aspx" class="btn btn-default">Crear Cliente</a>
         </div>
     </div>
+    <script type="text/javascript">
+        document.getElementById("liAdministracion").className = "actual";
+    </script>
 </asp:Content>

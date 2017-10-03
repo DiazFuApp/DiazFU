@@ -86,5 +86,6 @@
                 }
             }
         }
+        document.getElementById("liAdministracion").className = "actual";
     </script>
 </asp:Content>
