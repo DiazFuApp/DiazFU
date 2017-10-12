@@ -66,7 +66,6 @@ namespace DiazFu.App_Code.Entidades
             set { _Garantia = value; }
         }
 
-
         private float _Anticipo;
 
         public float Anticipo

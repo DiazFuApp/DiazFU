@@ -202,7 +202,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los clientes activos.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 
@@ -239,6 +238,24 @@ namespace DiazFu.App_Code.Entidades
             {
                 Id = null;
             }
+        }
+
+        /// <summary>
+        /// Función para consultar todos los clientes autorizados.
+        /// </summary>
+        /// <returns>Data Set con todos los clientes autorizados.</returns>
+        public DataSet ConsultarAutorizados()
+        {
+            return EjecutarSP(4);
+        }
+
+        /// <summary>
+        /// Función para consultar todos los clientes sin grupo asignado.
+        /// </summary>
+        /// <returns>Data Set con todos los clientes sin grupo asignado.</returns>
+        public DataSet ConsultarSinGrupo()
+        {
+            return EjecutarSP(5);
         }
 
         /// <summary>

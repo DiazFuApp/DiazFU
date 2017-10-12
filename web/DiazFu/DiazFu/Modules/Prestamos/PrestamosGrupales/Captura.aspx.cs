@@ -11,10 +11,13 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            CargaControles();
-            if (Request.QueryString["id"] != null)
+            if (!IsPostBack)
             {
-                ConsultarPrestamo();
+                CargaControles();
+                if (Request.QueryString["id"] != null)
+                {
+                    ConsultarPrestamo();
+                }
             }
         }
 
@@ -25,17 +28,19 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
         {
             //CARGA DE LOS GRUPOS
             Grupos Grupos = new Grupos();
-            ddl_Grupo.DataSource = Grupos.ConsultarTodo();
+            ddl_Grupo.DataSource = Grupos.ConsultarAutorizados();
             ddl_Grupo.DataTextField = "Nombre";
             ddl_Grupo.DataValueField = "Id";
             ddl_Grupo.DataBind();
+
             //CARGA DEL REPEATER
-            IntegrantesGrupos Integrantes = new IntegrantesGrupos
+            IntegrantesGrupos Integrantes = new IntegrantesGrupos();
+            if (ddl_Grupo.Items.Count > 0)
             {
-                IdGrupo = int.Parse(ddl_Grupo.SelectedValue)
-            };
-            r_Documentos.DataSource = Integrantes.ConsultarTodo();
-            r_Documentos.DataBind();
+                Integrantes.IdGrupo = int.Parse(ddl_Grupo.SelectedValue);
+                r_Documentos.DataSource = Integrantes.ConsultarTodo();
+                r_Documentos.DataBind();
+            }
         }
 
         /// <summary>
@@ -55,6 +60,21 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 GridView Grid = (GridView)e.Item.FindControl("gvDocumentos");
                 Grid.DataSource = Documentos.ConsultarTodo();
                 Grid.DataBind();
+            }
+        }
+
+        //EVENTO PARA INGRESAR LA FECHA DE PAGO PROGRAMADA
+        protected void gvPagos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string Plazos = ((System.Data.DataRowView)e.Row.DataItem).DataView[e.Row.DataItemIndex]["Plazo"].ToString();
+                int Plazo = int.Parse(Plazos.Substring(0, Plazos.IndexOf('/')));
+                if (((System.Data.DataRowView)e.Row.DataItem).DataView[e.Row.DataItemIndex]["FechaProgramada"].ToString() == string.Empty)
+                {
+                    TableCell FechaProgramada = e.Row.Cells[3];
+                    FechaProgramada.Text = DateTime.Now.AddDays(Plazo * 7).ToShortDateString();
+                }
             }
         }
 
@@ -80,9 +100,10 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
 
             int IdTipoActor = 0;
             int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
-            if (IdTipoActor != 1 && Prestamo.IdEstatus == 3)
+            if (IdTipoActor == 1)
             {
-                Response.Redirect("~/Modules/Prestamos/PrestamosGrupales/Listado.aspx");
+                //HABILITAR PANEL DE AUTORIZACION
+                jtAutorizacion.Visible = true;
             }
             #endregion
 
@@ -93,7 +114,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             ReferenciasPrestamos Aval = new ReferenciasPrestamos
             {
                 IdPrestamo = Prestamo.Id,
-                IdTipoReferencia = 2
+                IdTipoReferencia = 2,
+                IdTipoPrestamo = 2
             };
             Aval.ConsultarID();
             tb_aval_Nombre.Text = Aval.Nombre;
@@ -203,7 +225,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             ReferenciasPrestamos Referencias = new ReferenciasPrestamos
             {
                 IdPrestamo = Prestamo.Id,
-                IdTipoReferencia = 1
+                IdTipoReferencia = 1,
+                IdTipoPrestamo = 2
             };
             DataSet Consulta = Referencias.ConsultarTodo();
             //PRIMER REFERENCIA
@@ -211,7 +234,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             ReferenciasPrestamos PrimerReferencia = new ReferenciasPrestamos
             {
                 IdPrestamo = Prestamo.Id,
-                IdTipoReferencia = 1
+                IdTipoReferencia = 1,
+                IdTipoPrestamo = 2
             };
             PrimerReferencia.ConsultarID();
             tb_pr_Nombre.Text = PrimerReferencia.Nombre;
@@ -235,7 +259,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 IdTipoActor = 7,
                 IdTipoRedSocial = 1
             };
-            PrimerReferenciaFacebook.ConsultarRedesSocialesReferenciasPromotores();
+            PrimerReferenciaFacebook.ConsultarRedesSocialesReferenciasPrestamos();
             tb_pr_Facebook.Text = PrimerReferenciaFacebook.URL;
             RedesSociales PrimerReferenciaTwitter = new RedesSociales
             {
@@ -243,7 +267,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 IdTipoActor = 7,
                 IdTipoRedSocial = 2
             };
-            PrimerReferenciaTwitter.ConsultarRedesSocialesReferenciasPromotores();
+            PrimerReferenciaTwitter.ConsultarRedesSocialesReferenciasPrestamos();
             tb_pr_Twitter.Text = PrimerReferenciaTwitter.URL;
             RedesSociales PrimerReferenciaInstagram = new RedesSociales
             {
@@ -251,7 +275,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 IdTipoActor = 7,
                 IdTipoRedSocial = 3
             };
-            PrimerReferenciaInstagram.ConsultarRedesSocialesReferenciasPromotores();
+            PrimerReferenciaInstagram.ConsultarRedesSocialesReferenciasPrestamos();
             tb_pr_Instagram.Text = PrimerReferenciaInstagram.URL;
             //-------------------------------------------------------------------------------------------------
             //DOCUMENTOS
@@ -312,7 +336,9 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             {
                 ReferenciasPrestamos SegundaReferencia = new ReferenciasPrestamos
                 {
-                    Id = int.Parse(Consulta.Tables[0].Rows[1]["Id"].ToString())
+                    Id = int.Parse(Consulta.Tables[0].Rows[1]["Id"].ToString()),
+                    IdTipoReferencia = 1,
+                    IdTipoPrestamo = 2
                 };
                 SegundaReferencia.ConsultarID();
                 tb_sr_Nombre.Text = SegundaReferencia.Nombre;
@@ -333,26 +359,26 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 RedesSociales SegundaReferenciaFacebook = new RedesSociales
                 {
                     IdActor = SegundaReferencia.Id,
-                    IdTipoActor = 5,
+                    IdTipoActor = 7,
                     IdTipoRedSocial = 1
                 };
-                SegundaReferenciaFacebook.ConsultarRedesSocialesReferenciasPromotores();
+                SegundaReferenciaFacebook.ConsultarRedesSocialesReferenciasPrestamos();
                 tb_sr_Facebook.Text = SegundaReferenciaFacebook.URL;
                 RedesSociales SegundaReferenciaTwitter = new RedesSociales
                 {
                     IdActor = SegundaReferencia.Id,
-                    IdTipoActor = 5,
+                    IdTipoActor = 7,
                     IdTipoRedSocial = 2
                 };
-                SegundaReferenciaTwitter.ConsultarRedesSocialesReferenciasPromotores();
+                SegundaReferenciaTwitter.ConsultarRedesSocialesReferenciasPrestamos();
                 tb_sr_Twitter.Text = SegundaReferenciaTwitter.URL;
                 RedesSociales SegundaReferenciaInstagram = new RedesSociales
                 {
                     IdActor = SegundaReferencia.Id,
-                    IdTipoActor = 5,
+                    IdTipoActor = 7,
                     IdTipoRedSocial = 3
                 };
-                SegundaReferenciaInstagram.ConsultarRedesSocialesReferenciasPromotores();
+                SegundaReferenciaInstagram.ConsultarRedesSocialesReferenciasPrestamos();
                 tb_sr_Instagram.Text = SegundaReferenciaInstagram.URL;
                 //-------------------------------------------------------------------------------------------------
                 //DOCUMENTOS
@@ -489,8 +515,117 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                 }
             }
 
-            //HABILITAR PANEL DE AUTORIZACION
-            jtAutorizacion.Visible = true;
+            App_Code.Entidades.Pagos Pagos = new App_Code.Entidades.Pagos
+            {
+                IdPrestamo = Prestamo.Id,
+                IdTipoPrestamo = 2
+            };
+
+            switch (Prestamo.IdEstatus)
+            {
+                case 4:
+                    jtAutorizacion.Visible = true;
+                    jEntrega.Visible = true;
+                    tb_CantidadAOtorgar.Text = Prestamo.CantidadOtorgada.ToString();
+                    tb_Anticipo.Text = Prestamo.Anticipo.ToString();
+
+                    //AUTORIZACIÓN
+                    foreach (Control c in jtAutorizacion.Controls)
+                    {
+                        if (c is DropDownList)
+                        {
+                            DropDownList ddl = (DropDownList)c;
+                            ddl.Enabled = false;
+                            ddl.CssClass += " disabled";
+                        }
+                        else if (c is TextBox)
+                        {
+                            TextBox tb = (TextBox)c;
+                            tb.Enabled = false;
+                            tb.CssClass += " disabled";
+                        }
+                        else if (c is Button)
+                        {
+                            Button bt = (Button)c;
+                            bt.Visible = false;
+                        }
+                    }
+
+                    //CARGA GRID DE PAGOS
+                    using (DataSet dsPagos = Pagos.ConsultarTodo())
+                    {
+                        gvPagos.DataSource = dsPagos;
+                        gvPagos.DataBind();
+
+                        string PlazosBD = dsPagos.Tables[0].Rows[0]["Plazo"].ToString();
+                        string Plazos = PlazosBD.Substring(PlazosBD.IndexOf("/") + 1);
+                        ddl_Plazos.SelectedValue = Plazos;
+                    }
+                    break;
+                case 5:
+                    jtAutorizacion.Visible = true;
+                    jEntrega.Visible = true;
+                    tb_CantidadAOtorgar.Text = Prestamo.CantidadOtorgada.ToString();
+                    tb_Anticipo.Text = Prestamo.Anticipo.ToString();
+
+                    //AUTORIZACIÓN
+                    foreach (Control c in jtAutorizacion.Controls)
+                    {
+                        if (c is DropDownList)
+                        {
+                            DropDownList ddl = (DropDownList)c;
+                            ddl.Enabled = false;
+                            ddl.CssClass += " disabled";
+                        }
+                        else if (c is TextBox)
+                        {
+                            TextBox tb = (TextBox)c;
+                            tb.Enabled = false;
+                            tb.CssClass += " disabled";
+                        }
+                        else if (c is Button)
+                        {
+                            Button bt = (Button)c;
+                            bt.Visible = false;
+                        }
+                    }
+
+                    //ENTREGA
+                    foreach (Control c in jEntrega.Controls)
+                    {
+                        if (c is DropDownList)
+                        {
+                            DropDownList ddl = (DropDownList)c;
+                            ddl.Enabled = false;
+                            ddl.CssClass += " disabled";
+                        }
+                        else if (c is TextBox)
+                        {
+                            TextBox tb = (TextBox)c;
+                            tb.Enabled = false;
+                            tb.CssClass += " disabled";
+                        }
+                        else if (c is Button)
+                        {
+                            Button bt = (Button)c;
+                            bt.Visible = false;
+                        }
+                    }
+
+                    //CARGA GRID DE PAGOS
+                    using (DataSet dsPagos = Pagos.ConsultarTodo())
+                    {
+                        gvPagos.DataSource = dsPagos;
+                        gvPagos.DataBind();
+
+                        string PlazosBD = dsPagos.Tables[0].Rows[0]["Plazo"].ToString();
+                        string Plazos = PlazosBD.Substring(PlazosBD.IndexOf("/") + 1);
+                        ddl_Plazos.SelectedValue = Plazos;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
 
         /// <summary>
@@ -544,94 +679,80 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             Prestamo.CantidadOtorgada = float.Parse(tb_CantidadAOtorgar.Text);
             Prestamo.Interes = 7;
             Prestamo.IdEstatus = 4;
-            
+            Prestamo.Anticipo = (Prestamo.CantidadOtorgada * float.Parse("0.10"));
+            Prestamo.IdUsuario = IDUsuarioActual;
+            Prestamo.Actualizar();
+            int CantidadPagos = int.Parse(ddl_Plazos.SelectedValue);
+
+            App_Code.Entidades.Pagos Pago = new App_Code.Entidades.Pagos
+            {
+                IdPrestamo = ID,
+                IdTipoPrestamo = 2,
+            };
+            IntegrantesGrupos Clientes = new IntegrantesGrupos
+            {
+                IdGrupo = Prestamo.IdGrupo
+            };
+            using (DataSet dsClientes = Clientes.ConsultarTodo())
+            {
+                float MontoPorCliente = ((Prestamo.CantidadOtorgada * (1 + (Prestamo.Interes / 100))) - (Prestamo.CantidadOtorgada * float.Parse("0.10"))) / dsClientes.Tables[0].Rows.Count;
+                foreach (DataRow Fila in dsClientes.Tables[0].Rows)
+                {
+                    for (int i = 1; i <= CantidadPagos; i++)
+                    {
+                        Pago.Plazo = i.ToString() + "/" + CantidadPagos.ToString();
+                        Pago.IdCliente = int.Parse(Fila["idCliente"].ToString());
+                        Pago.Monto = MontoPorCliente / CantidadPagos;
+                        Pago.IdUsuario = IDUsuarioActual;
+                        Pago.IdEstatus = 1;
+                        Pago.Agregar();
+                    }
+                }
+            }
+            Session["Alerta"] = Herramientas.Alerta("Operación existosa!", "Préstamo autorizado correctamente.", 3);
+            Response.Redirect("Listado.aspx");
         }
 
-        ///// <summary>
-        ///// MÉTODO PARA ACTUALIZAR AL PRESTAMO
-        ///// </summary>
-        //private void Actualizar()
-        //{
-        //    int IDUsuarioActual = 0;
-        //    int.TryParse(((Usuarios)Session["Usuario"]).Id.ToString(), out IDUsuarioActual);
-        //    //PROMOTOR
-        //    int ID = int.Parse(Request.QueryString["id"].ToString());
-        //    App_Code.Entidades.PrestamosGrupales Prestamo = new App_Code.Entidades.PrestamosGrupales
-        //    {
-        //        Id = ID,
-        //        IdUsuario = IDUsuarioActual
-        //    };
-        //    Prestamo.ConsultarID();
-        //    PromotorFormulario(Prestamo);
-        //    Prestamo.Actualizar();
-        //    //USUARIO
-        //    Usuarios Usuario = new Usuarios()
-        //    {
-        //        IdActor = Prestamo.Id,
-        //        IdTipoActor = 2,
-        //        IdUsuario = IDUsuarioActual
-        //    };
-        //    Usuario.ConsultarID();
-        //    Usuario.Nombre = tb_Usuario.Text;
-        //    Usuario.Contrasena = tb_Contrasena.Text;
-        //    Usuario.Actualizar();
-        //    //REDES SOCIALES DEL PROMOTOR
-        //    GuardarRedSocial(Prestamo.Id, 2, 1, tb_Facebook.Text);
-        //    GuardarRedSocial(Prestamo.Id, 2, 2, tb_Twitter.Text);
-        //    GuardarRedSocial(Prestamo.Id, 2, 3, tb_Instagram.Text);
-        //    //DOCUMENTOS DEL PROMOTOR
-        //    GuardarDocumentos(Prestamo.Id, 2, 1, fu_ActaNacimiento.FileName);
-        //    GuardarDocumentos(Prestamo.Id, 2, 2, fu_INE.FileName);
-        //    GuardarDocumentos(Prestamo.Id, 2, 3, fu_CURP.FileName);
-        //    GuardarDocumentos(Prestamo.Id, 2, 4, fu_ConstanciaResidencia.FileName);
-        //    GuardarDocumentos(Prestamo.Id, 2, 5, fu_ComprobanteDomicilio.FileName);
+        //EVENTO PARA ENTREGAR EL PRÉSTAMO
+        protected void bEntregar_Click(object sender, EventArgs e)
+        {
+            int IDUsuarioActual = 0;
+            int.TryParse(((Usuarios)Session["Usuario"]).Id.ToString(), out IDUsuarioActual);
+            int ID = int.Parse(Request.QueryString["id"].ToString());
+            App_Code.Entidades.PrestamosGrupales Prestamo = new App_Code.Entidades.PrestamosGrupales
+            {
+                Id = ID,
+                IdUsuario = IDUsuarioActual
+            };
+            Prestamo.ConsultarID();
+            Prestamo.IdEstatus = 5;
+            Prestamo.IdUsuario = IDUsuarioActual;
+            Prestamo.Actualizar();
 
-        //    //PRIMER REFERENCIA
-        //    ReferenciasPromotores Primera = new ReferenciasPromotores
-        //    {
-        //        IdActor = Prestamo.Id,
-        //        IdUsuario = IDUsuarioActual
-        //    };
-        //    DataSet Consulta = Primera.ConsultarTodo();
-        //    Primera.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
-        //    Primera.ConsultarID();
-        //    PrimerReferenciaFormulario(Primera);
-        //    Primera.Actualizar();
-        //    //REDES SOCIALES DE LA PRIMER REFERENCIA
-        //    GuardarRedSocial(Primera.Id, 5, 1, tb_pr_Facebook.Text);
-        //    GuardarRedSocial(Primera.Id, 5, 2, tb_pr_Twitter.Text);
-        //    GuardarRedSocial(Primera.Id, 5, 3, tb_pr_Instagram.Text);
-        //    //DOCUMENTOS DE LA PRIMER REFERENCIA
-        //    GuardarDocumentos(Primera.Id, 5, 1, fu_pr_ActaNacimiento.FileName);
-        //    GuardarDocumentos(Primera.Id, 5, 2, fu_pr_INE.FileName);
-        //    GuardarDocumentos(Primera.Id, 5, 3, fu_pr_CURP.FileName);
-        //    GuardarDocumentos(Primera.Id, 5, 4, fu_pr_ConstanciaResidencia.FileName);
-        //    GuardarDocumentos(Primera.Id, 5, 5, fu_pr_ComprobanteDomicilio.FileName);
-
-        //    //SEGUNDA REFERENCIA
-        //    ReferenciasPromotores Segunda = new ReferenciasPromotores
-        //    {
-        //        IdActor = Prestamo.Id,
-        //        IdUsuario = IDUsuarioActual
-        //    };
-        //    Segunda.Id = int.Parse(Consulta.Tables[0].Rows[1]["Id"].ToString());
-        //    Segunda.ConsultarID();
-        //    SegundaReferenciaFormulario(Segunda);
-        //    Segunda.Actualizar();
-        //    //REDES SOCIALES DE LA SEGUNDA REFERENCIA
-        //    GuardarRedSocial(Segunda.Id, 5, 1, tb_sr_Facebook.Text);
-        //    GuardarRedSocial(Segunda.Id, 5, 2, tb_sr_Twitter.Text);
-        //    GuardarRedSocial(Segunda.Id, 5, 3, tb_sr_Instagram.Text);
-        //    //DOCUMENTOS DE LA SEGUNDA REFERENCIA
-        //    GuardarDocumentos(Segunda.Id, 5, 1, fu_sr_ActaNacimiento.FileName);
-        //    GuardarDocumentos(Segunda.Id, 5, 2, fu_sr_INE.FileName);
-        //    GuardarDocumentos(Segunda.Id, 5, 3, fu_sr_CURP.FileName);
-        //    GuardarDocumentos(Segunda.Id, 5, 4, fu_sr_ConstanciaResidencia.FileName);
-        //    GuardarDocumentos(Segunda.Id, 5, 5, fu_sr_ComprobanteDomicilio.FileName);
-
-        //    Session["Alerta"] = Herramientas.Alerta("Operación existosa!", "Promotor actualizado correctamente.", 3);
-        //    Response.Redirect("Listado.aspx");
-        //}
+            App_Code.Entidades.Pagos Pagos = new App_Code.Entidades.Pagos
+            {
+                IdPrestamo = ID,
+                IdTipoPrestamo = 2
+            };
+            using (DataSet dsPagos = Pagos.ConsultarTodo())
+            {
+                foreach (DataRow Fila in dsPagos.Tables[0].Rows)
+                {
+                    App_Code.Entidades.Pagos Pago = new App_Code.Entidades.Pagos
+                    {
+                        Id = int.Parse(Fila["id"].ToString()),
+                        IdUsuario = IDUsuarioActual
+                    };
+                    Pago.ConsultarID();
+                    int Plazo = int.Parse(Pago.Plazo.Substring(0, Pago.Plazo.IndexOf('/')));
+                    Pago.FechaProgramada = DateTime.Now.AddDays(Plazo * 7);
+                    Pago.IdEstatus = 7;
+                    Pago.Actualizar();
+                }
+            }
+            Session["Alerta"] = Herramientas.Alerta("Operación existosa!", "Préstamo entregado correctamente.", 3);
+            Response.Redirect("Listado.aspx");
+        }
 
         /// <summary>
         /// MÉTODO PARA CREAR AL PROMOTOR

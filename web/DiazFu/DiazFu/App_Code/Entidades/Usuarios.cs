@@ -102,7 +102,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los usuarios activos.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 

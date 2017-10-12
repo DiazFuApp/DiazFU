@@ -35,7 +35,9 @@ namespace DiazFu.Modules.Administracion.Grupos
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 int IdEstatus = int.Parse(((System.Data.DataRowView)e.Row.DataItem).DataView[e.Row.DataItemIndex]["IdEstatus"].ToString());
-                if (IdEstatus == 3)
+                int IdTipoActor = 0;
+                int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
+                if (IdEstatus == 3 && IdTipoActor == 1)
                 {
                     Button bAutorizar = (Button)e.Row.FindControl("bAutorizar");
                     bAutorizar.Visible = true;
@@ -60,7 +62,7 @@ namespace DiazFu.Modules.Administracion.Grupos
                 IdUsuario = IDUsuarioActual
             };
             Grupo.ConsultarID();
-            Grupo.IdEstatus = 1;
+            Grupo.IdEstatus = 4;
             Grupo.Actualizar();
             Literal literal = (Literal)Master.FindControl("lAlerta");
             if (Grupo.Id != 0)

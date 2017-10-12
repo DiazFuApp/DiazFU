@@ -152,7 +152,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los pagos activos.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 
@@ -173,8 +172,14 @@ namespace DiazFu.App_Code.Entidades
                 Monto = float.Parse(Fila["Monto"].ToString());
                 Plazo = Fila["Plazo"].ToString();
                 TipoPago = Fila["TipoPago"].ToString();
-                FechaProgramada = DateTime.Parse(Fila["FechaProgramada"].ToString());
-                FechaPago = DateTime.Parse(Fila["FechaPago"].ToString());
+                if (Fila["FechaProgramada"].ToString() != string.Empty)
+                {
+                    FechaProgramada = DateTime.Parse(Fila["FechaProgramada"].ToString());
+                }
+                if (Fila["FechaPago"].ToString() != string.Empty)
+                {
+                    FechaPago = DateTime.Parse(Fila["FechaPago"].ToString());
+                }
                 Morosidad = float.Parse(Fila["Morosidad"].ToString());
                 Descripcion = Fila["Descripcion"].ToString();
                 IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
@@ -183,6 +188,15 @@ namespace DiazFu.App_Code.Entidades
             {
                 Id = null;
             }
+        }
+
+        /// <summary>
+        /// Función para consultar los próximos pagos.
+        /// </summary>
+        /// <returns>Data Set con todos los pagos activos.</returns>
+        public DataSet ConsultarProximosPagos()
+        {
+            return EjecutarSP(4);
         }
 
         /// <summary>

@@ -36,7 +36,9 @@ namespace DiazFu.Modules.Administracion.Clientes
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 int IdEstatus = int.Parse(((System.Data.DataRowView)e.Row.DataItem).DataView[e.Row.DataItemIndex]["IdEstatus"].ToString());
-                if (IdEstatus == 3)
+                int IdTipoActor = 0;
+                int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
+                if (IdEstatus == 3 && IdTipoActor == 1)
                 {
                     Button bAutorizar = (Button)e.Row.FindControl("bAutorizar");
                     bAutorizar.Visible = true;
@@ -82,7 +84,7 @@ namespace DiazFu.Modules.Administracion.Clientes
                             IdTipoActor = 3
                         };
                         RedSocial.ConsultarID();
-                        RedSocial.IdEstatus = 1;
+                        RedSocial.IdEstatus = 4;
                         RedSocial.Actualizar();
                     }
                 }
