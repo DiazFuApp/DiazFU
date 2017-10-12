@@ -1,9 +1,9 @@
 package com.skillcoders.diazfu.fragments;
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
@@ -13,29 +13,26 @@ import android.widget.Button;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.data.model.Usuarios;
+import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
+
 /**
- * Created by jvier on 04/09/2017.
+ * Created by saurett on 24/02/2017.
  */
 
-public class ListadoPromotoresFragment extends Fragment implements View.OnClickListener {
+public class ListadoGruposFragment extends Fragment implements View.OnClickListener {
 
-    private static Usuarios _SESSION_USER;
-
-    private Button btnRegistrarPromotor;
-
+    private Button btnRegistrar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_listado_promotores, container, false);
 
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
+        View view = inflater.inflate(R.layout.fragment_listado_grupos, container, false);
 
-        btnRegistrarPromotor = (Button) view.findViewById(R.id.btn_registrar_promotor);
-        btnRegistrarPromotor.setOnClickListener(this);
+        btnRegistrar = (Button) view.findViewById(R.id.btn_registrar_grupo);
+        btnRegistrar.setOnClickListener(this);
 
         return view;
     }
@@ -43,25 +40,31 @@ public class ListadoPromotoresFragment extends Fragment implements View.OnClickL
     @Override
     public void onStart() {
         super.onStart();
-
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_proveedores_container, new PromotoresFragment(), Constants.FRAGMENT_PROMOTORES);
+        mainFragment.replace(R.id.listado_grupos_container, new GruposFragment(), Constants.FRAGMENT_GRUPOS);
         mainFragment.commit();
+    }
 
-        getActivity().setTitle(getString(R.string.default_item_menu_title_promotores));
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + "debe implementar");
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_registrar_promotor:
+            case R.id.btn_registrar_grupo:
                 DecodeExtraHelper extra = new DecodeExtraHelper();
 
                 extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
@@ -71,7 +74,7 @@ public class ListadoPromotoresFragment extends Fragment implements View.OnClickL
 
                 Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
                 intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
-                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+                //intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
                 startActivity(intent);
                 break;
         }

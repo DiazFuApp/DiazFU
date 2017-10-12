@@ -8,8 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
-import com.skillcoders.diazfu.fragments.PromotoresFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import java.util.List;
  * Created by jvier on 04/09/2017.
  */
 
-public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.ViewHolder> {
+public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
-    List<Promotores> promotores = new ArrayList<>();
+    List<Grupos> grupos = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -33,9 +33,9 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
 
-            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_promotor);
-            btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_promotor);
-            btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_promotor);
+            txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_grupo);
+            btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_grupo);
+            btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_grupo);
         }
     }
 
@@ -43,27 +43,27 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
         this.onClickListener = onClickListener;
     }
 
-    public Promotores getItemByPosition(int position) {
-        return promotores.get(position);
+    public Grupos getItemByPosition(int position) {
+        return grupos.get(position);
     }
 
-    public void addAll(List<Promotores> _promotores) {
-        this.promotores.addAll(_promotores);
+    public void addAll(List<Grupos> _grupos) {
+        this.grupos.addAll(_grupos);
     }
 
     public void remove(int position) {
-        this.promotores.remove(position);
+        this.grupos.remove(position);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_promotores, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_grupos, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Promotores item = promotores.get(position);
+        final Grupos item = grupos.get(position);
         /**Llena el objeto que sera enviado al fragmento**/
         final DecodeItemHelper decodeItem = new DecodeItemHelper();
 
@@ -75,14 +75,15 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                PromotoresFragment.onListenerAction(decodeItem);
+                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
+                //PromotoresFragment.onListenerAction(decodeItem);
             }
         });
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                PromotoresFragment.onListenerAction(decodeItem);
+                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
             }
         });
 
@@ -91,8 +92,10 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
 
     @Override
     public int getItemCount() {
-        return promotores == null ? 0 : promotores.size();
+        return grupos == null ? 0 : grupos.size();
     }
+
+
 
 
 }

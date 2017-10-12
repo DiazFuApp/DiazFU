@@ -1,5 +1,7 @@
 package com.skillcoders.diazfu.data.remote;
 
+import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
 
@@ -9,7 +11,8 @@ import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
 
 public class ApiUtils {
 
-    private ApiUtils(){}
+    private ApiUtils() {
+    }
 
     //public static final String BASE_URL = "http://diazfu-webapi.azurewebsites.net/api/";
     public static final String BASE_URL = "http://192.168.1.71:8081/api/";
@@ -20,5 +23,13 @@ public class ApiUtils {
 
     public static PromotoresRest getPromotoresRest() {
         return RetrofitClient.getClient(BASE_URL).create(PromotoresRest.class);
+    }
+
+    public static ClientesRest getClientesRest() {
+        return RetrofitClient.getClient(BASE_URL).create(ClientesRest.class);
+    }
+
+    public static GruposRest getGruposRest() {
+        return RetrofitClient.getClient(BASE_URL).create(GruposRest.class);
     }
 }

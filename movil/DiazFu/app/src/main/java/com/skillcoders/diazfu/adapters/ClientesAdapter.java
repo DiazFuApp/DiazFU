@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
-    List<Promotores> clientes = new ArrayList<>();
+    List<Clientes> clientes = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -41,11 +42,11 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
         this.onClickListener = onClickListener;
     }
 
-    public Promotores getItemByPosition(int position) {
+    public Clientes getItemByPosition(int position) {
         return clientes.get(position);
     }
 
-    public void addAll(List<Promotores> _administradores) {
+    public void addAll(List<Clientes> _administradores) {
         this.clientes.addAll(_administradores);
     }
 
@@ -61,7 +62,7 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Promotores item = clientes.get(position);
+        final Clientes item = clientes.get(position);
         /**Llenar el objeto que sera enviado al fragmento**/
         //final DecodeItem decodeItem = new DecodeItem();
 

@@ -3,30 +3,24 @@ package com.skillcoders.diazfu.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-
 /**
- * Created by jvier on 11/08/2017.
+ * Created by jvier on 26/09/2017.
  */
 
-public class Usuarios implements Serializable {
-
+public class Grupos {
 
     @SerializedName("Id")
     @Expose
     private Integer id;
-    @SerializedName("IdActor")
-    @Expose
-    private Integer idActor;
-    @SerializedName("IdTipoActor")
-    @Expose
-    private Integer idTipoActor;
     @SerializedName("Nombre")
     @Expose
     private String nombre;
-    @SerializedName("Contrasena")
+    @SerializedName("IdClienteResponsable")
     @Expose
-    private String contrasena;
+    private Integer idClienteResponsable;
+    @SerializedName("IdPromotor")
+    @Expose
+    private Integer idPromotor;
     @SerializedName("IdEstatus")
     @Expose
     private Integer idEstatus;
@@ -42,22 +36,6 @@ public class Usuarios implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdActor() {
-        return idActor;
-    }
-
-    public void setIdActor(Integer idActor) {
-        this.idActor = idActor;
-    }
-
-    public Integer getIdTipoActor() {
-        return idTipoActor;
-    }
-
-    public void setIdTipoActor(Integer idTipoActor) {
-        this.idTipoActor = idTipoActor;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -66,12 +44,20 @@ public class Usuarios implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getContrasena() {
-        return contrasena;
+    public Integer getIdClienteResponsable() {
+        return idClienteResponsable;
     }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+    public void setIdClienteResponsable(Integer idClienteResponsable) {
+        this.idClienteResponsable = idClienteResponsable;
+    }
+
+    public Integer getIdPromotor() {
+        return idPromotor;
+    }
+
+    public void setIdPromotor(Integer idPromotor) {
+        this.idPromotor = idPromotor;
     }
 
     public Integer getIdEstatus() {
@@ -92,12 +78,11 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuarios{" +
+        return "Grupos{" +
                 "id=" + id +
-                ", idActor=" + idActor +
-                ", idTipoActor=" + idTipoActor +
                 ", nombre='" + nombre + '\'' +
-                ", contrasena='" + contrasena + '\'' +
+                ", idClienteResponsable=" + idClienteResponsable +
+                ", idPromotor=" + idPromotor +
                 ", idEstatus=" + idEstatus +
                 ", idUsuario=" + idUsuario +
                 '}';

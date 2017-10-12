@@ -12,13 +12,22 @@ import android.widget.Toast;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.ClientesAdapter;
+import com.skillcoders.diazfu.adapters.PromotoresAdapter;
+import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -27,10 +36,16 @@ import java.util.List;
 
 public class ClientesFragment extends Fragment implements View.OnClickListener {
 
-    private static List<Promotores> administradoresList;
+    private static List<Clientes> clientesList;
     private static RecyclerView recyclerViewClientes;
     private ClientesAdapter clientesAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
+
+
+    /**
+     * Implementaciones REST
+     */
+    private ClientesRest clientesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +55,8 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
         clientesAdapter = new ClientesAdapter();
         clientesAdapter.setOnClickListener(this);
+
+        clientesRest = ApiUtils.getClientesRest();
 
         return view;
     }
@@ -57,72 +74,48 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
+        this.listadoClientes();
+    }
 
-        clientesAdapter = new ClientesAdapter();
-        administradoresList = new ArrayList<>();
-
-        Promotores p1 = new Promotores();
-        p1.setNombre("Hola mundo");
-        administradoresList.add(p1);
-        Promotores p2 = new Promotores();
-        p2.setNombre("Hola mundo2");
-        administradoresList.add(p2);
-        Promotores p3 = new Promotores();
-        p3.setNombre("Hola mundo3");
-        administradoresList.add(p3);
-
-        onPreRenderClientes();
-
-        /*
-        listenerColaboradores = new ValueEventListener() {
+    private void listadoClientes() {
+        clientesRest.getClientes().enqueue(new Callback<List<Clientes>>() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onResponse(Call<List<Clientes>> call, Response<List<Clientes>> response) {
 
-                clientesAdapter = new ColaboradoresAdapter();
-                administradoresList = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-
-                    Administradores colaborador = postSnapshot.getValue(Administradores.class);
-                    if (!colaborador.getEstatus().equals(Constants.FB_KEY_ITEM_ESTATUS_ELIMINADO)) {
-
-                        if (colaborador.getTipoDeUsuario().equals(Constants.FB_KEY_ITEM_TIPO_USUARIO_ADMINISTRADOR)) continue;
-
-                        administradoresList.add(colaborador);
-                    }
+                if (response.isSuccessful()) {
+                    clientesAdapter = new ClientesAdapter();
+                    clientesList = new ArrayList<>();
+                    clientesList.addAll(response.body());
+                    onPreRender();
                 }
-
-                onPreRenderClientes();
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        };
+            public void onFailure(Call<List<Clientes>> call, Throwable t) {
 
-        drColaboradores.addValueEventListener(listenerColaboradores);
-        */
+            }
+        });
     }
 
     /**
      * Carga el listado predeterminado de firebase
      **/
-    private void onPreRenderClientes() {
+    private void onPreRender() {
 
-        Collections.sort(administradoresList, new Comparator<Promotores>() {
+        Collections.sort(clientesList, new Comparator<Clientes>() {
             @Override
-            public int compare(Promotores o1, Promotores o2) {
+            public int compare(Clientes o1, Clientes o2) {
                 return (o1.getNombre().compareTo(o2.getNombre()));
             }
         });
 
-        clientesAdapter.addAll(administradoresList);
+        clientesAdapter.addAll(clientesList);
         recyclerViewClientes.setAdapter(clientesAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerViewClientes.setLayoutManager(linearLayoutManager);
 
-        if (administradoresList.size() == 0) {
+        if (clientesList.size() == 0) {
             Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
         }
     }

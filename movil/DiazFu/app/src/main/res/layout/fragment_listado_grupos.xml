@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/registro_clientes"
+            android:id="@+id/registro_grupos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="8dp"
@@ -26,9 +26,9 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <!--Fragmento para traer el listado de clientes-->
+                <!--Fragmento para traer el listado de grupos-->
                 <FrameLayout
-                    android:id="@+id/listado_clientes_container"
+                    android:id="@+id/listado_grupos_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
@@ -46,14 +46,16 @@
         android:layout_height="match_parent">
 
         <Button
-            android:id="@+id/btn_registrar_cliente"
+            android:id="@+id/btn_registrar_grupo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:background="@color/colorPrimary"
-            android:text="REGISTRAR CLIENTE"
+            android:text="REGISTRAR GRUPO"
             android:textColor="@color/textColorPrimary" />
 
     </RelativeLayout>
+
+
 </FrameLayout>
