@@ -38,10 +38,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/clientes/{id}")]
-        public List<Clientes> Get(int id)
+        public Clientes Get(int id)
         {
             Cliente.Id = id;
-            return Cliente.Consultar();
+            Cliente.ConsultarID();
+            return Cliente;
         }
 
         /// <summary>

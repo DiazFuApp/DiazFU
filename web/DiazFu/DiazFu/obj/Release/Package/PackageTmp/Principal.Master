@@ -1,0 +1,162 @@
+﻿﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Principal.master.cs" Inherits="DiazFu.Principal" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="node_modules/mdbootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="node_modules/mdbootstrap/css/mdb.min.css" />
+    <link rel="stylesheet" href="node_modules/mdbootstrap/css/style.css" />
+    <%--BOOTSTRAP TABLE--%>
+    <link rel="stylesheet" href="node_modules/bootstrap-table/src/bootstrap-table.css" />
+    <%--/BOOTSTRAP TABLE--%>
+    <script src="https://use.fontawesome.com/4f90d6fc19.js"></script>
+</head>
+<body>
+    <form id="form_master" class="container-fluid h-100 p-0" runat="server">
+        <asp:ScriptManager ID="sm_Master" runat="server"></asp:ScriptManager>
+        <%--ALERTA--%>
+        <asp:Literal ID="lAlerta" runat="server">
+        </asp:Literal>
+        <%--/ALERTA--%>
+
+        <nav class="navbar fixed-top navbar-expand-md navbar-dark double-nav">
+            <img class="d-flex ml-1 align-self-center" src="<%= Page.ResolveClientUrl("~/Images/Logos/white_logo.png") %>" alt="Generic placeholder image" />
+            <!--Navigation icons-->
+            <ul class="nav navbar-nav nav-flex-icons ml-auto">
+                <!-- Support -->
+                <li id="navbar-static-support" class="nav-item ">
+                    <a href="mailto:desarrollodiazfu@gmail.com" class="nav-link waves-effect waves-light">
+                        <i class="fa fa-comments-o mr-1"></i>
+                        <span class="clearfix d-sm-inline-block">Soporte</span>
+                    </a>
+                </li>
+
+                <!-- Login / register -->
+                <li class="nav-item ">
+                    <a href="/Salir.aspx" id="show_login" class="nav-link waves-effect waves-light">
+                        <i class="fa fa-sign-in mr-1"></i>
+                        <span class="clearfix d-sm-inline-block">Cerrar Sesión</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="row affix-row" id="main">
+            <div class="col-sm-3 col-md-3 col-lg-2 affix-sidebar" id="menu">
+                <div class="sidebar-nav col-lg-2 col-md-3 col-sm-3 p-0">
+                    <div class="navbar navbar-default align-items-end pl-0 pr-0" role="navigation">
+                        <div class="navbar-header w-100 align-items-center">
+                            <button type="button" class="navbar-toggle navbar-brand d-xl-none d-sm-block d-md-none d-lg-none mr-0" data-toggle="collapse" data-target=".sidebar-navbar-collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar mb-1"></span>
+                                <span class="icon-bar mb-1"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div id="div_menu" class="navbar-collapse collapse sidebar-navbar-collapse d-xl-block d-sm-none d-md-block d-lg-block pt-4">
+                            <ul class="nav navbar-nav" id="sidenav01">
+                                <li class="">
+                                    <h4>Panel de 
+                                    Control
+                                    </h4>
+                                </li>
+                                <li id="liAdministracion">
+                                    <a href="#" data-toggle="collapse" data-target="#menu_administracion" data-parent="#sidenav01" class="collapsed">
+                                        <i class="fa fa-cogs mr-2" aria-hidden="true"></i>Administración<span class="caret pull-right"></span>
+                                    </a>
+                                    <div class="collapse" id="menu_administracion">
+                                        <ul class="nav nav-list">
+                                            <li>
+                                                <asp:LinkButton ID="lbPromotores" runat="server" PostBackUrl="~/Modules/Administracion/Promotores/Listado.aspx"><i class="fa fa-user-secret mr-2" aria-hidden="true"></i>Promotores</asp:LinkButton>
+                                            </li>
+                                            <li>
+                                                <asp:LinkButton ID="lbClientes" runat="server" PostBackUrl="~/Modules/Administracion/Clientes/Listado.aspx"><i class="fa fa-user mr-2" aria-hidden="true"></i>Clientes</asp:LinkButton>
+                                            </li>
+                                            <li>
+                                                <asp:LinkButton ID="lbGrupo" runat="server" PostBackUrl="~/Modules/Administracion/Grupos/Listado.aspx"><i class="fa fa-users mr-2" aria-hidden="true"></i>Grupos</asp:LinkButton>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li id="liPrestamos">
+                                    <a href="#" data-toggle="collapse" data-target="#menu_prestamos" data-parent="#sidenav01" class="collapsed">
+                                        <i class="fa fa-credit-card mr-2" aria-hidden="true"></i>Préstamos<span class="caret pull-right"></span>
+                                    </a>
+                                    <div class="collapse" id="menu_prestamos" style="height: 0px;">
+                                        <ul class="nav nav-list">
+                                            <li>
+                                                <asp:LinkButton ID="lbPrestamosGrupales" runat="server" PostBackUrl="~/Modules/Prestamos/PrestamosGrupales/Listado.aspx"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-users mr-2" aria-hidden="true"></i>Préstamos Grupales</asp:LinkButton>
+                                            <li>
+                                                <asp:LinkButton ID="lbPrestamosIndividuales" runat="server" PostBackUrl="~/Modules/Prestamos/PrestamosIndividuales/Listado.aspx"><i class="fa fa-credit-card mr-2" aria-hidden="true"></i><i class="fa fa-user mr-2" aria-hidden="true"></i>Préstamos Individuales</asp:LinkButton>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li>
+                                    <a href="#" data-toggle="collapse" data-target="#menu_pagos" data-parent="#sidenav01" class="collapsed">
+                                        <i class="fa fa-money mr-2" aria-hidden="true"></i>Pagos<span class="caret pull-right"></span>
+                                    </a>
+                                    <div class="collapse" id="menu_pagos" style="height: 0px;">
+                                        <ul class="nav nav-list">
+                                            <li>
+                                                <asp:LinkButton ID="lbPagos" runat="server" PostBackUrl="~/Modules/Prestamos/Pagos/Listado.aspx"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Registro de Pagos</asp:LinkButton>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--/.nav-collapse -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-9 col-md-9 col-lg-10 affix-content mb-5" id="contenido">
+                <asp:ContentPlaceHolder ID="cphContenido" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+    </form>
+    <footer class="page-footer center-on-small-only fixed-bottom">
+        <%--FOOTER--%>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                </div>
+            </div>
+        </div>
+        <%--/FOOTER--%>
+        <!--Copyright-->
+        <div class="footer-copyright">
+            <div class="container-fluid">
+                © 2017 Copyright | Powered by <a href="mailto:skillcoders42@gmail.com">SkillCoders</a>
+            </div>
+        </div>
+        <!--/.Copyright-->
+    </footer>
+    <%--SCRIPTS--%>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/mdbootstrap/js/jquery-3.2.1.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/mdbootstrap/js/popper.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/mdbootstrap/js/bootstrap.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/mdbootstrap/js/mdb.min.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/bootstrap-table.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/locale/bootstrap-table-es-MX.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/extensions/export/tableExport.js") %>"></script>
+    <script type="text/javascript" src="<%= Page.ResolveClientUrl("~/node_modules/bootstrap-table/src/extensions/export/bootstrap-table-export.js") %>"></script>
+
+    <script type="text/javascript">
+        function RecargaEstiloGrid() {
+            var $table = $('.bootstrap-table');
+            $table.bootstrapTable();
+        }
+        //$("#div_menu .collapse ul li").on("click", function () {
+        //    $("#div_menu ul li").removeClass("actual");
+        //    $(this).parent().parent().parent().addClass("actual");
+        //})
+        $("#div_menu ul li").on("click", function () {
+            $("#div_menu ul li").removeClass("selected");
+            $(this).addClass("selected");
+        })
+    </script>
+</body>
+</html>

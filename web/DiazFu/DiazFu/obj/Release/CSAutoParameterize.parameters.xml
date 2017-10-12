@@ -1,2 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<parameters />
+<parameters>
+  <parameter name="DIAZFU_DB-Web.config Connection String" description="DIAZFU_DB Cadena de conexión que usa la aplicación en web.config para obtener acceso a la base de datos." defaultValue="Data Source=SAURETTPC\SQLExpress;Initial Catalog=diazfu;Persist Security Info=True;User ID=sa;Password=desarrollo" tags="SqlConnectionString">
+    <parameterEntry kind="XmlFile" scope="C:\\Desarrollo\\skillcoders\\DiazFU\\web\\DiazFu\\DiazFu\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DIAZFU_DB']/@connectionString" />
+  </parameter>
+</parameters>
