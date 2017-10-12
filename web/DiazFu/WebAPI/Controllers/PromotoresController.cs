@@ -38,10 +38,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/promotores/{id}")]
-        public List<Promotores> Get(int id)
+        public Promotores Get(int id)
         {
             Promotor.Id = id;
-            return Promotor.Consultar();
+            Promotor.ConsultarID();
+            return Promotor;
         }
 
         /// <summary>

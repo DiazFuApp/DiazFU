@@ -181,6 +181,35 @@ namespace WebAPI.Models
         }
 
         /// <summary>
+        /// Método para consultar un usuario según su ID.
+        /// </summary>
+        public void ConsultarID()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(3);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Direccion = Fila["Direccion"].ToString();
+                TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                RFC = Fila["RFC"].ToString();
+                CURP = Fila["CURP"].ToString();
+                ClaveElector = Fila["ClaveElector"].ToString();
+                URLFoto = Fila["URLFoto"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
+            }
+        }
+
+        /// <summary>
         /// Método para consultar un promotor.
         /// </summary>
         /// <returns>Lista con todos los promotores activos.</returns>

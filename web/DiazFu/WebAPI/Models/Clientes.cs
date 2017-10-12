@@ -236,6 +236,40 @@ namespace WebAPI.Models
         }
 
         /// <summary>
+        /// Método para consultar un usuario según su ID.
+        /// </summary>
+        public void ConsultarID()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(3);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Nombre = Fila["Nombre"].ToString();
+                TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                Direccion = Fila["Direccion"].ToString();
+                FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                URLFoto = Fila["URLFoto"].ToString();
+                NombreEmpresa = Fila["NombreEmpresa"].ToString();
+                PuestoEmpresa = Fila["PuestoEmpresa"].ToString();
+                DireccionEmpresa = Fila["DireccionEmpresa"].ToString();
+                HorarioEmpresa = Fila["HorarioEmpresa"].ToString();
+                Antiguedad = Fila["Antiguedad"].ToString();
+                TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString();
+                SueldoMensual = Fila["SueldoMensual"].ToString();
+                NombreJefe = Fila["NombreJefe"].ToString();
+                TelefonoJefe = Fila["TelefonoJefe"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
+            }
+        }
+
+        /// <summary>
         /// Función para consultar una referencia
         /// </summary>
         /// <returns>Lista con los clientes que coinciden con el objeto enviado</returns>

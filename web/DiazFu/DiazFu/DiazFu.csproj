@@ -767,6 +767,7 @@
     <Content Include="node_modules\mdbootstrap\font\glyphicon\glyphicons-halflings-regular.ttf" />
     <Content Include="node_modules\mdbootstrap\font\glyphicon\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\diazfu - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Saurett PC.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

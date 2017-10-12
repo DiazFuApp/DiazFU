@@ -1,0 +1,30 @@
+{
+  "name": "diazfu",
+  "version": "1.0.0",
+  "description": "Aplicacion web para administracion de prestamos y pagos",
+  "main": "Default.aspx",
+  "dependencies": {
+    "bootstrap-table": "^1.11.2",
+    "mdbootstrap": "^4.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DiazFuApp"
+  },
+  "keywords": [
+    "diazfu",
+    "prestamos",
+    "pagos",
+    "promotores",
+    "clientes",
+    "bootstrap4",
+    "bootstrap",
+    "material"
+  ],
+  "author": "Fred Gomez",
+  "license": "ISC"
+}
