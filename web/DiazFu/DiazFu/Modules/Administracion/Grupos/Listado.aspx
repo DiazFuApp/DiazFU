@@ -21,6 +21,7 @@
                 data-show-export="true" data-toolbar="#toolbar" OnRowDataBound="gvGrupos_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+                    <asp:BoundField DataField="Estatus" HeaderText="Estatus" />
                     <asp:TemplateField HeaderStyle-Width="40" HeaderText="Autorizar">
                         <ItemTemplate>
                             <asp:Button ID="bAutorizar" runat="server" CssClass="btn btn-primary" Text="Autorizar" CommandArgument='<%# Bind("Id") %>' OnClick="bAutorizar_Click" Visible="false"/>

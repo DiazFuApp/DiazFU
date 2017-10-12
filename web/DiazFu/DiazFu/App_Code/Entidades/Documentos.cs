@@ -107,7 +107,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los documentos activos.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 

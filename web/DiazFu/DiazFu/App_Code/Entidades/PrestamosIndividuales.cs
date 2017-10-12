@@ -58,6 +58,22 @@ namespace DiazFu.App_Code.Entidades
             set { _Interes = value; }
         }
 
+        private string _Garantia;
+
+        public string Garantia
+        {
+            get { return _Garantia; }
+            set { _Garantia = value; }
+        }
+
+        private float _Anticipo;
+
+        public float Anticipo
+        {
+            get { return _Anticipo; }
+            set { _Anticipo = value; }
+        }
+
         private DateTime? _FechaEntrega;
 
         public DateTime? FechaEntrega
@@ -130,7 +146,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los clientes activos.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 
@@ -148,9 +163,14 @@ namespace DiazFu.App_Code.Entidades
                 IdCliente = int.Parse(Fila["IdCliente"].ToString());
                 Motivo = Fila["Motivo"].ToString();
                 CantidadSolicitada = float.Parse(Fila["CantidadSolicitada"].ToString());
-                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString());
+                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString() == string.Empty ? "0" : Fila["CantidadOtorgada"].ToString());
                 Interes = float.Parse(Fila["Interes"].ToString());
-                FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
+                Garantia = Fila["Garantia"].ToString();
+                Anticipo = float.Parse(Fila["Anticipo"].ToString());
+                if (Fila["FechaEntrega"].ToString() != string.Empty)
+                {
+                    FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
+                }
                 Observaciones = Fila["Observaciones"].ToString();
                 IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
@@ -175,6 +195,8 @@ namespace DiazFu.App_Code.Entidades
                 new SqlParameter("@CantidadSolicitada", CantidadSolicitada),
                 new SqlParameter("@CantidadOtorgada", CantidadOtorgada),
                 new SqlParameter("@Interes", Interes),
+                new SqlParameter("@Garantia", Garantia),
+                new SqlParameter("@Anticipo", Anticipo),
                 new SqlParameter("@FechaEntrega", FechaEntrega),
                 new SqlParameter("@Observaciones", Observaciones),
                 new SqlParameter("@IdEstatus", IdEstatus),

@@ -56,7 +56,7 @@
     <div class="jumbotron mt-4" id="jtDocumentos" runat="server">
         <h1 class="h1-responsive">Documentos</h1>
         <p class="lead">
-            Ingresa los documentos del grupo para este préstamo.
+            Valida los documentos del grupo para este préstamo.
         </p>
         <hr class="my-2">
         <div class="col-12 p-0">
@@ -839,7 +839,7 @@
         </p>
         <hr class="my-2">
         <div class="col-12 p-0">
-            <%--CANTIDAD A OTORGAR | INTERES | MOROSIDAD--%>
+            <%--CANTIDAD A OTORGAR--%>
             <div class="row">
                 <div class="col">
                     <div class="md-form">
@@ -856,7 +856,7 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <asp:DropDownList CssClass="form-control" ID="ddl_Plazos" runat="server" AutoPostBack="true">
+                    <asp:DropDownList CssClass="form-control" ID="ddl_Plazos" runat="server">
                         <asp:ListItem Selected="True" Text="8 semanas" Value="8"></asp:ListItem>
                         <asp:ListItem Text="12 semanas" Value="12"></asp:ListItem>
                         <asp:ListItem Text="16 semanas" Value="16"></asp:ListItem>
@@ -866,6 +866,43 @@
         </div>
         <div class="col-12 p-0 text-right">
             <asp:Button ID="bAutorizar" runat="server" Text="Autorizar Préstamo" CssClass="btn btn-default" OnClick="bAutorizar_Click" />
+        </div>
+    </div>
+    <%--ENTREGA DEL PRESTAMO--%>
+    <div class="jumbotron mt-4" id="jEntrega" runat="server" visible="false">
+        <h1 class="h1-responsive">Entrega de Préstamo</h1>
+        <p class="lead">
+            Finaliza la entrega del préstamo y confirma las fechas de pago.
+        </p>
+        <hr class="my-2">
+        <div class="col-12 p-0">
+            <%--ANTICIPO--%>
+            <div class="row">
+                <div class="col">
+                    <div class="md-form">
+                        <asp:TextBox ID="tb_Anticipo" runat="server" CssClass="form-control" Enabled="false"></asp:TextBox>
+                        <label for="tb_Anticipo" class="">Anticipo</label>
+                    </div>
+                </div>
+            </div>
+            <%--PAGOS--%>
+            <div class="row">
+                <div class="col">
+                    <asp:GridView ID="gvPagos" runat="server" AutoGenerateColumns="false" ShowHeaderWhenEmpty="true"
+                        data-toggle="table" data-classes="table table-hover table-no-bordered" data-striped="true"
+                        data-pagination="true" data-page-size="10" data-toolbar="#toolbar" OnRowDataBound="gvPagos_RowDataBound">
+                        <Columns>
+                            <asp:BoundField DataField="Cliente" HeaderText="Integrante" />
+                            <asp:BoundField DataField="Plazo" HeaderText="Plazo" />
+                            <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:c}" />
+                            <asp:BoundField DataField="FechaProgramada" HeaderText="Fecha de Pago" DataFormatString="{0:d}" />
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 p-0 text-right">
+            <asp:Button ID="bEntregar" runat="server" Text="Entregar Préstamo" CssClass="btn btn-default" OnClick="bEntregar_Click" />
         </div>
     </div>
 

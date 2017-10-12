@@ -23,14 +23,6 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             App_Code.Entidades.PrestamosGrupales Prestamos = new App_Code.Entidades.PrestamosGrupales();
             gvPrestamos.DataSource = Prestamos.ConsultarTodo();
             gvPrestamos.DataBind();
-
-            //VALIDAR COLUMNA AUTORIZAR
-            int IdTipoActor = 0;
-            int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
-            if (IdTipoActor == 1)
-            {
-                gvPrestamos.Columns[1].Visible = true;
-            }
         }
 
         /// <summary>
@@ -42,11 +34,24 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+                //VALIDAR COLUMNA AUTORIZAR
+                int IdTipoActor = 0;
+                int.TryParse(((Usuarios)Session["Usuario"]).IdTipoActor.ToString(), out IdTipoActor);
                 int IdEstatus = int.Parse(((System.Data.DataRowView)e.Row.DataItem).DataView[e.Row.DataItemIndex]["IdEstatus"].ToString());
-                if (IdEstatus == 3)
+                if (IdEstatus == 3 && IdTipoActor != 1 || IdEstatus == 5)
                 {
                     HtmlAnchor aAutorizar = (HtmlAnchor)e.Row.FindControl("aAutorizar");
-                    aAutorizar.Visible = true;
+                    aAutorizar.InnerHtml = "Ver";
+                }
+                else if (IdEstatus == 4)
+                {
+                    HtmlAnchor aAutorizar = (HtmlAnchor)e.Row.FindControl("aAutorizar");
+                    aAutorizar.InnerHtml = "Entregar";
+                }
+                else if (IdEstatus == 6)
+                {
+                    HtmlAnchor aAutorizar = (HtmlAnchor)e.Row.FindControl("aAutorizar");
+                    aAutorizar.Visible = false;
                 }
             }
         }

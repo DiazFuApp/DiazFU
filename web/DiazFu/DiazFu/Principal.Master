@@ -16,7 +16,7 @@
 </head>
 <body>
     <form id="form_master" class="container-fluid h-100 p-0" runat="server">
-    <asp:ScriptManager ID="sm_Master" runat="server"></asp:ScriptManager>
+        <asp:ScriptManager ID="sm_Master" runat="server"></asp:ScriptManager>
         <%--ALERTA--%>
         <asp:Literal ID="lAlerta" runat="server">
         </asp:Literal>
@@ -100,7 +100,9 @@
                                     </a>
                                     <div class="collapse" id="menu_pagos" style="height: 0px;">
                                         <ul class="nav nav-list">
-                                            <li><a href="#"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Registro de Pagos</a></li>
+                                            <li>
+                                                <asp:LinkButton ID="lbPagos" runat="server" PostBackUrl="~/Modules/Prestamos/Pagos/Listado.aspx"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Registro de Pagos</asp:LinkButton>
+                                            </li>
                                         </ul>
                                     </div>
                                 </li>

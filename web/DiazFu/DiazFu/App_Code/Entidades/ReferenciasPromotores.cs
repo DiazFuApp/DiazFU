@@ -169,7 +169,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todas las referencias de préstamos activas.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 

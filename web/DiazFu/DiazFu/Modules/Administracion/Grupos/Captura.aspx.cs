@@ -29,7 +29,7 @@ namespace DiazFu.Modules.Administracion.Grupos
         private void CargarControles()
         {
             App_Code.Entidades.Clientes Clientes = new App_Code.Entidades.Clientes();
-            using (DataSet Consulta = Clientes.ConsultarTodo())
+            using (DataSet Consulta = Clientes.ConsultarSinGrupo())
             {
                 ddl_Clientes.DataSource = Consulta;
                 ddl_Clientes.DataTextField = "Nombre";

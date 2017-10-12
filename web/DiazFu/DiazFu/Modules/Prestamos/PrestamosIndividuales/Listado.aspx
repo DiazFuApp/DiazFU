@@ -19,12 +19,12 @@
                 data-toggle="table" data-classes="table table-hover table-no-bordered" data-striped="true"
                 data-pagination="true" data-page-size="10" data-search="true"
                 data-show-toggle="true" data-show-pagination-switch="true" data-show-columns="true"
-                data-show-export="true" data-toolbar="#toolbar">
+                data-show-export="true" data-toolbar="#toolbar" OnRowDataBound="gvPrestamos_RowDataBound">
                 <Columns>
-                    <asp:BoundField DataField="Grupo" HeaderText="Grupo" />
-                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Editar">
+                    <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
+                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Autorizar">
                         <ItemTemplate>
-                            <a href='<%# "/Modules/Prestamos/PrestamosIndividuales/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Editar
+                            <a id="aAutorizar" runat="server" href='<%# "/Modules/Prestamos/PrestamosIndividuales/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Autorizar
                             </a>
                         </ItemTemplate>
                     </asp:TemplateField>
@@ -32,7 +32,7 @@
             </asp:GridView>
         </div>
         <div class="col-12 p-0 text-right">
-            <a href="Captura.aspx" class="btn btn-default">Crear Préstamo Individual</a>
+            <a href="Captura.aspx" class="btn btn-default">Solicitar Préstamo Individual</a>
         </div>
     </div>
     <script type="text/javascript">

@@ -104,7 +104,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todas las actividades activas.</returns>
         public DataSet ConsultarTodo()
         {
-            Id = null;
             return EjecutarSP(3);
         }
 

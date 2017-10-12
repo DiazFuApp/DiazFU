@@ -84,6 +84,8 @@
     <Content Include="Modules\Administracion\Grupos\Listado.aspx" />
     <Content Include="Modules\Administracion\Promotores\Captura.aspx" />
     <Content Include="Modules\Administracion\Promotores\Listado.aspx" />
+    <Content Include="Modules\Prestamos\Pagos\Captura.aspx" />
+    <Content Include="Modules\Prestamos\Pagos\Listado.aspx" />
     <Content Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx" />
     <Content Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx" />
     <Content Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx" />
@@ -842,6 +844,20 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Modules\Administracion\Promotores\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Listado.aspx.designer.cs">
       <DependentUpon>Listado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx.cs">
