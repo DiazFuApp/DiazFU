@@ -121,6 +121,60 @@ namespace DiazFu.Modules.Administracion.Promotores {
         protected global::System.Web.UI.WebControls.TextBox tb_ClaveElector;
         
         /// <summary>
+        /// Control tb_Usuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tb_Usuario;
+        
+        /// <summary>
+        /// Control tb_Contrasena.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tb_Contrasena;
+        
+        /// <summary>
+        /// Control tb_ConfirmarContrasena.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tb_ConfirmarContrasena;
+        
+        /// <summary>
+        /// Control fu_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fu_Foto;
+        
+        /// <summary>
+        /// Control div_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div_Foto;
+        
+        /// <summary>
+        /// Control a_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor a_Foto;
+        
+        /// <summary>
         /// Control fu_ActaNacimiento.
         /// </summary>
         /// <remarks>
@@ -364,6 +418,33 @@ namespace DiazFu.Modules.Administracion.Promotores {
         protected global::System.Web.UI.WebControls.TextBox tb_pr_ClaveElector;
         
         /// <summary>
+        /// Control fu_pr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fu_pr_Foto;
+        
+        /// <summary>
+        /// Control div_pr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div_pr_Foto;
+        
+        /// <summary>
+        /// Control a_pr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor a_pr_Foto;
+        
+        /// <summary>
         /// Control fu_pr_ActaNacimiento.
         /// </summary>
         /// <remarks>
@@ -605,6 +686,33 @@ namespace DiazFu.Modules.Administracion.Promotores {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tb_sr_ClaveElector;
+        
+        /// <summary>
+        /// Control fu_sr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload fu_sr_Foto;
+        
+        /// <summary>
+        /// Control div_sr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div_sr_Foto;
+        
+        /// <summary>
+        /// Control a_sr_Foto.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlAnchor a_sr_Foto;
         
         /// <summary>
         /// Control fu_sr_ActaNacimiento.

@@ -172,7 +172,7 @@ namespace DiazFu.App_Code.Entidades
 
         public Clientes(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -184,7 +184,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -202,7 +202,6 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los clientes activos.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
             return EjecutarSP(3);
         }
 
@@ -216,29 +215,47 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.Nombre = Fila["Nombre"].ToString();
-                this.TelefonoCasa = Fila["TelefonoCasa"].ToString();
-                this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
-                this.Direccion = Fila["Direccion"].ToString();
-                this.FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
-                this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
-                this.URLFoto = Fila["URLFoto"].ToString();
-                this.NombreEmpresa = Fila["NombreEmpresa"].ToString();
-                this.PuestoEmpresa = Fila["PuestoEmpresa"].ToString();
-                this.DireccionEmpresa = Fila["DireccionEmpresa"].ToString();
-                this.HorarioEmpresa = Fila["HorarioEmpresa"].ToString();
-                this.Antiguedad = Fila["Antiguedad"].ToString();
-                this.TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString();
-                this.SueldoMensual = Fila["SueldoMensual"].ToString();
-                this.NombreJefe = Fila["NombreJefe"].ToString();
-                this.TelefonoJefe = Fila["TelefonoJefe"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                Direccion = Fila["Direccion"].ToString();
+                FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                URLFoto = Fila["URLFoto"].ToString();
+                NombreEmpresa = Fila["NombreEmpresa"].ToString();
+                PuestoEmpresa = Fila["PuestoEmpresa"].ToString();
+                DireccionEmpresa = Fila["DireccionEmpresa"].ToString();
+                HorarioEmpresa = Fila["HorarioEmpresa"].ToString();
+                Antiguedad = Fila["Antiguedad"].ToString();
+                TelefonoEmpresa = Fila["TelefonoEmpresa"].ToString();
+                SueldoMensual = Fila["SueldoMensual"].ToString();
+                NombreJefe = Fila["NombreJefe"].ToString();
+                TelefonoJefe = Fila["TelefonoJefe"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
+        }
+
+        /// <summary>
+        /// Función para consultar todos los clientes autorizados.
+        /// </summary>
+        /// <returns>Data Set con todos los clientes autorizados.</returns>
+        public DataSet ConsultarAutorizados()
+        {
+            return EjecutarSP(4);
+        }
+
+        /// <summary>
+        /// Función para consultar todos los clientes sin grupo asignado.
+        /// </summary>
+        /// <returns>Data Set con todos los clientes sin grupo asignado.</returns>
+        public DataSet ConsultarSinGrupo()
+        {
+            return EjecutarSP(5);
         }
 
         /// <summary>

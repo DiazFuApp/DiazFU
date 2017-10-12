@@ -123,7 +123,7 @@ namespace WebAPI.Models
 
         public Promotores(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -135,7 +135,7 @@ namespace WebAPI.Models
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -181,6 +181,35 @@ namespace WebAPI.Models
         }
 
         /// <summary>
+        /// Método para consultar un usuario según su ID.
+        /// </summary>
+        public void ConsultarID()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(3);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                Direccion = Fila["Direccion"].ToString();
+                TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                RFC = Fila["RFC"].ToString();
+                CURP = Fila["CURP"].ToString();
+                ClaveElector = Fila["ClaveElector"].ToString();
+                URLFoto = Fila["URLFoto"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
+            }
+        }
+
+        /// <summary>
         /// Método para consultar un promotor.
         /// </summary>
         /// <returns>Lista con todos los promotores activos.</returns>
@@ -191,18 +220,18 @@ namespace WebAPI.Models
             {
                 foreach (DataRow Fila in Consulta.Tables[0].Rows)
                 {
-                    this.Id = int.Parse(Fila["Id"].ToString());
-                    this.Nombre = Fila["Nombre"].ToString();
-                    this.Direccion = Fila["Direccion"].ToString();
-                    this.TelefonoCasa = Fila["TelefonoCasa"].ToString();
-                    this.TelefonoCelular = Fila["TelefonoCelular"].ToString();
-                    this.CorreoElectronico = Fila["CorreoElectronico"].ToString();
-                    this.FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
-                    this.RFC = Fila["RFC"].ToString();
-                    this.CURP = Fila["CURP"].ToString();
-                    this.ClaveElector = Fila["ClaveElector"].ToString();
-                    this.URLFoto = Fila["URLFoto"].ToString();
-                    this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                    Id = int.Parse(Fila["Id"].ToString());
+                    Nombre = Fila["Nombre"].ToString();
+                    Direccion = Fila["Direccion"].ToString();
+                    TelefonoCasa = Fila["TelefonoCasa"].ToString();
+                    TelefonoCelular = Fila["TelefonoCelular"].ToString();
+                    CorreoElectronico = Fila["CorreoElectronico"].ToString();
+                    FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString());
+                    RFC = Fila["RFC"].ToString();
+                    CURP = Fila["CURP"].ToString();
+                    ClaveElector = Fila["ClaveElector"].ToString();
+                    URLFoto = Fila["URLFoto"].ToString();
+                    IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
                     Promotores.Add(this);
                 }
             }

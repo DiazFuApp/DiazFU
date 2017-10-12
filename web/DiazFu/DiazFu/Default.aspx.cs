@@ -21,6 +21,8 @@ namespace DiazFu
             Usuario.LogIn();
             if (Usuario.Id != null)
             {
+                Usuario.ConsultarID();
+                Session["Usuario"] = Usuario;
                 Response.Redirect("Modules/Administracion/Promotores/Listado.aspx");
             }
             else

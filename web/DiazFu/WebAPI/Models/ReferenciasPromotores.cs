@@ -139,7 +139,7 @@ namespace WebAPI.Models
 
         public ReferenciasPromotores(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -151,7 +151,7 @@ namespace WebAPI.Models
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -218,7 +218,7 @@ namespace WebAPI.Models
                         Nombre = Fila["Nombre"].ToString(),
                         RFC = Fila["RFC"].ToString(),
                         CURP = Fila["CURP"].ToString(),
-                        FechaNacimiento = DateTime.Parse(Fila["RFC"].ToString()),
+                        FechaNacimiento = DateTime.Parse(Fila["FechaNacimiento"].ToString()),
                         ClaveElector = Fila["ClaveElector"].ToString(),
                         Direccion = Fila["Direccion"].ToString(),
                         TelefonoCasa = Fila["TelefonoCasa"].ToString(),

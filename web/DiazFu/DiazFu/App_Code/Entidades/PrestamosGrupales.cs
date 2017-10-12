@@ -58,6 +58,14 @@ namespace DiazFu.App_Code.Entidades
             set { _Interes = value; }
         }
 
+        private string _Garantia;
+
+        public string Garantia
+        {
+            get { return _Garantia; }
+            set { _Garantia = value; }
+        }
+
         private float _Anticipo;
 
         public float Anticipo
@@ -107,7 +115,7 @@ namespace DiazFu.App_Code.Entidades
 
         public PrestamosGrupales(int IdUsuario)
         {
-            this.IdEstatus = 1;
+            IdEstatus = 1;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -119,7 +127,7 @@ namespace DiazFu.App_Code.Entidades
         public DataSet Agregar()
         {
             DataSet Consulta = EjecutarSP(1);
-            this.Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
+            Id = int.Parse(Consulta.Tables[0].Rows[0]["Id"].ToString());
             return Consulta;
         }
 
@@ -137,7 +145,7 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con todos los préstamos grupales activos.</returns>
         public DataSet ConsultarTodo()
         {
-            this.Id = null;
+            Id = null;
             return EjecutarSP(3);
         }
 
@@ -151,20 +159,24 @@ namespace DiazFu.App_Code.Entidades
             if (Consulta.Tables[0].Rows.Count > 0)
             {
                 DataRow Fila = Consulta.Tables[0].Rows[0];
-                this.Id = int.Parse(Fila["Id"].ToString());
-                this.IdGrupo = int.Parse(Fila["IdGrupo"].ToString());
-                this.Motivo = Fila["Motivo"].ToString();
-                this.CantidadSolicitada = float.Parse(Fila["CantidadSolicitada"].ToString());
-                this.CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString());
-                this.Interes = float.Parse(Fila["Interes"].ToString());
-                this.Anticipo = float.Parse(Fila["Anticipo"].ToString());
-                this.FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
-                this.Observaciones = Fila["Observaciones"].ToString();
-                this.IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+                Id = int.Parse(Fila["Id"].ToString());
+                IdGrupo = int.Parse(Fila["IdGrupo"].ToString());
+                Motivo = Fila["Motivo"].ToString();
+                CantidadSolicitada = float.Parse(Fila["CantidadSolicitada"].ToString());
+                CantidadOtorgada = float.Parse(Fila["CantidadOtorgada"].ToString() == string.Empty ? "0" : Fila["CantidadOtorgada"].ToString());
+                Interes = float.Parse(Fila["Interes"].ToString());
+                Garantia = Fila["Garantia"].ToString();
+                Anticipo = float.Parse(Fila["Anticipo"].ToString());
+                if (Fila["FechaEntrega"].ToString() != string.Empty)
+                {
+                    FechaEntrega = DateTime.Parse(Fila["FechaEntrega"].ToString());
+                }
+                Observaciones = Fila["Observaciones"].ToString();
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
             }
             else
             {
-                this.Id = null;
+                Id = null;
             }
         }
 
@@ -174,19 +186,22 @@ namespace DiazFu.App_Code.Entidades
         /// <returns>Data Set con la consulta emitida por SQL</returns>
         public DataSet EjecutarSP(int Opcion)
         {
-            List<SqlParameter> Parametros = new List<SqlParameter>();
-            Parametros.Add(new SqlParameter("@Opcion", Opcion));
-            Parametros.Add(new SqlParameter("@Id", Id));
-            Parametros.Add(new SqlParameter("@IdGrupo", IdGrupo));
-            Parametros.Add(new SqlParameter("@Motivo", Motivo));
-            Parametros.Add(new SqlParameter("@CantidadSolicitada", CantidadSolicitada));
-            Parametros.Add(new SqlParameter("@CantidadOtorgada", CantidadOtorgada));
-            Parametros.Add(new SqlParameter("@Interes", Interes));
-            Parametros.Add(new SqlParameter("@Anticipo", Anticipo));
-            Parametros.Add(new SqlParameter("@FechaEntrega", FechaEntrega));
-            Parametros.Add(new SqlParameter("@Observaciones", Observaciones));
-            Parametros.Add(new SqlParameter("@IdEstatus", IdEstatus));
-            Parametros.Add(new SqlParameter("@IdUsuarioActual", IdUsuario));
+            List<SqlParameter> Parametros = new List<SqlParameter>
+            {
+                new SqlParameter("@Opcion", Opcion),
+                new SqlParameter("@Id", Id),
+                new SqlParameter("@IdGrupo", IdGrupo),
+                new SqlParameter("@Motivo", Motivo),
+                new SqlParameter("@CantidadSolicitada", CantidadSolicitada),
+                new SqlParameter("@CantidadOtorgada", CantidadOtorgada),
+                new SqlParameter("@Interes", Interes),
+                new SqlParameter("@Garantia", Garantia),
+                new SqlParameter("@Anticipo", Anticipo),
+                new SqlParameter("@FechaEntrega", FechaEntrega),
+                new SqlParameter("@Observaciones", Observaciones),
+                new SqlParameter("@IdEstatus", IdEstatus),
+                new SqlParameter("@IdUsuarioActual", IdUsuario)
+            };
 
             return SqlHelper.ExecuteDataset(Conexion.CadenaConexion(), "[datos].[SPPrestamosGrupales]", Parametros.ToArray());
         }

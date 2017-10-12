@@ -78,8 +78,18 @@
     <Content Include="Images\Logos\dark_logo.png" />
     <Content Include="Images\Logos\light_logo.png" />
     <Content Include="Images\Logos\white_logo.png" />
+    <Content Include="Modules\Administracion\Clientes\Captura.aspx" />
+    <Content Include="Modules\Administracion\Clientes\Listado.aspx" />
+    <Content Include="Modules\Administracion\Grupos\Captura.aspx" />
+    <Content Include="Modules\Administracion\Grupos\Listado.aspx" />
     <Content Include="Modules\Administracion\Promotores\Captura.aspx" />
     <Content Include="Modules\Administracion\Promotores\Listado.aspx" />
+    <Content Include="Modules\Prestamos\Pagos\Captura.aspx" />
+    <Content Include="Modules\Prestamos\Pagos\Listado.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.min.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table.css" />
@@ -757,6 +767,7 @@
     <Content Include="node_modules\mdbootstrap\font\glyphicon\glyphicons-halflings-regular.ttf" />
     <Content Include="node_modules\mdbootstrap\font\glyphicon\glyphicons-halflings-regular.woff" />
     <None Include="Properties\PublishProfiles\diazfu - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Saurett PC.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -765,7 +776,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web.config" />
+    <Content Include="Salir.aspx" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Code\Entidades\Usuarios.cs" />
@@ -791,6 +805,34 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Clientes\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Administracion\Grupos\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Modules\Administracion\Promotores\Captura.aspx.cs">
       <DependentUpon>Captura.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -805,6 +847,48 @@
     <Compile Include="Modules\Administracion\Promotores\Listado.aspx.designer.cs">
       <DependentUpon>Listado.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\Pagos\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosGrupales\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx.designer.cs">
+      <DependentUpon>Captura.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx.designer.cs">
+      <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Principal.Master.cs">
       <DependentUpon>Principal.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -813,6 +897,13 @@
       <DependentUpon>Principal.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Salir.aspx.cs">
+      <DependentUpon>Salir.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Salir.aspx.designer.cs">
+      <DependentUpon>Salir.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Images\Ico\" />
