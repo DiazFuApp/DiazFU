@@ -65,9 +65,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/promotores/agregar")]
-        public DataSet Add([FromBody]Promotores Promotor)
+        public Promotores Add([FromBody]Promotores Promotor)
         {
-            return Promotor.Agregar();
+            Promotor.Agregar();
+            return Promotor;
         }
 
         /// <summary>
@@ -77,9 +78,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/promotores/actualizar")]
-        public DataSet Update([FromBody]Promotores Promotor)
+        public Promotores Update([FromBody]Promotores Promotor)
         {
-            return Promotor.Actualizar();
+            Promotor.Actualizar();
+            return Promotor;
         }
 
         /// <summary>
@@ -89,10 +91,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/promotores/eliminar")]
-        public DataSet Delete([FromBody]Promotores Promotor)
+        public Promotores Delete([FromBody]Promotores Promotor)
         {
             Promotor.IdEstatus = 2;
-            return Promotor.Actualizar();
+            Promotor.Actualizar();
+            return Promotor;
         }
     }
 }
