@@ -108,6 +108,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             public void onResponse(Call<Promotores> call, Response<Promotores> response) {
 
                 if (response.isSuccessful()) {
+                    pDialog.dismiss();
 
                     Promotores promotor = response.body();
 
@@ -117,6 +118,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         Toast.makeText(MainRegisterActivity.this, "Notifique a fred", Toast.LENGTH_SHORT).show();
                     }
 
+                    finish();
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
                 } else {
                     int statusCode = response.code();
                     Log.e(TAG, "CODIGO: " + statusCode);
@@ -133,6 +137,44 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     @Override
     public void editarPromotor(Promotores promotor) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
 
+        webServiceEditarPromotores(promotor);
+    }
+
+    private void webServiceEditarPromotores(Promotores promotor) {
+        promotoresRest.editarPromotor(promotor).enqueue(new Callback<Promotores>() {
+            @Override
+            public void onResponse(Call<Promotores> call, Response<Promotores> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Promotores promotor = response.body();
+
+                    if (null != promotor.getId()) {
+                        //TODO call
+                    } else {
+                        Toast.makeText(MainRegisterActivity.this, "Notifique a fred", Toast.LENGTH_SHORT).show();
+                    }
+
+                    finish();
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Promotores> call, Throwable t) {
+
+            }
+        });
     }
 }

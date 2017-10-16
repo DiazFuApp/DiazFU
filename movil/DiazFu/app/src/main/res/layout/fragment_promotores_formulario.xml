@@ -250,9 +250,12 @@
                         android:id="@+id/txt_fecha_nacimiento_promotor"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableRight="@mipmap/ic_insert_invitation_black_24dp"
+                        android:drawableTint="@color/colorAccent"
+                        android:editable="false"
                         android:ems="10"
                         android:hint="Fecha de Nacimiento"
-                        android:inputType="date"
+                        android:inputType="none"
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>

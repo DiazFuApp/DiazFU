@@ -25,4 +25,10 @@ public interface PromotoresRest {
 
     @POST("promotores/agregar")
     Call<Promotores> agregarPromotor(@Body Promotores promotor);
+
+    @POST("promotores/actualizar")
+    Call<Promotores> editarPromotor(@Body Promotores promotor);
+
+    @POST("promotores/eliminar")
+    Call<Promotores> eliminarPromotor(@Body Promotores promotor);
 }

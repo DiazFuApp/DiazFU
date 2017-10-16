@@ -104,7 +104,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     private void showQuestion() {
         AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
 
-        ad.setTitle(getActivity().getTitle());
+        ad.setTitle(_MAIN_DECODE.getTituloActividad());
         ad.setMessage("¿Esta seguro que desea editar?");
         ad.setCancelable(false);
         ad.setNegativeButton(getString(R.string.default_alert_dialog_cancelar), this);
@@ -127,6 +127,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     }
 
     private void editar() {
-
+        Promotores promotor = FormularioPromotoresFragment._promotorActual;
+        activityInterface.editarPromotor(promotor);
     }
 }

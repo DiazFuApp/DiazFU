@@ -20,6 +20,13 @@ import java.util.HashMap;
 public class Constants {
 
     /**
+     * Formatos del sistema
+     **/
+    public static final String MASK_DATE_ANDROID_DMY = "dd/MM/yyyy";
+    public static final String MASK_DATE_FROM_SQL_YMD = "yyyy-MM-dd hh:mm:ss";
+    public static final String MASK_DATE_TO_SQL_YMD = "yyyy-MM-dd";
+
+    /**
      * Acciones generales
      **/
     public static final int ACCION_SIN_DEFINIR = 0;
@@ -130,4 +137,12 @@ public class Constants {
         TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR, R.string.default_form_title_new);
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR, R.string.default_form_title_edit);
     }
+
+    /**
+     * Identificadores
+     **/
+    public static final int WS_KEY_ELIMINAR_PROMOTORES = 10;
+    public static final int WS_KEY_ELIMINAR_CLIENTES = 20;
+    public static final int WS_KEY_ELIMINAR_GRUPOS = 30;
+
 }

@@ -36,13 +36,13 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
 
     private static List<Promotores> promotoresList;
     private static RecyclerView recyclerView;
-    private PromotoresAdapter promotoresAdapter;
+    private static PromotoresAdapter promotoresAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     /**
      * Implementaciones REST
      */
-    private PromotoresRest promotoresRest;
+    private static PromotoresRest promotoresRest;
 
 
     @Override
@@ -74,7 +74,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         listadoPromotores();
     }
 
-    private void listadoPromotores() {
+    public static void listadoPromotores() {
         promotoresRest.getPromotores().enqueue(new Callback<List<Promotores>>() {
             @Override
             public void onResponse(Call<List<Promotores>> call, Response<List<Promotores>> response) {
@@ -94,7 +94,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    private void onPreRenderListadoPromotores() {
+    private static void onPreRenderListadoPromotores() {
         Collections.sort(promotoresList, new Comparator<Promotores>() {
             @Override
             public int compare(Promotores o1, Promotores o2) {
@@ -105,7 +105,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         promotoresAdapter.addAll(promotoresList);
         recyclerView.setAdapter(promotoresAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
