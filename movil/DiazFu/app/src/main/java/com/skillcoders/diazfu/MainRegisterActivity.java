@@ -12,11 +12,17 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +43,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Implementaciones REST
      */
     private PromotoresRest promotoresRest;
+    private ReferenciasPromotoresRest referenciasPromotores;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         ab.setDisplayHomeAsUpEnabled(true);
 
         promotoresRest = ApiUtils.getPromotoresRest();
+        referenciasPromotores = ApiUtils.getReferenciasPromotores();
 
         this.onPreRender();
     }
@@ -91,63 +99,105 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     @Override
-    public void registrarPromotor(Promotores promotor) {
+    public void registrarPromotor(PromotoresHelper promotoresHelper) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceRegistroPromotores(promotor);
+        webServiceRegistroPromotores(promotoresHelper);
     }
 
-    private void webServiceRegistroPromotores(Promotores promotor) {
+    private void webServiceRegistroPromotores(final PromotoresHelper promotoresHelper) {
 
-        promotoresRest.agregarPromotor(promotor).enqueue(new Callback<Promotores>() {
+        promotoresRest.agregarPromotor(promotoresHelper.getPromotor()).enqueue(new Callback<Promotores>() {
             @Override
             public void onResponse(Call<Promotores> call, Response<Promotores> response) {
 
                 if (response.isSuccessful()) {
-                    pDialog.dismiss();
 
                     Promotores promotor = response.body();
 
                     if (null != promotor.getId()) {
-                        //TODO call
-                    } else {
-                        Toast.makeText(MainRegisterActivity.this, "Notifique a fred", Toast.LENGTH_SHORT).show();
-                    }
+                        promotoresHelper.getPrimeraReferencia().setIdActor(promotor.getId());
+                        promotoresHelper.getSegundaReferencia().setIdActor(promotor.getId());
 
-                    finish();
+                        List<ReferenciasPromotores> referencias = new ArrayList<>();
+
+                        referencias.add(promotoresHelper.getPrimeraReferencia());
+                        referencias.add(promotoresHelper.getSegundaReferencia());
+
+                        for (ReferenciasPromotores referenciasPromotor : referencias) {
+                            webServiceRegistrarRefererenciaPromotor(referenciasPromotor);
+                        }
+
+                        finish();
+                        pDialog.dismiss();
+
+                    }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
                 } else {
+                    pDialog.dismiss();
                     int statusCode = response.code();
                     Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Promotores> call, Throwable t) {
-
+                pDialog.dismiss();
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
+    private void webServiceRegistrarRefererenciaPromotor(ReferenciasPromotores referenciaPromotor) {
+
+        referenciasPromotores.agregarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
+            @Override
+            public void onResponse(Call<ReferenciasPromotores> call, Response<ReferenciasPromotores> response) {
+
+                if (response.isSuccessful()) {
+
+                    ReferenciasPromotores referenciaPromotor = response.body();
+
+                    if (null != referenciaPromotor.getId()) {
+                        //TODO GUARDAR REDES SOCIALES
+                        //TODO DOCUMENTOS REFERENCIA
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferenciasPromotores> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
-    public void editarPromotor(Promotores promotor) {
+    public void editarPromotor(PromotoresHelper promotoresHelper) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceEditarPromotores(promotor);
+        webServiceEditarPromotores(promotoresHelper);
     }
 
-    private void webServiceEditarPromotores(Promotores promotor) {
-        promotoresRest.editarPromotor(promotor).enqueue(new Callback<Promotores>() {
+    private void webServiceEditarPromotores(PromotoresHelper promotoresHelper) {
+        promotoresRest.editarPromotor(promotoresHelper.getPromotor()).enqueue(new Callback<Promotores>() {
             @Override
             public void onResponse(Call<Promotores> call, Response<Promotores> response) {
 

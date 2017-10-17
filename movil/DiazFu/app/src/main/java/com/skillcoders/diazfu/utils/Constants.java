@@ -20,6 +20,13 @@ import java.util.HashMap;
 public class Constants {
 
     /**
+     * Constantes Principales
+     **/
+    public static final int TIPO_REFERENCIA_CONOCIDO = 1;
+    public static final int TIPO_REFERENCIA_AVAL = 2;
+
+
+    /**
      * Formatos del sistema
      **/
     public static final String MASK_DATE_ANDROID_DMY = "dd/MM/yyyy";

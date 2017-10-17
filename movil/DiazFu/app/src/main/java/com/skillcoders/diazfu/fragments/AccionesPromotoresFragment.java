@@ -17,6 +17,7 @@ import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
 /**
@@ -94,7 +95,10 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
                         this.showQuestion();
                         break;
                     case Constants.ACCION_REGISTRAR:
-                        if (FormularioPromotoresFragment.validarDatosRegistro()) registrar();
+                        if (FormularioPromotoresFragment.validarDatosRegistro()
+                                && FormularioReferenciaPromotoresFragment.validarDatosRegistro()
+                                && FormularioSegundaReferenciaPromotoresFragment.validarDatosRegistro())
+                            registrar();
                         break;
                 }
                 break;
@@ -116,18 +120,28 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                if (FormularioPromotoresFragment.validarDatosEdicion()) editar();
+                if (FormularioPromotoresFragment.validarDatosEdicion()
+                        && FormularioReferenciaPromotoresFragment.validarDatosEdicion()
+                        && FormularioSegundaReferenciaPromotoresFragment.validarDatosEdicion())
+                    editar();
                 break;
         }
     }
 
     private void registrar() {
-        Promotores promotor = FormularioPromotoresFragment._promotorActual;
-        activityInterface.registrarPromotor(promotor);
+        PromotoresHelper promotoresHelper = new PromotoresHelper();
+        promotoresHelper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        promotoresHelper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
+        promotoresHelper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+
+        activityInterface.registrarPromotor(promotoresHelper);
     }
 
     private void editar() {
-        Promotores promotor = FormularioPromotoresFragment._promotorActual;
-        activityInterface.editarPromotor(promotor);
+        PromotoresHelper promotoresHelper = new PromotoresHelper();
+        promotoresHelper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        promotoresHelper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
+        promotoresHelper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+        activityInterface.editarPromotor(promotoresHelper);
     }
 }

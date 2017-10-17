@@ -1,8 +1,10 @@
 package com.skillcoders.diazfu.data.remote;
 
+import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
 
 /**
@@ -31,5 +33,9 @@ public class ApiUtils {
 
     public static GruposRest getGruposRest() {
         return RetrofitClient.getClient(BASE_URL).create(GruposRest.class);
+    }
+
+    public static ReferenciasPromotoresRest getReferenciasPromotores() {
+        return RetrofitClient.getClient(BASE_URL).create(ReferenciasPromotoresRest.class);
     }
 }
