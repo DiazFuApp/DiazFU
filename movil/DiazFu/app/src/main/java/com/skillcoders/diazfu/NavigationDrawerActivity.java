@@ -1,5 +1,7 @@
 package com.skillcoders.diazfu;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,16 +10,39 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.fragments.PromotoresFragment;
+import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
+import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class NavigationDrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener {
+
+    private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
+
+    private static DecodeItemHelper _decodeItem;
+    private ProgressDialog pDialog;
+
+    /**
+     * Implementaciones REST
+     */
+    private PromotoresRest promotoresRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +60,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        promotoresRest = ApiUtils.getPromotoresRest();
     }
 
     @Override
@@ -158,4 +185,102 @@ public class NavigationDrawerActivity extends AppCompatActivity
         if (null != fragment)
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
     }
+
+    @Override
+    public void showQuestion() {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle("Eliminar");
+        ad.setMessage("¿Esta seguro que desea elminar?");
+        ad.setCancelable(false);
+        ad.setNegativeButton("Cancelar", this);
+        ad.setPositiveButton("Aceptar", this);
+        ad.show().getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getColor(R.color.bootstrap_brand_danger));
+
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        int operation = 0;
+
+        switch (which) {
+            case DialogInterface.BUTTON_POSITIVE:
+                switch (_decodeItem.getIdView()) {
+                    case R.id.item_btn_eliminar_promotor:
+                        operation = Constants.WS_KEY_ELIMINAR_PROMOTORES;
+                        break;
+                }
+
+                this.webServiceOperations(operation);
+        }
+
+    }
+
+    private void webServiceOperations(int operation) {
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        switch (operation) {
+            case Constants.WS_KEY_ELIMINAR_PROMOTORES:
+                this.webServiceDeletePromotor();
+                break;
+        }
+
+    }
+
+    private void webServiceDeletePromotor() {
+        Promotores promotor = (Promotores) _decodeItem.getItemModel();
+        promotoresRest.eliminarPromotor(promotor).enqueue(new Callback<Promotores>() {
+            @Override
+            public void onResponse(Call<Promotores> call, Response<Promotores> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Promotores promotor = response.body();
+
+                    if (null != promotor.getId()) {
+                        PromotoresFragment.listadoPromotores();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Promotores> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void setDecodeItem(DecodeItemHelper decodeItem) {
+        _decodeItem = decodeItem;
+    }
+
+    @Override
+    public void openExternalActivity(int action, Class<?> externalActivity) {
+        DecodeExtraHelper extraParams = new DecodeExtraHelper();
+
+        extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(_decodeItem.getIdView())));
+        extraParams.setTituloFormulario(getString(Constants.TITLE_FORM_ACTION.get(action)));
+        extraParams.setAccionFragmento(action);
+        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(_decodeItem.getIdView()));
+        extraParams.setDecodeItem(_decodeItem);
+
+        Intent intent = new Intent(this, externalActivity);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        //intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+        startActivity(intent);
+    }
+
+
 }

@@ -27,5 +27,21 @@
     <string name="default_item_menu_title_prestamos_individuales">Préstamos Individuales</string>
     <string name="default_item_menu_title_registro_pagos">Registro de Pagos</string>
 
+    <!--Titulos de la actividad-->
+    <string name="default_activity_title_promotores">Promotores</string>
+    <string name="default_activity_title_clientes">Clientes</string>
+    <string name="default_activity_title_grupos">Grupos</string>
+
+    <!--Form subtitle-->
+    <string name="default_form_title_edit">Modificar</string>
+    <string name="default_form_title_new">Registrar</string>
+
+
     <string name="default_powered_by">© 2017 Copyright | Powered by SkillCoders</string>
+
+    <string name="default_loading_msg">Por favor espera un momento</string>
+    <string name="default_alert_dialog_aceptar">Aceptar</string>
+    <string name="default_alert_dialog_cancelar">Cancelar</string>
+    <string name="default_alert_dialog_si">Si</string>
+    <string name="default_alert_dialog_no">No</string>
 </resources>

@@ -5,7 +5,9 @@ import com.skillcoders.diazfu.data.model.Promotores;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -20,4 +22,13 @@ public interface PromotoresRest {
 
     @GET("promotores/{id}")
     Observable<Promotores> getPromotor(@Path("id") long id);
+
+    @POST("promotores/agregar")
+    Call<Promotores> agregarPromotor(@Body Promotores promotor);
+
+    @POST("promotores/actualizar")
+    Call<Promotores> editarPromotor(@Body Promotores promotor);
+
+    @POST("promotores/eliminar")
+    Call<Promotores> eliminarPromotor(@Body Promotores promotor);
 }

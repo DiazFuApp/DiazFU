@@ -9,12 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.PromotoresAdapter;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,13 +36,13 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
 
     private static List<Promotores> promotoresList;
     private static RecyclerView recyclerView;
-    private PromotoresAdapter promotoresAdapter;
+    private static PromotoresAdapter promotoresAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     /**
      * Implementaciones REST
      */
-    private PromotoresRest promotoresRest;
+    private static PromotoresRest promotoresRest;
 
 
     @Override
@@ -71,7 +74,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         listadoPromotores();
     }
 
-    private void listadoPromotores() {
+    public static void listadoPromotores() {
         promotoresRest.getPromotores().enqueue(new Callback<List<Promotores>>() {
             @Override
             public void onResponse(Call<List<Promotores>> call, Response<List<Promotores>> response) {
@@ -80,7 +83,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
                     promotoresAdapter = new PromotoresAdapter();
                     promotoresList = new ArrayList<>();
                     promotoresList.addAll(response.body());
-                    onPreRender();
+                    onPreRenderListadoPromotores();
                 }
             }
 
@@ -91,7 +94,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         });
     }
 
-    private void onPreRender() {
+    private static void onPreRenderListadoPromotores() {
         Collections.sort(promotoresList, new Comparator<Promotores>() {
             @Override
             public int compare(Promotores o1, Promotores o2) {
@@ -102,7 +105,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
         promotoresAdapter.addAll(promotoresList);
         recyclerView.setAdapter(promotoresAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -115,7 +118,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -124,5 +127,19 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
+    }
+
+    public static void onListenerAction(DecodeItemHelper decodeItem) {
+        /**Inicializa DecodeItem en la activity principal**/
+        navigationDrawerInterface.setDecodeItem(decodeItem);
+
+        switch (decodeItem.getIdView()) {
+            case R.id.item_btn_editar_promotor:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_eliminar_promotor:
+                navigationDrawerInterface.showQuestion();
+                break;
+        }
     }
 }

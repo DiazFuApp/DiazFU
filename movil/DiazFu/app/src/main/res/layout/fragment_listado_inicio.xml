@@ -25,12 +25,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <VideoView
-                    android:id="@+id/video_test"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                </VideoView>
 
             </LinearLayout>
 

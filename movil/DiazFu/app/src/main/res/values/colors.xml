@@ -8,4 +8,5 @@
     <color name="colorPrimaryLight">#5fe5c3</color>
     <color name="txtColorPrimaryLogin">#676a6c</color>
     <color name="txtColorSecondaryLogin">#23527c</color>
+    <color name="colorIcons">#ffffff</color>
 </resources>

@@ -1,6 +1,8 @@
 package com.skillcoders.diazfu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.List;
 
@@ -85,9 +88,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Usuarios usuario = response.body();
 
                     if (null != usuario.getId()) {
-                        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
-                        startActivity(intent);
-                        finish();
+                        openNavigation(usuario);
                     } else {
                         Toast.makeText(LoginActivity.this, "Usuario y contraseña incorrectos", Toast.LENGTH_SHORT).show();
                     }
@@ -107,8 +108,30 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
     }
 
+    private void openNavigation(Usuarios usuario) {
+
+        this.saveSessionPreferences(usuario);
+
+        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+        intent.putExtra(Constants.KEY_SESSION_USER, usuario);
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveSessionPreferences(Usuarios usuario) {
+        SharedPreferences prefsCredencials = getSharedPreferences(Constants.KEY_PREF_CREDENCIALS, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor credencials = prefsCredencials.edit();
+        credencials.putString(Constants.KEY_PREF_CREDENCIALS_USERNAME, usuario.getNombre());
+        credencials.putString(Constants.KEY_PREF_CREDENCIALS_PASSWORD, txtPassword.getText().toString());
+        credencials.putBoolean(Constants.KEY_PREF_CREDENCIALS_SESSION, true);
+        credencials.commit();
+    }
+
     private void test() {
-        usuariosRest.getUsuario(Long.valueOf(txtUsername.getText().toString())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        usuariosRest.getUsuario(Long.valueOf(txtUsername.getText().toString()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Usuarios>() {
                     @Override
                     public void onCompleted() {

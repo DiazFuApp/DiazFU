@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.fragments.PromotoresFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
 import java.util.ArrayList;
@@ -74,15 +75,14 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
-                //PromotoresFragment.onListenerAction(decodeItem);
+                PromotoresFragment.onListenerAction(decodeItem);
             }
         });
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
+                PromotoresFragment.onListenerAction(decodeItem);
             }
         });
 
@@ -93,8 +93,6 @@ public class PromotoresAdapter extends RecyclerView.Adapter<PromotoresAdapter.Vi
     public int getItemCount() {
         return promotores == null ? 0 : promotores.size();
     }
-
-
 
 
 }
