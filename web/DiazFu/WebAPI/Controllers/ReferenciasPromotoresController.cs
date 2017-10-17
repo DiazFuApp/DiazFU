@@ -49,7 +49,7 @@ namespace WebAPI.Controllers
         /// </summary>
         /// <param name="Referencia"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/referenciaspromotores/objeto")]
         public List<ReferenciasPromotores> Get([FromBody]ReferenciasPromotores Referencia)
         {
@@ -63,9 +63,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/referenciaspromotores/agregar")]
-        public DataSet Add([FromBody]ReferenciasPromotores Referencia)
+        public ReferenciasPromotores Add([FromBody]ReferenciasPromotores Referencia)
         {
-            return Referencia.Agregar();
+            Referencia.Agregar();
+            return Referencia;
         }
 
         /// <summary>
@@ -75,9 +76,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/referenciaspromotores/actualizar")]
-        public DataSet Update([FromBody]ReferenciasPromotores Referencia)
+        public ReferenciasPromotores Update([FromBody]ReferenciasPromotores Referencia)
         {
-            return Referencia.Actualizar();
+            Referencia.Actualizar();
+            return Referencia;
         }
 
         /// <summary>
@@ -87,10 +89,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/referenciasprestamos/eliminar")]
-        public DataSet Delete([FromBody]ReferenciasPromotores Referencia)
+        public ReferenciasPromotores Delete([FromBody]ReferenciasPromotores Referencia)
         {
             Referencia.IdEstatus = 2;
-            return Referencia.Actualizar();
+            Referencia.Actualizar();
+            return Referencia;
         }
     }
 }
