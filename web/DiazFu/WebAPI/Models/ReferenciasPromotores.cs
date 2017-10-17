@@ -205,8 +205,7 @@ namespace WebAPI.Models
         public List<ReferenciasPromotores> Consultar()
         {
             List<ReferenciasPromotores> Referencias = new List<ReferenciasPromotores>();
-            ReferenciasPromotores Referencia = new ReferenciasPromotores();
-            using (DataSet Consulta = Referencia.EjecutarSP(3))
+            using (DataSet Consulta = EjecutarSP(3))
             {
                 foreach (DataRow Fila in Consulta.Tables[0].Rows)
                 {
