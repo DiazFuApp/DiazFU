@@ -22,7 +22,7 @@ public interface ReferenciasPromotoresRest {
     Call<List<ReferenciasPromotores>> getReferenciasPromotores();
 
     @POST("referenciaspromotores/objeto")
-    Observable<ReferenciasPromotores> getReferenciaPromotor(@Body ReferenciasPromotores referenciasPromotores);
+    Observable<List<ReferenciasPromotores>> getReferenciaPromotor(@Body ReferenciasPromotores referenciasPromotores);
 
     @POST("referenciaspromotores/agregar")
     Call<ReferenciasPromotores> agregarReferenciaPromotor(@Body ReferenciasPromotores referenciaPromotor);
