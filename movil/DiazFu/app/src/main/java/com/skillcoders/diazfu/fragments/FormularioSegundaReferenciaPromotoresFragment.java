@@ -15,6 +15,7 @@ import android.widget.DatePicker;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
+import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -23,7 +24,12 @@ import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jvier on 03/10/2017.
@@ -80,6 +86,8 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
             }
         };
 
+        referenciasPromotoresRest = ApiUtils.getReferenciasPromotores();
+
         return view;
     }
 
@@ -125,6 +133,41 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
 
     private void obtenerReferenciaDos() {
         _promotorActual = ((Promotores) _MAIN_DECODE.getDecodeItem().getItemModel());
+
+        ReferenciasPromotores referenciasPromotores = new ReferenciasPromotores();
+        referenciasPromotores.setIdActor(_promotorActual.getId());
+
+        referenciasPromotoresRest.getReferenciaPromotor(referenciasPromotores)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<ReferenciasPromotores>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<ReferenciasPromotores> referenciasPromotores) {
+                        _referenciaDosActual = referenciasPromotores.get(1);
+
+                        //Asigna la fecha seleccionada a la instancia calendar.
+                        Calendar calendar = DateTimeUtils.getParseTimeFromSQL(_referenciaDosActual.getFechaNacimiento());
+                        myCalendar.setTime(calendar.getTime());
+                        updateTxtDate();
+
+                        tilNombre.getEditText().setText(_referenciaDosActual.getNombre());
+                        tilRFC.getEditText().setText(_referenciaDosActual.getRFC());
+                        tilDireccion.getEditText().setText(_referenciaDosActual.getDireccion());
+                        tilTelefonoCasa.getEditText().setText(_referenciaDosActual.getTelefonoCasa());
+                        tilTelefonoCelular.getEditText().setText(_referenciaDosActual.getTelefonoCelular());
+                        tilCorreoElectronico.getEditText().setText(_referenciaDosActual.getCorreoElectronico());
+                        tilCURP.getEditText().setText(_referenciaDosActual.getCURP());
+                        tilClaveElector.getEditText().setText(_referenciaDosActual.getClaveElector());
+                    }
+                });
     }
 
     public static boolean validarDatosRegistro() {

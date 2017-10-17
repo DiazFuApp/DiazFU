@@ -196,20 +196,27 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceEditarPromotores(promotoresHelper);
     }
 
-    private void webServiceEditarPromotores(PromotoresHelper promotoresHelper) {
+    private void webServiceEditarPromotores(final PromotoresHelper promotoresHelper) {
         promotoresRest.editarPromotor(promotoresHelper.getPromotor()).enqueue(new Callback<Promotores>() {
             @Override
             public void onResponse(Call<Promotores> call, Response<Promotores> response) {
 
                 if (response.isSuccessful()) {
-                    pDialog.dismiss();
 
                     Promotores promotor = response.body();
 
                     if (null != promotor.getId()) {
-                        //TODO call
-                    } else {
-                        Toast.makeText(MainRegisterActivity.this, "Notifique a fred", Toast.LENGTH_SHORT).show();
+                        List<ReferenciasPromotores> referencias = new ArrayList<>();
+
+                        referencias.add(promotoresHelper.getPrimeraReferencia());
+                        referencias.add(promotoresHelper.getSegundaReferencia());
+
+                        for (ReferenciasPromotores referenciasPromotor : referencias) {
+                            webServiceEditarRefererenciaPromotor(referenciasPromotor);
+                        }
+
+                        finish();
+                        pDialog.dismiss();
                     }
 
                     finish();
@@ -227,4 +234,36 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             }
         });
     }
+
+    private void webServiceEditarRefererenciaPromotor(ReferenciasPromotores referenciaPromotor) {
+
+        referenciasPromotores.editarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
+            @Override
+            public void onResponse(Call<ReferenciasPromotores> call, Response<ReferenciasPromotores> response) {
+
+                if (response.isSuccessful()) {
+
+                    ReferenciasPromotores referenciaPromotor = response.body();
+
+                    if (null != referenciaPromotor.getId()) {
+                        //TODO GUARDAR REDES SOCIALES
+                        //TODO DOCUMENTOS REFERENCIA
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferenciasPromotores> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }
