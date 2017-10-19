@@ -85,7 +85,6 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
         }
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -129,19 +128,19 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     }
 
     private void registrar() {
-        PromotoresHelper promotoresHelper = new PromotoresHelper();
-        promotoresHelper.setPromotor(FormularioPromotoresFragment._promotorActual);
-        promotoresHelper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
-        promotoresHelper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+        PromotoresHelper helper = new PromotoresHelper();
+        helper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
+        helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
 
-        activityInterface.registrarPromotor(promotoresHelper);
+        activityInterface.registrarPromotor(helper);
     }
 
     private void editar() {
-        PromotoresHelper promotoresHelper = new PromotoresHelper();
-        promotoresHelper.setPromotor(FormularioPromotoresFragment._promotorActual);
-        promotoresHelper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
-        promotoresHelper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
-        activityInterface.editarPromotor(promotoresHelper);
+        PromotoresHelper helper = new PromotoresHelper();
+        helper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
+        helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+        activityInterface.editarPromotor(helper);
     }
 }

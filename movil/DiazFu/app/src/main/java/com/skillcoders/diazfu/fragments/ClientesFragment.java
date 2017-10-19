@@ -10,15 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.ClientesAdapter;
-import com.skillcoders.diazfu.adapters.PromotoresAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
-import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
-import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,22 +37,22 @@ import retrofit2.Response;
 public class ClientesFragment extends Fragment implements View.OnClickListener {
 
     private static List<Clientes> clientesList;
-    private static RecyclerView recyclerViewClientes;
-    private ClientesAdapter clientesAdapter;
+    private static RecyclerView recyclerView;
+    private static ClientesAdapter clientesAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
 
     /**
      * Implementaciones REST
      */
-    private ClientesRest clientesRest;
+    private static ClientesRest clientesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
 
-        recyclerViewClientes = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
         clientesAdapter = new ClientesAdapter();
         clientesAdapter.setOnClickListener(this);
 
@@ -77,7 +77,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         this.listadoClientes();
     }
 
-    private void listadoClientes() {
+    public static void listadoClientes() {
         clientesRest.getClientes().enqueue(new Callback<List<Clientes>>() {
             @Override
             public void onResponse(Call<List<Clientes>> call, Response<List<Clientes>> response) {
@@ -100,7 +100,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     /**
      * Carga el listado predeterminado de firebase
      **/
-    private void onPreRender() {
+    private static void onPreRender() {
 
         Collections.sort(clientesList, new Comparator<Clientes>() {
             @Override
@@ -110,14 +110,10 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
         });
 
         clientesAdapter.addAll(clientesList);
-        recyclerViewClientes.setAdapter(clientesAdapter);
+        recyclerView.setAdapter(clientesAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerViewClientes.setLayoutManager(linearLayoutManager);
-
-        if (clientesList.size() == 0) {
-            Toast.makeText(getActivity(), "La lista se encuentra vacía", Toast.LENGTH_SHORT).show();
-        }
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override
@@ -129,7 +125,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -138,5 +134,19 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
+    }
+
+    public static void onListenerAction(DecodeItemHelper decodeItem) {
+        /**Inicializa DecodeItem en la activity principal**/
+        navigationDrawerInterface.setDecodeItem(decodeItem);
+
+        switch (decodeItem.getIdView()) {
+            case R.id.item_btn_editar_cliente:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_eliminar_cliente:
+                navigationDrawerInterface.showQuestion();
+                break;
+        }
     }
 }
