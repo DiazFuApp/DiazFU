@@ -6,7 +6,9 @@ import com.skillcoders.diazfu.data.model.Grupos;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -21,4 +23,13 @@ public interface GruposRest {
 
     @GET("grupos/{id}")
     Observable<Grupos> getGrupo(@Path("id") long id);
+
+    @POST("grupos/agregar")
+    Call<Grupos> agregarGrupo(@Body Grupos grupo);
+
+    @POST("grupos/actualizar")
+    Call<Grupos> editarGrupo(@Body Grupos grupo);
+
+    @POST("grupos/eliminar")
+    Call<Grupos> eliminarGrupo(@Body Grupos grupo);
 }

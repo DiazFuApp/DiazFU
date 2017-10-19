@@ -330,7 +330,6 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         _clienteActual.setIdUsuario(data.getIdUsuario());
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

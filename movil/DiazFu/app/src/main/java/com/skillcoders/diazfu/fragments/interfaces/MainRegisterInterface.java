@@ -1,6 +1,7 @@
 package com.skillcoders.diazfu.fragments.interfaces;
 
 import com.skillcoders.diazfu.helpers.ClientesHelper;
+import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
 /**
@@ -16,4 +17,8 @@ public interface MainRegisterInterface {
     void registrarCliente(ClientesHelper clientesHelper);
 
     void editarCliente(ClientesHelper clientesHelper);
+
+    void registrarGrupo(GruposHelper gruposHelper);
+
+    void editarGrupo(GruposHelper gruposHelper);
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
 import java.util.ArrayList;
@@ -75,15 +76,14 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
-                //PromotoresFragment.onListenerAction(decodeItem);
+                GruposFragment.onListenerAction(decodeItem);
             }
         });
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());
-                //LLAMAR A ONLISTENERACTION EN EL FRAGMENTO PROMOTORES
+                GruposFragment.onListenerAction(decodeItem);
             }
         });
 
@@ -94,8 +94,6 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
     public int getItemCount() {
         return grupos == null ? 0 : grupos.size();
     }
-
-
 
 
 }

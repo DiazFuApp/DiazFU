@@ -9,14 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.GruposAdapter;
-import com.skillcoders.diazfu.adapters.PromotoresAdapter;
 import com.skillcoders.diazfu.data.model.Grupos;
-import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,13 +36,13 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
 
     private static List<Grupos> gruposList;
     private static RecyclerView recyclerView;
-    private GruposAdapter gruposAdapter;
+    private static GruposAdapter gruposAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
 
     /**
      * Implementaciones REST
      */
-    private GruposRest gruposRest;
+    private static GruposRest gruposRest;
 
 
     @Override
@@ -70,10 +71,10 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        listadoPromotores();
+        listadoGrupos();
     }
 
-    private void listadoPromotores() {
+    public static void listadoGrupos() {
         gruposRest.getGrupos().enqueue(new Callback<List<Grupos>>() {
             @Override
             public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
@@ -93,7 +94,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void onPreRender() {
+    private static void onPreRender() {
         Collections.sort(gruposList, new Comparator<Grupos>() {
             @Override
             public int compare(Grupos o1, Grupos o2) {
@@ -104,7 +105,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
         gruposAdapter.addAll(gruposList);
         recyclerView.setAdapter(gruposAdapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
     }
 
@@ -117,7 +118,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -126,5 +127,19 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
+    }
+
+    public static void onListenerAction(DecodeItemHelper decodeItem) {
+        /**Inicializa DecodeItem en la activity principal**/
+        navigationDrawerInterface.setDecodeItem(decodeItem);
+
+        switch (decodeItem.getIdView()) {
+            case R.id.item_btn_editar_grupo:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_eliminar_grupo:
+                navigationDrawerInterface.showQuestion();
+                break;
+        }
     }
 }

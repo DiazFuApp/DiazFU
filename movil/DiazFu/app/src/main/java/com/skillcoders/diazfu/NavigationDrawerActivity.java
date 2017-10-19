@@ -19,11 +19,14 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.ClientesFragment;
+import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.fragments.PromotoresFragment;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
@@ -47,6 +50,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
      */
     private PromotoresRest promotoresRest;
     private ClientesRest clientesRest;
+    private GruposRest gruposRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
+        gruposRest = ApiUtils.getGruposRest();
     }
 
     @Override
@@ -217,6 +222,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_cliente:
                         operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
                         break;
+                    case R.id.item_btn_eliminar_grupo:
+                        operation = Constants.WS_KEY_ELIMINAR_GRUPOS;
+                        break;
                 }
 
                 this.webServiceOperations(operation);
@@ -237,6 +245,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 break;
             case Constants.WS_KEY_ELIMINAR_CLIENTES:
                 this.webServiceDeleteCliente();
+                break;
+            case Constants.WS_KEY_ELIMINAR_GRUPOS:
+                this.webServiceDeleteGrupos();
                 break;
         }
 
@@ -296,6 +307,35 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void webServiceDeleteGrupos() {
+        Grupos grupo = (Grupos) _decodeItem.getItemModel();
+        gruposRest.eliminarGrupo(grupo).enqueue(new Callback<Grupos>() {
+            @Override
+            public void onResponse(Call<Grupos> call, Response<Grupos> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Grupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+                        GruposFragment.listadoGrupos();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Grupos> call, Throwable t) {
 
             }
         });

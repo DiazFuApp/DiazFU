@@ -12,15 +12,18 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
@@ -48,6 +51,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private PromotoresRest promotoresRest;
     private ReferenciasPromotoresRest referenciasPromotores;
     private ClientesRest clientesRest;
+    private GruposRest gruposRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,6 +69,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         promotoresRest = ApiUtils.getPromotoresRest();
         referenciasPromotores = ApiUtils.getReferenciasPromotores();
         clientesRest = ApiUtils.getClientesRest();
+        gruposRest = ApiUtils.getGruposRest();
 
         this.onPreRender();
     }
@@ -317,7 +322,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.show();
 
         webServiceEditarClientes(clientesHelper);
-
     }
 
     private void webServiceEditarClientes(ClientesHelper clientesHelper) {
@@ -344,6 +348,86 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void registrarGrupo(GruposHelper gruposHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarGrupo(gruposHelper);
+    }
+
+    private void webServiceRegistrarGrupo(GruposHelper gruposHelper) {
+        gruposRest.agregarGrupo(gruposHelper.getGrupo()).enqueue(new Callback<Grupos>() {
+            @Override
+            public void onResponse(Call<Grupos> call, Response<Grupos> response) {
+
+                if (response.isSuccessful()) {
+
+                    Grupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Grupos> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void editarGrupo(GruposHelper gruposHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEditarGrupo(gruposHelper);
+    }
+
+    private void webServiceEditarGrupo(GruposHelper gruposHelper) {
+        gruposRest.editarGrupo(gruposHelper.getGrupo()).enqueue(new Callback<Grupos>() {
+            @Override
+            public void onResponse(Call<Grupos> call, Response<Grupos> response) {
+
+                if (response.isSuccessful()) {
+
+                    Grupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Grupos> call, Throwable t) {
 
             }
         });
