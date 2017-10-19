@@ -26,12 +26,6 @@
                     <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:c}" />
                     <asp:BoundField DataField="Plazo" HeaderText="Plazo" />
                     <asp:BoundField DataField="FechaProgramada" HeaderText="Fecha Programada" DataFormatString="{0:d}" />
-                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Pagar">
-                        <ItemTemplate>
-                            <a id="aPagar" runat="server" href='<%# "/Modules/Prestamos/Pagos/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Pagar
-                            </a>
-                        </ItemTemplate>
-                    </asp:TemplateField>
                 </Columns>
             </asp:gridview>
         </div>

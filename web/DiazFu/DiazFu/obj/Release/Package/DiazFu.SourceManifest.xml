@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <sitemanifest>
-  <IisApp path="C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\Package\PackageTmp" />
-  <setAcl path="C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
-  <setAcl path="C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
+  <IisApp path="c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\Package\PackageTmp" />
+  <setAcl path="c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\Package\PackageTmp" setAclResourceType="Directory" />
+  <setAcl path="c:\users\fred gz\documents\visual studio 2017\Projects\DiazFu\DiazFu\obj\Release\Package\PackageTmp" setAclUser="anonymousAuthenticationUser" setAclResourceType="Directory" />
 </sitemanifest>
