@@ -94,7 +94,7 @@
                                         </ul>
                                     </div>
                                 </li>
-                                <li>
+                                <li id="liPagos">
                                     <a href="#" data-toggle="collapse" data-target="#menu_pagos" data-parent="#sidenav01" class="collapsed">
                                         <i class="fa fa-money mr-2" aria-hidden="true"></i>Pagos<span class="caret pull-right"></span>
                                     </a>

@@ -53,6 +53,12 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                     HtmlAnchor aAutorizar = (HtmlAnchor)e.Row.FindControl("aAutorizar");
                     aAutorizar.Visible = false;
                 }
+
+                if (IdEstatus == 5 || IdEstatus == 6 || IdEstatus == 7)
+                {
+                    HtmlAnchor aPagar = (HtmlAnchor)e.Row.FindControl("aPagar");
+                    aPagar.Visible = true;
+                }
             }
         }
     }
