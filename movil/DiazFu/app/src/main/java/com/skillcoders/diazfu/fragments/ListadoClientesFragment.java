@@ -42,10 +42,13 @@ public class ListadoClientesFragment extends Fragment implements View.OnClickLis
     @Override
     public void onStart() {
         super.onStart();
+
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
         mainFragment.replace(R.id.listado_clientes_container, new ClientesFragment(), Constants.FRAGMENT_CLIENTES);
         mainFragment.commit();
+
+        getActivity().setTitle(getString(R.string.default_activity_title_clientes));
     }
 
     @Override
@@ -56,11 +59,6 @@ public class ListadoClientesFragment extends Fragment implements View.OnClickLis
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            //navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().toString() + "debe implementar");
-        }
     }
 
     @Override

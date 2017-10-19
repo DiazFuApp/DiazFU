@@ -18,9 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.fragments.ClientesFragment;
 import com.skillcoders.diazfu.fragments.PromotoresFragment;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
@@ -43,6 +46,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
      * Implementaciones REST
      */
     private PromotoresRest promotoresRest;
+    private ClientesRest clientesRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         promotoresRest = ApiUtils.getPromotoresRest();
+        clientesRest = ApiUtils.getClientesRest();
     }
 
     @Override
@@ -209,6 +214,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_promotor:
                         operation = Constants.WS_KEY_ELIMINAR_PROMOTORES;
                         break;
+                    case R.id.item_btn_eliminar_cliente:
+                        operation = Constants.WS_KEY_ELIMINAR_CLIENTES;
+                        break;
                 }
 
                 this.webServiceOperations(operation);
@@ -226,6 +234,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
         switch (operation) {
             case Constants.WS_KEY_ELIMINAR_PROMOTORES:
                 this.webServiceDeletePromotor();
+                break;
+            case Constants.WS_KEY_ELIMINAR_CLIENTES:
+                this.webServiceDeleteCliente();
                 break;
         }
 
@@ -258,7 +269,36 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         });
+    }
 
+
+    private void webServiceDeleteCliente() {
+        Clientes cliente = (Clientes) _decodeItem.getItemModel();
+        clientesRest.eliminarCliente(cliente).enqueue(new Callback<Clientes>() {
+            @Override
+            public void onResponse(Call<Clientes> call, Response<Clientes> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Clientes cliente = response.body();
+
+                    if (null != cliente.getId()) {
+                        ClientesFragment.listadoClientes();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

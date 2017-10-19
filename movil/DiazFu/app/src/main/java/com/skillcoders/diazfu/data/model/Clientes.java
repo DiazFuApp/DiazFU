@@ -3,11 +3,13 @@ package com.skillcoders.diazfu.data.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by jvier on 04/09/2017.
  */
 
-public class Clientes {
+public class Clientes implements Serializable {
 
     @SerializedName("Id")
     @Expose

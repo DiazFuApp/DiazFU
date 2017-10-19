@@ -10,6 +10,8 @@ import android.widget.TextView;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.fragments.ClientesFragment;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,24 +66,25 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Clientes item = clientes.get(position);
         /**Llenar el objeto que sera enviado al fragmento**/
-        //final DecodeItem decodeItem = new DecodeItem();
+        final DecodeItemHelper decodeItem = new DecodeItemHelper();
 
-        //decodeItem.setItemModel(item);
-        //decodeItem.setPosition(position);
+        decodeItem.setItemModel(item);
+        decodeItem.setPosition(position);
+
 
         holder.txtNombre.setText(item.getNombre());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //decodeItem.setIdView(view.getId());
-                //ClientesFragment.onListenerAction(decodeItem);
+                decodeItem.setIdView(view.getId());
+                ClientesFragment.onListenerAction(decodeItem);
             }
         });
         holder.btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //decodeItem.setIdView(view.getId());
-                //ClientesFragment.onListenerAction(decodeItem);
+                decodeItem.setIdView(view.getId());
+                ClientesFragment.onListenerAction(decodeItem);
             }
         });
     }

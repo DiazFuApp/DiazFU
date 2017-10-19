@@ -11,12 +11,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
+import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -44,6 +47,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      */
     private PromotoresRest promotoresRest;
     private ReferenciasPromotoresRest referenciasPromotores;
+    private ClientesRest clientesRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,6 +64,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
         promotoresRest = ApiUtils.getPromotoresRest();
         referenciasPromotores = ApiUtils.getReferenciasPromotores();
+        clientesRest = ApiUtils.getClientesRest();
 
         this.onPreRender();
     }
@@ -219,8 +224,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         pDialog.dismiss();
                     }
 
-                    finish();
-
                     Log.i(TAG, "post submitted to API." + response.body().toString());
                 } else {
                     int statusCode = response.code();
@@ -261,6 +264,87 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             @Override
             public void onFailure(Call<ReferenciasPromotores> call, Throwable t) {
                 Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void registrarCliente(ClientesHelper clientesHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarClientes(clientesHelper);
+    }
+
+    private void webServiceRegistrarClientes(ClientesHelper clientesHelper) {
+        clientesRest.agregarCliente(clientesHelper.getCliente()).enqueue(new Callback<Clientes>() {
+            @Override
+            public void onResponse(Call<Clientes> call, Response<Clientes> response) {
+
+                if (response.isSuccessful()) {
+
+                    Clientes cliente = response.body();
+
+                    if (null != cliente.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void editarCliente(ClientesHelper clientesHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEditarClientes(clientesHelper);
+
+    }
+
+    private void webServiceEditarClientes(ClientesHelper clientesHelper) {
+        clientesRest.editarCliente(clientesHelper.getCliente()).enqueue(new Callback<Clientes>() {
+            @Override
+            public void onResponse(Call<Clientes> call, Response<Clientes> response) {
+
+                if (response.isSuccessful()) {
+
+                    Clientes cliente = response.body();
+
+                    if (null != cliente.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Clientes> call, Throwable t) {
+
             }
         });
     }

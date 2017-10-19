@@ -24,8 +24,7 @@ import com.skillcoders.diazfu.utils.Constants;
 public class ListadoPromotoresFragment extends Fragment implements View.OnClickListener {
 
     private static Usuarios _SESSION_USER;
-
-    private Button btnRegistrarPromotor;
+    private Button btnRegistrar;
 
 
     @Override
@@ -34,8 +33,8 @@ public class ListadoPromotoresFragment extends Fragment implements View.OnClickL
 
         _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
-        btnRegistrarPromotor = (Button) view.findViewById(R.id.btn_registrar_promotor);
-        btnRegistrarPromotor.setOnClickListener(this);
+        btnRegistrar = (Button) view.findViewById(R.id.btn_registrar_promotor);
+        btnRegistrar.setOnClickListener(this);
 
         return view;
     }
