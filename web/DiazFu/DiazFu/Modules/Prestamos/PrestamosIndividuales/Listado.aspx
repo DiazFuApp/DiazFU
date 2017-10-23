@@ -22,6 +22,12 @@
                 data-show-export="true" data-toolbar="#toolbar" OnRowDataBound="gvPrestamos_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
+                    <asp:TemplateField HeaderStyle-Width="40" HeaderText="Pagar">
+                        <ItemTemplate>
+                            <a id="aPagar" runat="server" href='<%# "/Modules/Prestamos/PrestamosIndividuales/Pagos.aspx?id=" + Eval("Id") %>' class="btn btn-primary" visible="false">Pagar
+                            </a>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderStyle-Width="40" HeaderText="Autorizar">
                         <ItemTemplate>
                             <a id="aAutorizar" runat="server" href='<%# "/Modules/Prestamos/PrestamosIndividuales/Captura.aspx?id=" + Eval("Id") %>' class="btn btn-primary">Autorizar

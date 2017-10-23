@@ -42,12 +42,20 @@ namespace DiazFu.App_Code.Entidades
             set { _IdTipoPrestamo = value; }
         }
 
-        private float _Monto;
+        private float _MontoAPagar;
 
-        public float Monto
+        public float MontoAPagar
         {
-            get { return _Monto; }
-            set { _Monto = value; }
+            get { return _MontoAPagar; }
+            set { _MontoAPagar = value; }
+        }
+
+        private float _MontoPagado;
+
+        public float MontoPagado
+        {
+            get { return _MontoPagado; }
+            set { _MontoPagado = value; }
         }
 
         private string _Plazo;
@@ -66,9 +74,9 @@ namespace DiazFu.App_Code.Entidades
             set { _TipoPago = value; }
         }
 
-        private DateTime? _FechaProgramada;
+        private DateTime _FechaProgramada;
 
-        public DateTime? FechaProgramada
+        public DateTime FechaProgramada
         {
             get { return _FechaProgramada; }
             set { _FechaProgramada = value; }
@@ -117,12 +125,13 @@ namespace DiazFu.App_Code.Entidades
         #region Constructor
         public Pagos()
         {
-
+            FechaProgramada = DateTime.Now;
         }
 
         public Pagos(int IdUsuario)
         {
             IdEstatus = 1;
+            FechaProgramada = DateTime.Now;
             this.IdUsuario = IdUsuario;
         }
         #endregion
@@ -169,7 +178,8 @@ namespace DiazFu.App_Code.Entidades
                 IdPrestamo = int.Parse(Fila["IdPrestamo"].ToString());
                 IdCliente = int.Parse(Fila["IdCliente"].ToString());
                 IdTipoPrestamo = int.Parse(Fila["IdTipoPrestamo"].ToString());
-                Monto = float.Parse(Fila["Monto"].ToString());
+                MontoAPagar = float.Parse(Fila["MontoAPagar"].ToString());
+                MontoPagado = float.Parse(Fila["MontoPagado"].ToString());
                 Plazo = Fila["Plazo"].ToString();
                 TipoPago = Fila["TipoPago"].ToString();
                 if (Fila["FechaProgramada"].ToString() != string.Empty)
@@ -212,7 +222,8 @@ namespace DiazFu.App_Code.Entidades
                 new SqlParameter("@IdPrestamo", IdPrestamo),
                 new SqlParameter("@IdCliente", IdCliente),
                 new SqlParameter("@IdTipoPrestamo", IdTipoPrestamo),
-                new SqlParameter("@Monto", Monto),
+                new SqlParameter("@MontoAPagar", MontoAPagar),
+                new SqlParameter("@MontoPagado", MontoPagado),
                 new SqlParameter("@Plazo", Plazo),
                 new SqlParameter("@TipoPago", TipoPago),
                 new SqlParameter("@FechaProgramada", FechaProgramada),

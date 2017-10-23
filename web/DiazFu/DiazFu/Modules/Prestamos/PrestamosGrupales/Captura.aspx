@@ -894,8 +894,9 @@
                         <Columns>
                             <asp:BoundField DataField="Cliente" HeaderText="Integrante" />
                             <asp:BoundField DataField="Plazo" HeaderText="Plazo" />
-                            <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:c}" />
+                            <asp:BoundField DataField="MontoAPagar" HeaderText="Monto" DataFormatString="{0:c}" />
                             <asp:BoundField DataField="FechaProgramada" HeaderText="Fecha de Pago" DataFormatString="{0:d}" />
+                            <asp:BoundField DataField="Estatus" HeaderText="Estatus" />
                         </Columns>
                     </asp:GridView>
                 </div>

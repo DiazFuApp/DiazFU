@@ -23,7 +23,7 @@
                 <Columns>
                     <asp:BoundField DataField="Cliente" HeaderText="Cliente" />
                     <asp:BoundField DataField="TipoPrestamo" HeaderText="Tipo de Préstamo" />
-                    <asp:BoundField DataField="Monto" HeaderText="Monto" DataFormatString="{0:c}" />
+                    <asp:BoundField DataField="MontoAPagar" HeaderText="Monto" DataFormatString="{0:c}" />
                     <asp:BoundField DataField="Plazo" HeaderText="Plazo" />
                     <asp:BoundField DataField="FechaProgramada" HeaderText="Fecha Programada" DataFormatString="{0:d}" />
                 </Columns>

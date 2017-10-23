@@ -90,6 +90,7 @@
     <Content Include="Modules\Prestamos\PrestamosGrupales\Pagos.aspx" />
     <Content Include="Modules\Prestamos\PrestamosIndividuales\Captura.aspx" />
     <Content Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx" />
+    <Content Include="Modules\Prestamos\PrestamosIndividuales\Pagos.aspx" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table-locale-all.min.js" />
     <Content Include="node_modules\bootstrap-table\dist\bootstrap-table.css" />
@@ -887,6 +888,13 @@
     </Compile>
     <Compile Include="Modules\Prestamos\PrestamosIndividuales\Listado.aspx.designer.cs">
       <DependentUpon>Listado.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Pagos.aspx.cs">
+      <DependentUpon>Pagos.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Modules\Prestamos\PrestamosIndividuales\Pagos.aspx.designer.cs">
+      <DependentUpon>Pagos.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.Master.cs">
       <DependentUpon>Principal.Master</DependentUpon>

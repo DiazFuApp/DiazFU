@@ -5,7 +5,7 @@
 <html>
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Iniciar Sesión</title>
+    <title>DiazFu</title>
     <link rel="stylesheet" href="node_modules/mdbootstrap/css/bootstrap.min.css" />
     <link rel="stylesheet" href="node_modules/mdbootstrap/css/mdb.min.css" />
     <link rel="stylesheet" href="node_modules/mdbootstrap/css/style.css" />
@@ -101,7 +101,7 @@
                                     <div class="collapse" id="menu_pagos" style="height: 0px;">
                                         <ul class="nav nav-list">
                                             <li>
-                                                <asp:LinkButton ID="lbPagos" runat="server" PostBackUrl="~/Modules/Prestamos/Pagos/Listado.aspx"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Registro de Pagos</asp:LinkButton>
+                                                <asp:LinkButton ID="lbPagos" runat="server" PostBackUrl="~/Modules/Prestamos/Pagos/Listado.aspx"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Próximos Pagos</asp:LinkButton>
                                             </li>
                                         </ul>
                                     </div>
