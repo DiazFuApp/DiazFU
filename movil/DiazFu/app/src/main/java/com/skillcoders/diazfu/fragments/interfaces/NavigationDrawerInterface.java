@@ -7,10 +7,18 @@ import com.skillcoders.diazfu.helpers.DecodeItemHelper;
  */
 
 public interface NavigationDrawerInterface {
-    /**Permite mostrar el dialogo de preguntas**/
-    void showQuestion();
-    /**Permite transferir los valores seleccionados en DecodeItem*/
+    /**
+     * Permite mostrar el dialogo de preguntas
+     **/
+    void showQuestion(String titulo, String mensage);
+
+    /**
+     * Permite transferir los valores seleccionados en DecodeItem
+     */
     void setDecodeItem(DecodeItemHelper decodeItem);
-    /**Permte abrir una actividad externa enviando parametros en el DecodeItem**/
+
+    /**
+     * Permte abrir una actividad externa enviando parametros en el DecodeItem
+     **/
     void openExternalActivity(int action, Class<?> externalActivity);
 }

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Usuarios;
@@ -20,28 +21,23 @@ import com.skillcoders.diazfu.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroGruposFragment extends Fragment {
+public class AsignacionesGruposFragment extends Fragment {
 
     private MainRegisterInterface activityInterface;
 
     private static DecodeExtraHelper _MAIN_DECODE;
     private static Usuarios _SESSION_USER;
 
+    private static TextView txtListado;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registro_grupos, container, false);
+        View view = inflater.inflate(R.layout.fragment_asignacion_grupos, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-
-        mainFragment.replace(R.id.fragment_registro_grupo_container, new FormularioGruposFragment(), Constants.FORMULARIO_GRUPOS);
-        mainFragment.replace(R.id.fragment_asignaciones_grupo_container, new AsignacionesGruposFragment(), Constants.FORMULARIO_GRUPOS_ASIGNACIONES);
-        mainFragment.replace(R.id.fragment_acciones_grupo_container, new AccionesGruposFragment(), Constants.FORMULARIO_GRUPOS_ACCIONES);
-
-        mainFragment.commit();
+        txtListado = (TextView) view.findViewById(R.id.txt_asignacion_estatus_grupo);
 
         this.onPreRender();
 
@@ -51,6 +47,18 @@ public class RegistroGruposFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+
+        mainFragment.replace(R.id.listado_integrantes_grupo_container, new AsignacionGrupoFragment(), Constants.FORMULARIO_GRUPOS_ASIGNACIONES_LISTADO);
+
+        mainFragment.commit();
     }
 
     @Override
@@ -72,5 +80,10 @@ public class RegistroGruposFragment extends Fragment {
             default:
                 break;
         }
+    }
+
+    public static void showMessageAsignacion(int visible, String message) {
+        txtListado.setVisibility(visible);
+        txtListado.setText(message);
     }
 }

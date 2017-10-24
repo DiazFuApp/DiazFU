@@ -145,7 +145,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_cliente:
-                navigationDrawerInterface.showQuestion();
+                navigationDrawerInterface.showQuestion("Eliminar","¿Esta seguro que desea elminar?");
                 break;
         }
     }

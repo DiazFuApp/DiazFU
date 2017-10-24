@@ -138,7 +138,10 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_grupo:
-                navigationDrawerInterface.showQuestion();
+                navigationDrawerInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                break;
+            case R.id.item_btn_autorizan_grupo:
+                navigationDrawerInterface.showQuestion("Autorizar", "¿Esta seguro que desea autorizar?");
                 break;
         }
     }

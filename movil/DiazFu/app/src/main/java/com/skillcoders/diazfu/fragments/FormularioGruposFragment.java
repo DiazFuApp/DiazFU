@@ -11,11 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
@@ -40,12 +45,13 @@ import rx.schedulers.Schedulers;
  * Created by jvier on 03/10/2017.
  */
 
-public class FormularioGruposFragment extends Fragment implements Spinner.OnItemSelectedListener {
+public class FormularioGruposFragment extends Fragment implements Spinner.OnItemSelectedListener, View.OnClickListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
     private static TextInputLayout tilNombre;
     private static Spinner spinnerPromotor, spinnerClientes;
+    private BootstrapButton btnAgregar;
 
     private static List<String> promotoresList;
     private List<Promotores> promotores;
@@ -54,6 +60,8 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
 
     public static Grupos _grupoActual;
     public static Promotores _promotorSeleccionado;
+    public static Clientes _clienteSeleccionado;
+    public static Integer _clienteResponsable;
 
     /**
      * Implementaciones REST
@@ -74,6 +82,9 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         spinnerPromotor.setOnItemSelectedListener(this);
         spinnerClientes = (Spinner) view.findViewById(R.id.spinner_cliente_grupo);
         spinnerClientes.setOnItemSelectedListener(this);
+
+        btnAgregar = (BootstrapButton) view.findViewById(R.id.btn_agregar_cliente_grupo);
+        btnAgregar.setOnClickListener(this);
 
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
@@ -257,6 +268,12 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
                     _promotorSeleccionado = promotor;
                 }
                 break;
+            case R.id.spinner_cliente_grupo:
+                if (position > 0) {
+                    Clientes cliente = clientes.get(position - 1);
+                    _clienteSeleccionado = cliente;
+                }
+                break;
         }
     }
 
@@ -274,13 +291,20 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         boolean b = ValidationUtils.esSpinnerValido(spinnerPromotor);
 
         if (a && b) {
-            Grupos data = new Grupos();
-            data.setNombre(nombre);
-            data.setIdPromotor(_promotorSeleccionado.getId());
-            data.setIdClienteResponsable(1);
 
-            setGrupos(data);
-            valido = true;
+            if (null != _clienteResponsable) {
+                Grupos data = new Grupos();
+                data.setNombre(nombre);
+                data.setIdPromotor(_promotorSeleccionado.getId());
+                data.setIdClienteResponsable(_clienteResponsable);
+
+                setGrupos(data);
+                valido = true;
+            } else {
+                Toast.makeText(tilNombre.getContext(), "Es necesario tener un responsable del grupo."
+                        , Toast.LENGTH_LONG).show();
+            }
+
         }
 
         return valido;
@@ -295,21 +319,46 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         boolean b = ValidationUtils.esSpinnerValido(spinnerPromotor);
 
         if (a && b) {
-            Grupos data = new Grupos();
-            data.setNombre(nombre);
-            data.setIdPromotor(_promotorSeleccionado.getId());
-            data.setIdClienteResponsable(1);
 
-            data.setIdEstatus(_grupoActual.getIdEstatus());
-            data.setIdUsuario(_grupoActual.getIdUsuario());
+            if (null != _clienteResponsable) {
+                Grupos data = new Grupos();
+                data.setNombre(nombre);
+                data.setIdPromotor(_promotorSeleccionado.getId());
+                data.setIdClienteResponsable(_clienteResponsable);
 
-            setGrupos(data);
-            valido = true;
+                data.setIdEstatus(_grupoActual.getIdEstatus());
+                data.setIdUsuario(_grupoActual.getIdUsuario());
+
+                setGrupos(data);
+                valido = true;
+            } else {
+                Toast.makeText(tilNombre.getContext(), "Es necesario tener un responsable del grupo."
+                        , Toast.LENGTH_LONG).show();
+            }
         }
 
         return valido;
     }
 
+    private boolean validarCliente() {
+        boolean valido = false;
+
+        boolean a = ValidationUtils.esSpinnerValido(spinnerClientes);
+
+        if (a) {
+            valido = true;
+            List<Clientes> clientes = AsignacionGrupoFragment.clientesList;
+            for (Clientes cliente : clientes) {
+                if (cliente.getId().equals(_clienteSeleccionado.getId())) {
+                    valido = false;
+                    Toast.makeText(getActivity(), "El cliente ya existe en el grupo...", Toast.LENGTH_SHORT).show();
+                    break;
+                }
+            }
+        }
+
+        return valido;
+    }
 
     public static void setGrupos(Grupos data) {
         _grupoActual.setNombre(data.getNombre());
@@ -318,5 +367,31 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
 
         _grupoActual.setIdEstatus(data.getIdEstatus());
         _grupoActual.setIdUsuario(data.getIdUsuario());
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_agregar_cliente_grupo:
+                if (this.validarCliente()) this.integrarCliente();
+                break;
+        }
+    }
+
+    public void integrarCliente() {
+        Clientes cliente = _clienteSeleccionado;
+        cliente.setIdEstatus(Constants.ESTATUS_NO_RESPONSABLE);
+        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.clientesList.add(cliente);
+        AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
+
+        IntegrantesGrupos integranteGrupo = new IntegrantesGrupos();
+        integranteGrupo.setIdEstatus(Constants.ACCION_REGISTRAR);
+        integranteGrupo.setIdCliente(cliente.getId());
+        integranteGrupo.setCliente(cliente.getNombre());
+        AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
+
+        _clienteSeleccionado = new Clientes();
+        spinnerClientes.setSelection(0);
     }
 }

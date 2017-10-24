@@ -1,6 +1,9 @@
 package com.skillcoders.diazfu.helpers;
 
 import com.skillcoders.diazfu.data.model.Grupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+
+import java.util.List;
 
 /**
  * Created by jvier on 16/10/2017.
@@ -9,7 +12,7 @@ import com.skillcoders.diazfu.data.model.Grupos;
 public class GruposHelper {
 
     private Grupos grupo;
-    //TODO LISTADO DE CLIENTES
+    private List<IntegrantesGrupos> integrantesGrupos;
 
     public GruposHelper() {
     }
@@ -20,5 +23,13 @@ public class GruposHelper {
 
     public void setGrupo(Grupos grupo) {
         this.grupo = grupo;
+    }
+
+    public List<IntegrantesGrupos> getIntegrantesGrupos() {
+        return integrantesGrupos;
+    }
+
+    public void setIntegrantesGrupos(List<IntegrantesGrupos> integrantesGrupos) {
+        this.integrantesGrupos = integrantesGrupos;
     }
 }

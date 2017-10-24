@@ -1,28 +1,36 @@
 package com.skillcoders.diazfu;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
+import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
+import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -38,11 +46,12 @@ import retrofit2.Response;
  * Created by jvier on 04/09/2017.
  */
 
-public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface {
+public class MainRegisterActivity extends AppCompatActivity implements MainRegisterInterface, DialogInterface.OnClickListener {
 
     private static final String TAG = MainRegisterActivity.class.getSimpleName();
 
     private DecodeExtraHelper _MAIN_DECODE;
+    private static DecodeItemHelper _decodeItem;
     private ProgressDialog pDialog;
 
     /**
@@ -52,6 +61,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private ReferenciasPromotoresRest referenciasPromotores;
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
+    private IntegrantesGruposRest integrantesGruposRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +80,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         referenciasPromotores = ApiUtils.getReferenciasPromotores();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
+        integrantesGruposRest = ApiUtils.getIntegrantesGrupos();
 
         this.onPreRender();
     }
@@ -404,7 +415,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceEditarGrupo(gruposHelper);
     }
 
-    private void webServiceEditarGrupo(GruposHelper gruposHelper) {
+    private void webServiceEditarGrupo(final GruposHelper gruposHelper) {
         gruposRest.editarGrupo(gruposHelper.getGrupo()).enqueue(new Callback<Grupos>() {
             @Override
             public void onResponse(Call<Grupos> call, Response<Grupos> response) {
@@ -414,6 +425,22 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     Grupos grupo = response.body();
 
                     if (null != grupo.getId()) {
+
+                        List<IntegrantesGrupos> integrantesGrupos = gruposHelper.getIntegrantesGrupos();
+
+                        for (IntegrantesGrupos integranteGrupo :
+                                integrantesGrupos) {
+                            integranteGrupo.setIdGrupo(grupo.getId());
+
+                            switch (integranteGrupo.getIdEstatus()) {
+                                case Constants.ACCION_REGISTRAR:
+                                    webServiceAgregarIntegranteGrupo(integranteGrupo);
+                                    break;
+                                case Constants.ACCION_ELIMINAR:
+                                    webServiceEliminarIntegranteGrupo(integranteGrupo);
+                                    break;
+                            }
+                        }
 
                         finish();
                         pDialog.dismiss();
@@ -433,5 +460,157 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
+    private void webServiceAgregarIntegranteGrupo(IntegrantesGrupos integranteGrupo) {
+        integrantesGruposRest.agregarIntegrante(integranteGrupo).enqueue(new Callback<IntegrantesGrupos>() {
+            @Override
+            public void onResponse(Call<IntegrantesGrupos> call, Response<IntegrantesGrupos> response) {
 
+                if (response.isSuccessful()) {
+
+                    IntegrantesGrupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IntegrantesGrupos> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void webServiceEliminarIntegranteGrupo(IntegrantesGrupos integranteGrupo) {
+        integrantesGruposRest.eliminarIntegrante(integranteGrupo).enqueue(new Callback<IntegrantesGrupos>() {
+            @Override
+            public void onResponse(Call<IntegrantesGrupos> call, Response<IntegrantesGrupos> response) {
+
+                if (response.isSuccessful()) {
+
+                    IntegrantesGrupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IntegrantesGrupos> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void setDecodeItem(DecodeItemHelper decodeItem) {
+        _decodeItem = decodeItem;
+    }
+
+    @Override
+    public void showQuestion(String titulo, String mensage) {
+        AlertDialog.Builder ad = new AlertDialog.Builder(this);
+
+        ad.setTitle(titulo);
+        ad.setMessage(mensage);
+        ad.setCancelable(false);
+        ad.setNegativeButton("Cancelar", this);
+        ad.setPositiveButton("Aceptar", this);
+        ad.show().getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getColor(R.color.bootstrap_brand_danger));
+    }
+
+    @Override
+    public void onClick(DialogInterface dialog, int which) {
+        {
+            int operation = 0;
+
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    switch (_decodeItem.getIdView()) {
+                        case R.id.item_btn_eliminar_asignacion_grupo:
+                            operation = Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS;
+                            break;
+                        case R.id.item_btn_responsable_asignacion_grupo:
+                            operation = Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS;
+                            break;
+                    }
+
+                    this.webServiceOperations(operation);
+            }
+
+        }
+
+    }
+
+    private void webServiceOperations(int operation) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        switch (operation) {
+            case Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS:
+                this.webServiceDeletePromotor();
+                break;
+            case Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS:
+                this.webServiceAsignarPromotor();
+                break;
+        }
+
+    }
+
+    private void webServiceDeletePromotor() {
+        Clientes cliente = (Clientes) _decodeItem.getItemModel();
+        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.clientesList.remove(cliente);
+        AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
+
+        if (cliente.getIdEstatus().equals(Constants.ESTATUS_RESPONSABLE)) {
+            FormularioGruposFragment._clienteResponsable = null;
+        }
+
+        IntegrantesGrupos integranteGrupo = new IntegrantesGrupos();
+        List<IntegrantesGrupos> integrantesGrupos = AsignacionGrupoFragment.integrantesGrupos;
+
+        for (IntegrantesGrupos integrante : integrantesGrupos) {
+
+            if (integrante.getIdCliente().equals(cliente.getId())) {
+                integranteGrupo.setId(integrante.getId());
+                integranteGrupo.setIdEstatus(Constants.ACCION_ELIMINAR);
+                integranteGrupo.setIdCliente(cliente.getId());
+                integranteGrupo.setCliente(cliente.getNombre());
+                AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
+                break;
+            }
+        }
+
+        pDialog.dismiss();
+    }
+
+    private void webServiceAsignarPromotor() {
+        Clientes cliente = (Clientes) _decodeItem.getItemModel();
+
+        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.clientesList.remove(cliente);
+        cliente.setIdEstatus(Constants.ESTATUS_RESPONSABLE);
+        AsignacionGrupoFragment.clientesList.add(cliente);
+        AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
+
+        FormularioGruposFragment._clienteResponsable = cliente.getId();
+
+        pDialog.dismiss();
+    }
 }

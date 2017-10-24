@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,42 +19,32 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/item_nombre_grupo"
+                android:id="@+id/item_nombre_asignacion_grupo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Francisco Javier Díaz Saurett"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="Nombre del interesado" />
 
             <TextView
-                android:id="@+id/item_estatus_grupo"
+                android:id="@+id/item_responsable_asignacion_grupo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Autorizado"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:text="Responsable"
+                android:textStyle="bold" />
+
 
             <Button
-                android:id="@+id/item_btn_autorizan_grupo"
+                android:id="@+id/item_btn_responsable_asignacion_grupo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@mipmap/ic_lock_open_black_48dp"
-                android:backgroundTint="@color/bootstrap_brand_success" />
-
-            <Button
-                android:id="@+id/item_btn_editar_grupo"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@mipmap/ic_mode_edit_black_48dp"
+                android:background="@mipmap/ic_supervisor_account_black_48dp"
                 android:backgroundTint="@color/bootstrap_brand_primary" />
 
             <Button
-                android:id="@+id/item_btn_eliminar_grupo"
+                android:id="@+id/item_btn_eliminar_asignacion_grupo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"

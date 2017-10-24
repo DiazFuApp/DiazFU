@@ -197,16 +197,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void showQuestion() {
+    public void showQuestion(String titulo, String mensage) {
         AlertDialog.Builder ad = new AlertDialog.Builder(this);
 
-        ad.setTitle("Eliminar");
-        ad.setMessage("¿Esta seguro que desea elminar?");
+        ad.setTitle(titulo);
+        ad.setMessage(mensage);
         ad.setCancelable(false);
         ad.setNegativeButton("Cancelar", this);
         ad.setPositiveButton("Aceptar", this);
         ad.show().getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getColor(R.color.bootstrap_brand_danger));
-
     }
 
     @Override
@@ -225,6 +224,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_grupo:
                         operation = Constants.WS_KEY_ELIMINAR_GRUPOS;
                         break;
+                    case R.id.item_btn_autorizan_grupo:
+                        operation = Constants.WS_KEY_AUTORIZAR_GRUPOS;
+                        break;
                 }
 
                 this.webServiceOperations(operation);
@@ -233,7 +235,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     private void webServiceOperations(int operation) {
-        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+               pDialog = new ProgressDialog(NavigationDrawerActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
@@ -249,8 +251,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.WS_KEY_ELIMINAR_GRUPOS:
                 this.webServiceDeleteGrupos();
                 break;
+            case Constants.WS_KEY_AUTORIZAR_GRUPOS:
+                this.webServiceAutorizarGrupo();
+                break;
+            case Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS:
+                this.webServiceAutorizarGrupo();
+                break;
+            case Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS:
+                this.webServiceAutorizarGrupo();
+                break;
         }
-
     }
 
     private void webServiceDeletePromotor() {
@@ -339,6 +349,37 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void webServiceAutorizarGrupo() {
+        Grupos grupo = (Grupos) _decodeItem.getItemModel();
+        grupo.setIdEstatus(Constants.ESTATUS_AUTORIZADO);
+        gruposRest.editarGrupo(grupo).enqueue(new Callback<Grupos>() {
+            @Override
+            public void onResponse(Call<Grupos> call, Response<Grupos> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Grupos grupo = response.body();
+
+                    if (null != grupo.getId()) {
+                        GruposFragment.listadoGrupos();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Grupos> call, Throwable t) {
+
+            }
+        });
+
     }
 
     @Override

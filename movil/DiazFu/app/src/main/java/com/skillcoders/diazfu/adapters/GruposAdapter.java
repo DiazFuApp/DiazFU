@@ -12,6 +12,7 @@ import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
+        TextView txtEstatus;
+        Button btnAutorizar;
         Button btnEditar;
         Button btnEliminar;
 
@@ -35,6 +38,8 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_grupo);
+            txtEstatus = (TextView) itemView.findViewById(R.id.item_estatus_grupo);
+            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizan_grupo);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_grupo);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_grupo);
         }
@@ -71,7 +76,31 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
+        String estatus = "";
+
+        switch (item.getIdEstatus()) {
+            case Constants.ESTATUS_AUTORIZADO:
+                estatus = Constants.ESTATUS_AUTORIZADO_STR;
+                holder.btnAutorizar.setVisibility(View.GONE);
+                break;
+            case Constants.ESTATUS_NO_AUTORIZADO:
+                holder.btnAutorizar.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+
         holder.txtNombre.setText(item.getNombre());
+        holder.txtEstatus.setText(estatus);
+
+        holder.btnAutorizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
+                GruposFragment.onListenerAction(decodeItem);
+            }
+        });
+
         holder.btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,3 +126,4 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
 
 
 }
+

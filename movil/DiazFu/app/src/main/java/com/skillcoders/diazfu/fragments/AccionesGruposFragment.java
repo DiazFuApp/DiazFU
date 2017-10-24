@@ -125,6 +125,7 @@ public class AccionesGruposFragment extends Fragment implements View.OnClickList
     private void registrar() {
         GruposHelper helper = new GruposHelper();
         helper.setGrupo(FormularioGruposFragment._grupoActual);
+        helper.setIntegrantesGrupos(AsignacionGrupoFragment.integrantesGrupos);
 
         activityInterface.registrarGrupo(helper);
     }
@@ -132,6 +133,7 @@ public class AccionesGruposFragment extends Fragment implements View.OnClickList
     private void editar() {
         GruposHelper helper = new GruposHelper();
         helper.setGrupo(FormularioGruposFragment._grupoActual);
+        helper.setIntegrantesGrupos(AsignacionGrupoFragment.integrantesGrupos);
 
         activityInterface.editarGrupo(helper);
     }

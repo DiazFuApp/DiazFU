@@ -1,6 +1,7 @@
 package com.skillcoders.diazfu.fragments.interfaces;
 
 import com.skillcoders.diazfu.helpers.ClientesHelper;
+import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
@@ -9,6 +10,16 @@ import com.skillcoders.diazfu.helpers.PromotoresHelper;
  */
 
 public interface MainRegisterInterface {
+
+    /**
+     * Permite mostrar el dialogo de preguntas
+     **/
+    void showQuestion(String titulo, String mensage);
+
+    /**
+     * Permite transferir los valores seleccionados en DecodeItem
+     */
+    void setDecodeItem(DecodeItemHelper decodeItem);
 
     void registrarPromotor(PromotoresHelper promotoresHelper);
 

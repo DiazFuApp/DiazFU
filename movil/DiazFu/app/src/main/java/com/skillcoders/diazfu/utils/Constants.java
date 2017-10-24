@@ -24,6 +24,17 @@ public class Constants {
      **/
     public static final int TIPO_REFERENCIA_CONOCIDO = 1;
     public static final int TIPO_REFERENCIA_AVAL = 2;
+    public static final int ESTATUS_AUTORIZADO = 4;
+    public static final int ESTATUS_NO_AUTORIZADO = 3;
+    public static final int ESTATUS_NO_RESPONSABLE = 0;
+    public static final int ESTATUS_RESPONSABLE = 1;
+
+    /**
+     * Constantes traducidas
+     **/
+    public static final String ESTATUS_RESPONSABLE_STR = "Responsable";
+    public static final String ESTATUS_AUTORIZADO_STR = "Autorizado";
+    public static final String ESTATUS_NO_AUTORIZADO_STR = "No Autorizado";
 
 
     /**
@@ -40,6 +51,7 @@ public class Constants {
     public static final int ACCION_REGISTRAR = 1;
     public static final int ACCION_EDITAR = 2;
     public static final int ACCION_VER = 3;
+    public static final int ACCION_ELIMINAR = 4;
 
     /**
      * Key Preferences
@@ -83,6 +95,8 @@ public class Constants {
     public static final String FORMULARIO_CLIENTES = "fragment_formulario_clientes";
     public static final String FORMULARIO_CLIENTES_ACCIONES = "fragment_formulario_clientes_acciones";
     public static final String FORMULARIO_GRUPOS = "fragment_formulario_grupos";
+    public static final String FORMULARIO_GRUPOS_ASIGNACIONES = "fragment_formulario_grupos_asignaciones";
+    public static final String FORMULARIO_GRUPOS_ASIGNACIONES_LISTADO = "fragment_formulario_grupos_asignaciones_listado";
     public static final String FORMULARIO_GRUPOS_ACCIONES = "fragment_formulario_grupos_acciones";
 
     /**
@@ -151,5 +165,8 @@ public class Constants {
     public static final int WS_KEY_ELIMINAR_PROMOTORES = 10;
     public static final int WS_KEY_ELIMINAR_CLIENTES = 20;
     public static final int WS_KEY_ELIMINAR_GRUPOS = 30;
+    public static final int WS_KEY_AUTORIZAR_GRUPOS = 31;
+    public static final int WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS = 40;
+    public static final int WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS = 41;
 
 }

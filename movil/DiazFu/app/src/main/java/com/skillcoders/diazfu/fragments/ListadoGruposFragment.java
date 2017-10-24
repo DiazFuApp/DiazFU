@@ -44,6 +44,8 @@ public class ListadoGruposFragment extends Fragment implements View.OnClickListe
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
         mainFragment.replace(R.id.listado_grupos_container, new GruposFragment(), Constants.FRAGMENT_GRUPOS);
         mainFragment.commit();
+
+        getActivity().setTitle(getString(R.string.default_activity_title_grupos));
     }
 
     @Override
