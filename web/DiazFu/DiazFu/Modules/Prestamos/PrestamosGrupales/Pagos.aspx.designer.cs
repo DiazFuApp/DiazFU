@@ -13,6 +13,15 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales {
     public partial class Pagos {
         
         /// <summary>
+        /// Control ddl_TipoPago.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddl_TipoPago;
+        
+        /// <summary>
         /// Control r_Clientes.
         /// </summary>
         /// <remarks>

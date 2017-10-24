@@ -563,6 +563,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                     }
                     break;
                 case 5:
+                case 6:
                     jtAutorizacion.Visible = true;
                     jEntrega.Visible = true;
                     tb_CantidadAOtorgar.Text = Prestamo.CantidadOtorgada.ToString();
@@ -702,9 +703,10 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                     {
                         Pago.Plazo = i.ToString() + "/" + CantidadPagos.ToString();
                         Pago.IdCliente = int.Parse(Fila["idCliente"].ToString());
-                        Pago.Monto = MontoPorCliente / CantidadPagos;
+                        int Plazo = int.Parse(Pago.Plazo.Substring(0, Pago.Plazo.IndexOf('/')));
+                        Pago.FechaProgramada = DateTime.Now.AddDays(Plazo * 7);
+                        Pago.MontoAPagar = MontoPorCliente / CantidadPagos;
                         Pago.IdUsuario = IDUsuarioActual;
-                        Pago.IdEstatus = 1;
                         Pago.Agregar();
                     }
                 }
@@ -726,6 +728,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
             };
             Prestamo.ConsultarID();
             Prestamo.IdEstatus = 5;
+            Prestamo.FechaEntrega = DateTime.Now;
             Prestamo.IdUsuario = IDUsuarioActual;
             Prestamo.Actualizar();
 
@@ -744,8 +747,6 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                         IdUsuario = IDUsuarioActual
                     };
                     Pago.ConsultarID();
-                    int Plazo = int.Parse(Pago.Plazo.Substring(0, Pago.Plazo.IndexOf('/')));
-                    Pago.FechaProgramada = DateTime.Now.AddDays(Plazo * 7);
                     Pago.IdEstatus = 7;
                     Pago.Actualizar();
                 }

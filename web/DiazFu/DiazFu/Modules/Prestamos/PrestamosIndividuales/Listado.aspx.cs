@@ -55,7 +55,13 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                 else if (IdEstatus == 6)
                 {
                     HtmlAnchor aAutorizar = (HtmlAnchor)e.Row.FindControl("aAutorizar");
-                    aAutorizar.Visible = false;
+                    aAutorizar.InnerHtml = "Ver";
+                }
+
+                if (IdEstatus == 5 || IdEstatus == 7)
+                {
+                    HtmlAnchor aPagar = (HtmlAnchor)e.Row.FindControl("aPagar");
+                    aPagar.Visible = true;
                 }
             }
         }

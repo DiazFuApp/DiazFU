@@ -564,6 +564,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                     }
                     break;
                 case 5:
+                case 6:
                     jtAutorizacion.Visible = true;
                     jEntrega.Visible = true;
                     tb_CantidadAOtorgar.Text = Prestamo.CantidadOtorgada.ToString();
@@ -696,10 +697,12 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                 Id = Prestamo.IdCliente
             };
             Cliente.ConsultarID();
-            Pago.Monto = ((Prestamo.CantidadOtorgada * (1 + (Prestamo.Interes / 100))) - Prestamo.Anticipo) / CantidadPagos;
+            Pago.MontoAPagar = ((Prestamo.CantidadOtorgada * (1 + (Prestamo.Interes / 100))) - Prestamo.Anticipo) / CantidadPagos;
             for (int i = 1; i <= CantidadPagos; i++)
             {
                 Pago.Plazo = i.ToString() + "/" + CantidadPagos.ToString();
+                int Plazo = int.Parse(Pago.Plazo.Substring(0, Pago.Plazo.IndexOf('/')));
+                Pago.FechaProgramada = DateTime.Now.AddDays(Plazo * 30);
                 Pago.IdCliente = Cliente.Id;
                 Pago.IdUsuario = IDUsuarioActual;
                 Pago.IdEstatus = 1;
@@ -723,6 +726,7 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
             Prestamo.ConsultarID();
             Prestamo.IdEstatus = 5;
             Prestamo.IdUsuario = IDUsuarioActual;
+            Prestamo.FechaEntrega = DateTime.Now;
             Prestamo.Actualizar();
 
             App_Code.Entidades.Pagos Pagos = new App_Code.Entidades.Pagos
@@ -740,8 +744,6 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                         IdUsuario = IDUsuarioActual
                     };
                     Pago.ConsultarID();
-                    int Plazo = int.Parse(Pago.Plazo.Substring(0, Pago.Plazo.IndexOf('/')));
-                    Pago.FechaProgramada = DateTime.Now.AddDays(Plazo * 30);
                     Pago.IdEstatus = 7;
                     Pago.Actualizar();
                 }
