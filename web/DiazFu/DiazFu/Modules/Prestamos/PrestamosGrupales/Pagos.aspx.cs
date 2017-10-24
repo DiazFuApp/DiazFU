@@ -83,7 +83,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
 
                                     App_Code.Entidades.Pagos Pago = new App_Code.Entidades.Pagos
                                     {
-                                        Id = int.Parse(fila["id"].ToString())
+                                        Id = int.Parse(fila["id"].ToString()),
+                                        IdUsuario = IdUsuarioActual
                                     };
                                     Pago.ConsultarID();
                                     //ASIGNAR TIPO DE PAGO
@@ -134,7 +135,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosGrupales
                     {
                         App_Code.Entidades.PrestamosGrupales Prestamo = new App_Code.Entidades.PrestamosGrupales
                         {
-                            Id = IDPrestamoGrupal
+                            Id = IDPrestamoGrupal,
+                            IdUsuario = IdUsuarioActual
                         };
                         Prestamo.ConsultarID();
                         Prestamo.IdEstatus = 6;

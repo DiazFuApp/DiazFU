@@ -94,6 +94,15 @@ namespace DiazFu {
         protected global::System.Web.UI.WebControls.LinkButton lbPagos;
         
         /// <summary>
+        /// Control lbActividades.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lbActividades;
+        
+        /// <summary>
         /// Control cphContenido.
         /// </summary>
         /// <remarks>

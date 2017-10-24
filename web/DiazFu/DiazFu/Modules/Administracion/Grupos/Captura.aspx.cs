@@ -74,6 +74,7 @@ namespace DiazFu.Modules.Administracion.Grupos
             Grupos.ConsultarID();
             tb_Nombre.Text = Grupos.Nombre;
             ddl_Promotor.SelectedValue = Grupos.IdPromotor.ToString();
+            b_Crear.Text = "Actualizar Grupo";
         }
 
         /// <summary>

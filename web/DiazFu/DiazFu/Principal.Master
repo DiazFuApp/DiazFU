@@ -106,6 +106,9 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <li id="liActividades">
+                                    <asp:LinkButton ID="lbActividades" runat="server" PostBackUrl="~/Modules/Actividades/Listado.aspx"><i class="fa fa-clipboard mr-2" aria-hidden="true"></i>Actividades</asp:LinkButton>
+                                </li>
                             </ul>
                         </div>
                         <!--/.nav-collapse -->
