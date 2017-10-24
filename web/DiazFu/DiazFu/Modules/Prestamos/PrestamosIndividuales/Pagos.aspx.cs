@@ -91,7 +91,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                 int IDPrestamo = int.Parse(Request.QueryString["id"].ToString());
                 App_Code.Entidades.PrestamosIndividuales Prestamo = new App_Code.Entidades.PrestamosIndividuales
                 {
-                    Id = IDPrestamo
+                    Id = IDPrestamo,
+                    IdUsuario = IdUsuarioActual
                 };
                 Prestamo.ConsultarID();
                 int? IDCliente = Prestamo.IdCliente;
@@ -113,7 +114,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                             {
                                 App_Code.Entidades.Pagos Pago = new App_Code.Entidades.Pagos
                                 {
-                                    Id = int.Parse(fila["id"].ToString())
+                                    Id = int.Parse(fila["id"].ToString()),
+                                    IdUsuario = IdUsuarioActual
                                 };
                                 Pago.ConsultarID();
                                 //ASIGNAR TIPO DE PAGO
@@ -152,7 +154,8 @@ namespace DiazFu.Modules.Prestamos.PrestamosIndividuales
                     {
                         Prestamo = new App_Code.Entidades.PrestamosIndividuales
                         {
-                            Id = IDPrestamo
+                            Id = IDPrestamo,
+                            IdUsuario = IdUsuarioActual
                         };
                         Prestamo.ConsultarID();
                         Prestamo.IdEstatus = 6;
