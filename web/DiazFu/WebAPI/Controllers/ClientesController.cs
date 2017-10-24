@@ -65,9 +65,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/clientes/agregar")]
-        public DataSet Add([FromBody]Clientes Cliente)
+        public Clientes Add([FromBody]Clientes Cliente)
         {
-            return Cliente.Agregar();
+            Cliente.Agregar();
+            return Cliente;
         }
 
         /// <summary>
@@ -77,9 +78,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/clientes/actualizar")]
-        public DataSet Update([FromBody]Clientes Cliente)
+        public Clientes Update([FromBody]Clientes Cliente)
         {
-            return Cliente.Actualizar();
+            Cliente.Actualizar();
+            return Cliente;
         }
 
         /// <summary>
@@ -89,10 +91,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/clientes/eliminar")]
-        public DataSet Delete([FromBody]Clientes Cliente)
+        public Clientes Delete([FromBody]Clientes Cliente)
         {
             Cliente.IdEstatus = 2;
-            return Cliente.Actualizar();
+            Cliente.Actualizar();
+            return Cliente;
         }
     }
 }

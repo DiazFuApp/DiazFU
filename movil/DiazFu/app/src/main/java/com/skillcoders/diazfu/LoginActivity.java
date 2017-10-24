@@ -1,15 +1,20 @@
 package com.skillcoders.diazfu;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
-import com.skillcoders.diazfu.data.remote.SOService;
+import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.List;
 
@@ -31,16 +36,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText txtUsername, txtPassword;
 
     /**
-     * Clases android
+     * Implementaciones REST
      **/
-    private SOService mService;
+    private UsuariosRest usuariosRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mService = ApiUtils.getSOService();
+        usuariosRest = ApiUtils.getUsuariosRest();
 
         txtUsername = (EditText) findViewById(R.id.txtUsername);
         txtPassword = (EditText) findViewById(R.id.txtPassword);
@@ -64,7 +69,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         boolean valido = true;
 
         if (valido) {
-            loginService(txtUsername.getText().toString(),txtPassword.getText().toString());
+            loginService(txtUsername.getText().toString(), txtPassword.getText().toString());
         }
     }
 
@@ -74,21 +79,59 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         usuario.setNombre(username);
         usuario.setContrasena(password);
 
-      mService.usuariosLogin(usuario).enqueue(new Callback<Usuarios>() {
-          @Override
-          public void onResponse(Call<Usuarios> call, Response<Usuarios> response) {
-              Log.i(TAG, "post submitted to API." + response.body().toString());
-          }
+        usuariosRest.usuariosLogin(usuario).enqueue(new Callback<Usuarios>() {
+            @Override
+            public void onResponse(Call<Usuarios> call, Response<Usuarios> response) {
 
-          @Override
-          public void onFailure(Call<Usuarios> call, Throwable t) {
-              Log.e(TAG, "Unable to submit post to API.");
-          }
-      });
+                if (response.isSuccessful()) {
+
+                    Usuarios usuario = response.body();
+
+                    if (null != usuario.getId()) {
+                        openNavigation(usuario);
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Usuario y contraseña incorrectos", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Usuarios> call, Throwable t) {
+                Log.e(TAG, "Unable to submit post to API.");
+            }
+        });
+    }
+
+    private void openNavigation(Usuarios usuario) {
+
+        this.saveSessionPreferences(usuario);
+
+        Intent intent = new Intent(LoginActivity.this, NavigationDrawerActivity.class);
+        intent.putExtra(Constants.KEY_SESSION_USER, usuario);
+        startActivity(intent);
+        finish();
+    }
+
+    private void saveSessionPreferences(Usuarios usuario) {
+        SharedPreferences prefsCredencials = getSharedPreferences(Constants.KEY_PREF_CREDENCIALS, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor credencials = prefsCredencials.edit();
+        credencials.putString(Constants.KEY_PREF_CREDENCIALS_USERNAME, usuario.getNombre());
+        credencials.putString(Constants.KEY_PREF_CREDENCIALS_PASSWORD, txtPassword.getText().toString());
+        credencials.putBoolean(Constants.KEY_PREF_CREDENCIALS_SESSION, true);
+        credencials.commit();
     }
 
     private void test() {
-        mService.getUsuario(Long.valueOf(txtUsername.getText().toString())).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        usuariosRest.getUsuario(Long.valueOf(txtUsername.getText().toString()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Usuarios>() {
                     @Override
                     public void onCompleted() {
@@ -126,7 +169,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void testAll() {
-        mService.getUsuarios().enqueue(new Callback<List<Usuarios>>() {
+        usuariosRest.getUsuarios().enqueue(new Callback<List<Usuarios>>() {
             @Override
             public void onResponse(Call<List<Usuarios>> call, Response<List<Usuarios>> response) {
 

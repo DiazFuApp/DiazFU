@@ -118,6 +118,28 @@ namespace WebAPI.Models
         }
 
         /// <summary>
+        /// Método para consultar un usuario según su ID.
+        /// </summary>
+        public void ConsultarID()
+        {
+            DataSet Consulta = new DataSet();
+            Consulta = EjecutarSP(3);
+            if (Consulta.Tables[0].Rows.Count > 0)
+            {
+                DataRow Fila = Consulta.Tables[0].Rows[0];
+                Id = int.Parse(Fila["Id"].ToString());
+                Nombre = Fila["Nombre"].ToString();
+                IdClienteResponsable = int.Parse(Fila["IdClienteResponsable"].ToString());
+                IdPromotor = int.Parse(Fila["IdPromotor"].ToString());
+                IdEstatus = int.Parse(Fila["IdEstatus"].ToString());
+            }
+            else
+            {
+                Id = null;
+            }
+        }
+
+        /// <summary>
         /// Método para consultar un grupo.
         /// </summary>
         /// <returns>Lista con todos los grupos activos.</returns>

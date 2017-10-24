@@ -102,3 +102,38 @@ C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\Diaz
 C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.csproj.CoreCompileInputs.cache
 C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.dll
 C:\Users\Fred Gz\Documents\SkillCoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.pdb
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.exe
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.exe.config
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csc.rsp
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csi.exe
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\csi.rsp
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.AppContext.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Collections.Immutable.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Diagnostics.StackTrace.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.IO.FileSystem.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.IO.FileSystem.Primitives.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\System.Reflection.Metadata.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.exe
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.exe.config
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\vbc.rsp
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\VBCSCompiler.exe
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\roslyn\VBCSCompiler.exe.config
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.dll.config
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\DiazFu.pdb
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.csprojResolveAssemblyReference.cache
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.csproj.CoreCompileInputs.cache
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.dll
+C:\Desarrollo\skillcoders\DiazFU\web\DiazFu\DiazFu\obj\Release\DiazFu.pdb

@@ -6,9 +6,42 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_soporte">Soporte</string>
+    <string name="action_logout">Cerrar Sessión</string>
+
     <string name="default_company_name">SkillCoders © 2017</string>
     <string name="default_login_email">Email</string>
     <string name="default_login_password">Password</string>
     <string name="default_login_btn">Login</string>
     <string name="default_login_forgot_password">Olvide mi contraseña</string>
+
+    <!--Opciones del menu-->
+    <string name="default_item_menu_title_inicio">Inicio</string>
+    <string name="default_item_menu_title_administracion">Administración</string>
+    <string name="default_item_menu_title_prestamos">Préstamos</string>
+    <string name="default_item_menu_title_pagos">Pagos</string>
+    <string name="default_item_menu_title_promotores">Promotores</string>
+    <string name="default_item_menu_title_clientes">Clientes</string>
+    <string name="default_item_menu_title_grupos">Grupos</string>
+    <string name="default_item_menu_title_prestamos_grupales">Préstamos Grupales</string>
+    <string name="default_item_menu_title_prestamos_individuales">Préstamos Individuales</string>
+    <string name="default_item_menu_title_registro_pagos">Registro de Pagos</string>
+
+    <!--Titulos de la actividad-->
+    <string name="default_activity_title_promotores">Promotores</string>
+    <string name="default_activity_title_clientes">Clientes</string>
+    <string name="default_activity_title_grupos">Grupos</string>
+
+    <!--Form subtitle-->
+    <string name="default_form_title_edit">Modificar</string>
+    <string name="default_form_title_new">Registrar</string>
+
+
+    <string name="default_powered_by">© 2017 Copyright | Powered by SkillCoders</string>
+
+    <string name="default_loading_msg">Por favor espera un momento</string>
+    <string name="default_alert_dialog_aceptar">Aceptar</string>
+    <string name="default_alert_dialog_cancelar">Cancelar</string>
+    <string name="default_alert_dialog_si">Si</string>
+    <string name="default_alert_dialog_no">No</string>
 </resources>

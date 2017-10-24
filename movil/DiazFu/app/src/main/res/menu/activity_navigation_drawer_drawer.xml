@@ -1,36 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
-    </group>
-
-    <item android:title="Communicate">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/menu_item_inicio"
+        android:checked="true"
+        android:icon="@mipmap/ic_home_black_48dp"
+        android:title="@string/default_item_menu_title_inicio" />
+    <item
+        android:id="@+id/menu_title_administracion"
+        android:title="@string/default_item_menu_title_administracion">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+            <group
+                android:id="@+id/submenu_administracion"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_item_promotores"
+                    android:icon="@mipmap/ic_assignment_ind_black_48dp"
+                    android:title="@string/default_item_menu_title_promotores" />
+                <item
+                    android:id="@+id/menu_item_clientes"
+                    android:icon="@mipmap/ic_person_black_48dp"
+                    android:title="@string/default_item_menu_title_clientes" />
+                <item
+                    android:id="@+id/menu_item_grupos"
+                    android:icon="@mipmap/ic_group_black_48dp"
+                    android:title="@string/default_item_menu_title_grupos" />
+            </group>
         </menu>
     </item>
-
+    <item
+        android:id="@+id/menu_title_prestamos"
+        android:title="@string/default_item_menu_title_prestamos">
+        <menu>
+            <group
+                android:id="@+id/submenu_prestamos"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_item_prestamos_grupales"
+                    android:icon="@mipmap/ic_wc_black_48dp"
+                    android:title="@string/default_item_menu_title_prestamos_grupales" />
+                <item
+                    android:id="@+id/menu_item_prestamos_individuales"
+                    android:icon="@mipmap/ic_credit_card_black_48dp"
+                    android:title="@string/default_item_menu_title_prestamos_individuales" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menu_title_pagos"
+        android:menuCategory="container"
+        android:title="@string/default_item_menu_title_pagos">
+        <menu>
+            <group
+                android:id="@+id/submenu_pagos"
+                android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_item_registro_pagos"
+                    android:icon="@mipmap/ic_attach_money_black_48dp"
+                    android:title="@string/default_item_menu_title_registro_pagos" />
+            </group>
+        </menu>
+    </item>
+</group>
 </menu>

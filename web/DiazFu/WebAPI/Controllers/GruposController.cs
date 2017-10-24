@@ -38,10 +38,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("api/grupos/{id}")]
-        public List<Grupos> Get(int id)
+        public Grupos Get(int id)
         {
             Grupo.Id = id;
-            return Grupo.Consultar();
+            Grupo.ConsultarID();
+            return Grupo;
         }
 
         /// <summary>
@@ -76,9 +77,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/grupos/agregar")]
-        public DataSet Add([FromBody]Grupos Grupo)
+        public Grupos Add([FromBody]Grupos Grupo)
         {
-            return Grupo.Agregar();
+            Grupo.Agregar();
+            return Grupo;
         }
 
         /// <summary>
@@ -88,9 +90,10 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/grupos/actualizar")]
-        public DataSet Update([FromBody]Grupos Grupo)
+        public Grupos Update([FromBody]Grupos Grupo)
         {
-            return Grupo.Actualizar();
+            Grupo.Actualizar();
+            return Grupo;
         }
 
         /// <summary>
@@ -100,10 +103,11 @@ namespace WebAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/grupos/eliminar")]
-        public DataSet Delete([FromBody]Grupos Grupo)
+        public Grupos Delete([FromBody]Grupos Grupo)
         {
             Grupo.IdEstatus = 2;
-            return Grupo.Actualizar();
+            Grupo.Actualizar();
+            return Grupo;
         }
     }
 }
