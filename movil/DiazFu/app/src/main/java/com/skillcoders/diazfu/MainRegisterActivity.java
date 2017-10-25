@@ -17,12 +17,14 @@ import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
+import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
@@ -32,6 +34,7 @@ import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
+import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
@@ -62,6 +65,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
     private IntegrantesGruposRest integrantesGruposRest;
+    private PrestamosGrupalesRest prestamosGrupalesRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,10 +81,11 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         ab.setDisplayHomeAsUpEnabled(true);
 
         promotoresRest = ApiUtils.getPromotoresRest();
-        referenciasPromotores = ApiUtils.getReferenciasPromotores();
+        referenciasPromotores = ApiUtils.getReferenciasPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
-        integrantesGruposRest = ApiUtils.getIntegrantesGrupos();
+        integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
+        prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
 
         this.onPreRender();
     }
@@ -512,6 +517,61 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             }
         });
+    }
+
+    @Override
+    public void registrarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarPrestamoGrupal(prestamosGrupalesHelper);
+    }
+
+    private void webServiceRegistrarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        prestamosGrupalesRest.agregarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
+            @Override
+            public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
+
+                if (response.isSuccessful()) {
+
+                    PrestamosGrupales prestamoGrupal = response.body();
+
+                    if (null != prestamoGrupal.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrestamosGrupales> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    @Override
+    public void editarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEditarPrestamoGrupal(prestamosGrupalesHelper);
+    }
+
+    private void webServiceEditarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
     }
 
     @Override

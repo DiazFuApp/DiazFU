@@ -1,8 +1,10 @@
 package com.skillcoders.diazfu.fragments.interfaces;
 
+import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
+import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
 /**
@@ -32,4 +34,8 @@ public interface MainRegisterInterface {
     void registrarGrupo(GruposHelper gruposHelper);
 
     void editarGrupo(GruposHelper gruposHelper);
+
+    void registrarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
+
+    void editarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 }

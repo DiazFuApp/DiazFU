@@ -67,7 +67,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
         asignacionesAdapter.setOnClickListener(this);
 
         clientesRest = ApiUtils.getClientesRest();
-        integrantesRest = ApiUtils.getIntegrantesGrupos();
+        integrantesRest = ApiUtils.getIntegrantesGruposRest();
 
         return view;
     }

@@ -15,7 +15,6 @@ import android.widget.DatePicker;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
-import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
@@ -87,7 +86,7 @@ public class FormularioReferenciaPromotoresFragment extends Fragment implements 
             }
         };
 
-        referenciasPromotoresRest = ApiUtils.getReferenciasPromotores();
+        referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
 
         return view;
     }
