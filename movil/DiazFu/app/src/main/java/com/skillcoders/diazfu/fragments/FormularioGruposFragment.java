@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -28,7 +27,6 @@ import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
-import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.util.ArrayList;

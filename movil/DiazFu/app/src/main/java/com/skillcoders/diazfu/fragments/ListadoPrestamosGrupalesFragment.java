@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
@@ -22,16 +21,16 @@ import com.skillcoders.diazfu.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class ListadoGruposFragment extends Fragment implements View.OnClickListener {
+public class ListadoPrestamosGrupalesFragment extends Fragment implements View.OnClickListener {
 
     private Button btnRegistrar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_listado_grupos, container, false);
+        View view = inflater.inflate(R.layout.fragment_listado_prestamos_grupales, container, false);
 
-        btnRegistrar = (Button) view.findViewById(R.id.btn_registrar_grupo);
+        btnRegistrar = (Button) view.findViewById(R.id.btn_registrar_prestamo_grupal);
         btnRegistrar.setOnClickListener(this);
 
         return view;
@@ -42,7 +41,7 @@ public class ListadoGruposFragment extends Fragment implements View.OnClickListe
         super.onStart();
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_grupos_container, new GruposFragment(), Constants.FRAGMENT_PRESTAMOS_GRUPALES);
+        mainFragment.replace(R.id.listado_prestamos_grupales_container, new PrestamosGrupalesFragment(), Constants.FRAGMENT_PRESTAMOS_GRUPALES);
         mainFragment.commit();
 
         getActivity().setTitle(getString(R.string.default_activity_title_grupos));
@@ -66,7 +65,7 @@ public class ListadoGruposFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_registrar_grupo:
+            case R.id.btn_registrar_prestamo_grupal:
                 DecodeExtraHelper extra = new DecodeExtraHelper();
 
                 extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));

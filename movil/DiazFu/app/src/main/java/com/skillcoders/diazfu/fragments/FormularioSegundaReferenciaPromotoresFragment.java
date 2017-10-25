@@ -86,7 +86,7 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
             }
         };
 
-        referenciasPromotoresRest = ApiUtils.getReferenciasPromotores();
+        referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
 
         return view;
     }
