@@ -10,19 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.skillcoders.diazfu.IntegrantesPlazosActivity;
-import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.adapters.IntegrantesPlazosAdapter;
-import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.adapters.PlazosAdapter;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
-import com.skillcoders.diazfu.data.model.PrestamosGrupales;
+import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
-import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
-import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
+import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
-import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
@@ -39,18 +34,20 @@ import rx.schedulers.Schedulers;
  * Created by saurett on 24/02/2017.
  */
 
-public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment implements View.OnClickListener {
+public class IntegrantePlazosFragment extends Fragment implements View.OnClickListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
-    public static List<IntegrantesGrupos> integrantesGruposList;
+    public static List<Pagos> pagosList;
     private static RecyclerView recyclerView;
-    public static IntegrantesPlazosAdapter adapter;
-    private static MainRegisterInterface activityInterface;
+    public static PlazosAdapter adapter;
+
+    public static List<IntegrantesGrupos> integrantesGrupos;
+
     /**
      * Implementaciones REST
      */
-    private static IntegrantesGruposRest integrantesRest;
+    private static PagosRest pagosRest;
     private static ClientesRest clientesRest;
 
     @Override
@@ -61,11 +58,11 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        adapter = new IntegrantesPlazosAdapter();
+        adapter = new PlazosAdapter();
         adapter.setOnClickListener(this);
 
         clientesRest = ApiUtils.getClientesRest();
-        integrantesRest = ApiUtils.getIntegrantesGruposRest();
+        pagosRest = ApiUtils.getPagosRest();
 
         return view;
     }
@@ -88,25 +85,22 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
 
     private void onPreRender() {
 
-        switch (_MAIN_DECODE.getAccionFragmento()) {
-            case Constants.ACCION_EDITAR:
-            case Constants.ACCION_VER:
-            case Constants.ACCION_ENTREGAR:
-                this.listadoIntegrantes();
-                break;
-            default:
-                break;
-        }
+        integrantesGrupos = new ArrayList<>();
+        this.listadoIntegrantes();
     }
 
     private void listadoIntegrantes() {
 
-        final PrestamosGrupales prestamoGrupal = (PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel();
+        final IntegrantesGrupos integranteGrupo = (IntegrantesGrupos) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        integrantesRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupo())
+        Pagos pago = new Pagos();
+        pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);
+        pago.setIdPrestamo(integranteGrupo.getId());
+
+        pagosRest.getPago(pago)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<IntegrantesGrupos>>() {
+                .subscribe(new Subscriber<List<Pagos>>() {
 
 
                     @Override
@@ -120,17 +114,22 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
                     }
 
                     @Override
-                    public void onNext(List<IntegrantesGrupos> integrantesGruposes) {
+                    public void onNext(List<Pagos> pagos) {
 
-                        adapter = new IntegrantesPlazosAdapter();
-                        integrantesGruposList = new ArrayList<>();
+                        adapter = new PlazosAdapter();
+                        pagosList = new ArrayList<>();
 
-                        for (IntegrantesGrupos integranteGrupo : integrantesGruposes) {
-                            integranteGrupo.setId(prestamoGrupal.getId());
-                            integrantesGruposList.add(integranteGrupo);
+                        for (Pagos pago :
+                                pagos) {
+                            if (integranteGrupo.getIdCliente().equals(pago.getIdCliente())) {
+                                pagosList.add(pago);
+                            }
                         }
 
                         onPreRenderListadoIntegrantes();
+
+                        if (pagosList.size() > 0)
+                            IntegrantesPlazosEntregasFragment.showMessageAsignacion(View.GONE, "");
                     }
                 });
     }
@@ -140,14 +139,14 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
      **/
     public static void onPreRenderListadoIntegrantes() {
 
-        Collections.sort(integrantesGruposList, new Comparator<IntegrantesGrupos>() {
+        Collections.sort(pagosList, new Comparator<Pagos>() {
             @Override
-            public int compare(IntegrantesGrupos o1, IntegrantesGrupos o2) {
+            public int compare(Pagos o1, Pagos o2) {
                 return (o1.getCliente().compareTo(o2.getCliente()));
             }
         });
 
-        adapter.addAll(integrantesGruposList);
+        adapter.addAll(pagosList);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
@@ -162,26 +161,10 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            activityInterface = (MainRegisterActivity) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().toString() + "debe implementar");
-        }
     }
 
     @Override
     public void onClick(View v) {
         Toast.makeText(getContext(), "Boton de fletes, añadir fletes", Toast.LENGTH_SHORT).show();
-    }
-
-    public static void onListenerAction(DecodeItemHelper decodeItem) {
-        /**Inicializa DecodeItem en la activity principal**/
-        activityInterface.setDecodeItem(decodeItem);
-
-        switch (decodeItem.getIdView()) {
-            case R.id.item_btn_inspeccionar_integrante_plazo_entrega:
-                activityInterface.openExternalActivity(Constants.ACCION_VER, IntegrantesPlazosActivity.class);
-                break;
-        }
     }
 }

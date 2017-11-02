@@ -20,6 +20,9 @@ public class Pagos implements Serializable {
     @SerializedName("IdCliente")
     @Expose
     private Integer idCliente;
+    @SerializedName("Cliente")
+    @Expose
+    private String cliente;
     @SerializedName("IdTipoPrestamo")
     @Expose
     private Integer idTipoPrestamo;
@@ -60,40 +63,6 @@ public class Pagos implements Serializable {
     public Pagos() {
     }
 
-    /**
-     * @param idPrestamo
-     * @param idCliente
-     * @param descripcion
-     * @param plazo
-     * @param id
-     * @param montoAPagar
-     * @param tipoPago
-     * @param idUsuario
-     * @param idTipoPrestamo
-     * @param montoPagado
-     * @param morosidad
-     * @param idEstatus
-     * @param fechaPago
-     * @param fechaProgramada
-     */
-    public Pagos(Integer id, Integer idPrestamo, Integer idCliente, Integer idTipoPrestamo, Double montoAPagar, Double montoPagado, String plazo, String tipoPago, String fechaProgramada, String fechaPago, Double morosidad, String descripcion, Integer idEstatus, Integer idUsuario) {
-        super();
-        this.id = id;
-        this.idPrestamo = idPrestamo;
-        this.idCliente = idCliente;
-        this.idTipoPrestamo = idTipoPrestamo;
-        this.montoAPagar = montoAPagar;
-        this.montoPagado = montoPagado;
-        this.plazo = plazo;
-        this.tipoPago = tipoPago;
-        this.fechaProgramada = fechaProgramada;
-        this.fechaPago = fechaPago;
-        this.morosidad = morosidad;
-        this.descripcion = descripcion;
-        this.idEstatus = idEstatus;
-        this.idUsuario = idUsuario;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -116,6 +85,14 @@ public class Pagos implements Serializable {
 
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
     public Integer getIdTipoPrestamo() {
@@ -212,6 +189,7 @@ public class Pagos implements Serializable {
                 "id=" + id +
                 ", idPrestamo=" + idPrestamo +
                 ", idCliente=" + idCliente +
+                ", cliente='" + cliente + '\'' +
                 ", idTipoPrestamo=" + idTipoPrestamo +
                 ", montoAPagar=" + montoAPagar +
                 ", montoPagado=" + montoPagado +

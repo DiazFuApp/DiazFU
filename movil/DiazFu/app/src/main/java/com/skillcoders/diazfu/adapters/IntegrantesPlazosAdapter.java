@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
-import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.fragments.IntegrantesPlazosPrestamosGrupalesFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPlazosAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
-    List<Clientes> clientes = new ArrayList<>();
+    List<IntegrantesGrupos> integrantesGrupos = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -42,16 +42,16 @@ public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPl
         this.onClickListener = onClickListener;
     }
 
-    public Clientes getItemByPosition(int position) {
-        return clientes.get(position);
+    public IntegrantesGrupos getItemByPosition(int position) {
+        return integrantesGrupos.get(position);
     }
 
-    public void addAll(List<Clientes> _administradores) {
-        this.clientes.addAll(_administradores);
+    public void addAll(List<IntegrantesGrupos> _data) {
+        this.integrantesGrupos.addAll(_data);
     }
 
     public void remove(int position) {
-        this.clientes.remove(position);
+        this.integrantesGrupos.remove(position);
     }
 
     @Override
@@ -62,14 +62,14 @@ public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Clientes item = clientes.get(position);
+        final IntegrantesGrupos item = integrantesGrupos.get(position);
         /**Llenar el objeto que sera enviado al fragmento**/
         final DecodeItemHelper decodeItem = new DecodeItemHelper();
 
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
-        holder.txtNombre.setText(item.getNombre());
+        holder.txtNombre.setText(item.getCliente());
 
         holder.btnInspeccionar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,11 +83,11 @@ public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPl
 
     @Override
     public int getItemCount() {
-        return clientes == null ? 0 : clientes.size();
+        return integrantesGrupos == null ? 0 : integrantesGrupos.size();
     }
 
     public void removeItem(int position) {
-        this.clientes.remove(position);
+        this.integrantesGrupos.remove(position);
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, getItemCount() - position);
     }

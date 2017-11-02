@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.utils;
 import android.support.v4.app.Fragment;
 
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.fragments.IntegrantesPlazosEntregasFragment;
 import com.skillcoders.diazfu.fragments.ListadoClientesFragment;
 import com.skillcoders.diazfu.fragments.ListadoGruposFragment;
 import com.skillcoders.diazfu.fragments.ListadoInicioFragment;
@@ -24,20 +25,30 @@ public class Constants {
     /**
      * Constantes Principales
      **/
-    public static final int DIAZFU_WEB_SIN_ACTIVO = 1;
-    public static final int DIAZFU_WEB_SIN_INACTIVO = 2;
-    public static final int DIAZFU_WEB_SIN_AUTORIZACION = 3;
-    public static final int DIAZFU_WEB_AUTORIZADO = 4;
-    public static final int DIAZFU_WEB_ENTREGADO = 5;
-    public static final int DIAZFU_WEB_PAGADO = 6;
-    public static final int DIAZFU_WEB_PENDIENTE = 7;
-    public static final int DIAZFU_WEB_FINALIZADO = 8;
     public static final int TIPO_RRESTAMO_INDIVIDUAL = 1;
     public static final int TIPO_PRESTAMO_GRUPAL = 2;
     public static final int TIPO_REFERENCIA_CONOCIDO = 1;
     public static final int TIPO_REFERENCIA_AVAL = 2;
     public static final int ESTATUS_NO_RESPONSABLE = 0;
     public static final int ESTATUS_RESPONSABLE = 1;
+
+    public static final int DIAZFU_WEB_ACTIVO = 1;
+    public static final int DIAZFU_WEB_INACTIVO = 2;
+    public static final int DIAZFU_WEB_SIN_AUTORIZACION = 3;
+    public static final int DIAZFU_WEB_AUTORIZADO = 4;
+    public static final int DIAZFU_WEB_ENTREGADO = 5;
+    public static final int DIAZFU_WEB_PAGADO = 6;
+    public static final int DIAZFU_WEB_PENDIENTE = 7;
+    public static final int DIAZFU_WEB_FINALIZADO = 8;
+
+    public static final String DIAZFU_WEB_ACTIVO_STR = "Activo";
+    public static final String DIAZFU_WEB_INACTIVO_STR = "Inactivo";
+    public static final String DIAZFU_WEB_SIN_AUTORIZACION_STR = "Sin Autorización";
+    public static final String DIAZFU_WEB_AUTORIZADO_STR = "Autorizado";
+    public static final String DIAZFU_WEB_ENTREGADO_STR = "Entregado";
+    public static final String DIAZFU_WEB_PAGADO_STR = "Pagado";
+    public static final String DIAZFU_WEB_PENDIENTE_STR = "Pendiente";
+    public static final String DIAZFU_WEB_FINALIZADO_STR = "Finalizado";
 
     /**
      * Constantes traducidas
@@ -121,6 +132,7 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_ENTREGA = "fragment_formulario_prestamos_grupales_entrega";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_ACCIONES = "fragment_formulario_prestamos_grupales_acciones";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_grupales_integrantes_plazos";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_grupales_integrantes_plazos_entregas";
 
     /**
      * Fragmentos segundarios
@@ -169,7 +181,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_CLIENTES_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_GRUPOS_REGISTER, new RegistroGruposFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_REGISTER, new RegistroPrestamosGrupalesFragment());
-        TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new RegistroPrestamosGrupalesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -198,6 +210,20 @@ public class Constants {
         TITLE_FORM_ACTION.put(Constants.ACCION_VER, R.string.default_form_title_ver);
         TITLE_FORM_ACTION.put(Constants.ACCION_AUTORIZAR, R.string.default_form_title_autorizar);
         TITLE_FORM_ACTION.put(Constants.ACCION_ENTREGAR, R.string.default_form_title_autorizar);
+    }
+
+    public static final HashMap<Integer, String> TITLE_STATUS_DIAZFU_WEB;
+
+    static {
+        TITLE_STATUS_DIAZFU_WEB = new HashMap<>();
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_ACTIVO, DIAZFU_WEB_ACTIVO_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_INACTIVO, DIAZFU_WEB_INACTIVO_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_SIN_AUTORIZACION, DIAZFU_WEB_SIN_AUTORIZACION_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_AUTORIZADO, DIAZFU_WEB_AUTORIZADO_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_ENTREGADO, DIAZFU_WEB_ENTREGADO_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_PAGADO, DIAZFU_WEB_PAGADO_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_PENDIENTE, DIAZFU_WEB_PENDIENTE_STR);
+        TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_FINALIZADO, DIAZFU_WEB_FINALIZADO_STR);
     }
 
     /**

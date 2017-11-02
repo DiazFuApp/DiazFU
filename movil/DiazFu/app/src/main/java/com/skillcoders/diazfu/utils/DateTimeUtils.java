@@ -32,6 +32,13 @@ public class DateTimeUtils {
         return sdf.format(myCalendar.getTime());
     }
 
+    public static String getParseTimeToAndroid(String myDate) {
+        Calendar myCalendar = getParseTimeFromSQL(myDate);
+        String myFormat = Constants.MASK_DATE_ANDROID_DMY; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ROOT);
+        return sdf.format(myCalendar.getTime());
+    }
+
     public static String getActualTime() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

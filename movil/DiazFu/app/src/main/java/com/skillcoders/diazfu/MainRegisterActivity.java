@@ -64,7 +64,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private DecodeExtraHelper _MAIN_DECODE;
     private static DecodeItemHelper _decodeItem;
-    private ProgressDialog pDialog;
+    public static ProgressDialog pDialog;
 
     private int item;
     private List<Pagos> _plazos;
@@ -134,10 +134,19 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
      * Abre el fragmento mediante el tag seleccionado
      **/
     private void openFragment(String tag) {
+
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         FragmentTransaction mainFragment = getSupportFragmentManager().beginTransaction();
         mainFragment.replace(R.id.fragment_main_register_container, Constants.TAG_FRAGMENT.get(tag), tag);
         mainFragment.addToBackStack(tag);
         mainFragment.commit();
+
+        pDialog.dismiss();
     }
 
     @Override

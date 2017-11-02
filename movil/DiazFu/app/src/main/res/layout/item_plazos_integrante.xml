@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_nombre_plazo_integrante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Francisco Javier Díaz Saurett"
+                android:textColor="@color/bootstrap_brand_primary"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_estatus_plazo_integrante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pendiente"
+                android:textAlignment="textEnd"
+                android:textColor="@color/bootstrap_brand_secondary_text"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/item_plazo_plazo_integrante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1/16"
+                android:textColor="@color/bootstrap_brand_secondary_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_monto_plazo_integrante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="$18,000.00"
+                android:textAlignment="center"
+                android:textColor="@color/bootstrap_brand_success"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/item_fecha_pago_plazo_integrante"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="01/10/2017"
+                android:textAlignment="textEnd"
+                android:textColor="@color/bootstrap_brand_secondary_text"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bootstrap_dropdown_divider" />
+
+    </LinearLayout>
+
+</FrameLayout>
