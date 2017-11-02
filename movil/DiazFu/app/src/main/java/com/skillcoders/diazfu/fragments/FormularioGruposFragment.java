@@ -379,7 +379,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
     public void integrarCliente() {
         Clientes cliente = _clienteSeleccionado;
         cliente.setIdEstatus(Constants.ESTATUS_NO_RESPONSABLE);
-        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
         AsignacionGrupoFragment.clientesList.add(cliente);
         AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
 

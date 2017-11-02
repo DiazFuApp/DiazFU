@@ -10,14 +10,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -25,9 +30,14 @@ import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -36,7 +46,7 @@ import rx.schedulers.Schedulers;
  * Created by jvier on 03/10/2017.
  */
 
-public class FormularioClientesFragment extends Fragment implements View.OnClickListener {
+public class FormularioClientesFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     private MainRegisterInterface activityInterface;
 
@@ -48,15 +58,22 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
             tilPuestoEmpresa, tilDireccionEmpresa, tilHorarioEmpresa, tilAntiguedadEmpresa,
             tilTelefonoEmpresa, tilSueldoEmpresa, tilNombreJefe, tilTelefonoJefe;
 
+    private static Spinner spinnerPromotor;
+
     private static Calendar myCalendar = Calendar.getInstance();
     private DatePickerDialog.OnDateSetListener date;
 
+    private static List<String> promotoresList;
+    private List<Promotores> promotores;
+
     public static Clientes _clienteActual;
+    public static Promotores _promotorSeleccionado;
 
     /**
      * Implementaciones REST
      */
     private ClientesRest clientesRest;
+    private PromotoresRest promotoresRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +101,9 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         tilNombreJefe = (TextInputLayout) view.findViewById(R.id.nombre_jefe_cliente);
         tilTelefonoJefe = (TextInputLayout) view.findViewById(R.id.telefono_jefe_cliente);
 
+        spinnerPromotor = (Spinner) view.findViewById(R.id.spinner_promotor_cliente);
+        spinnerPromotor.setOnItemSelectedListener(this);
+
         tilFechaNacimiento.getEditText().setOnClickListener(this);
 
         /**Crea el picker calendar**/
@@ -98,6 +118,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         };
 
         clientesRest = ApiUtils.getClientesRest();
+        promotoresRest = ApiUtils.getPromotoresRest();
 
         return view;
     }
@@ -110,6 +131,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     @Override
     public void onStart() {
         super.onStart();
+        this.listadoPromotores();
         this.onPreRender();
     }
 
@@ -134,6 +156,82 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+    }
+
+    private void listadoPromotores() {
+        promotoresRest.getPromotores().enqueue(new Callback<List<Promotores>>() {
+            @Override
+            public void onResponse(Call<List<Promotores>> call, Response<List<Promotores>> response) {
+
+                if (response.isSuccessful()) {
+                    promotoresList = new ArrayList<>();
+                    promotores = new ArrayList<>();
+
+                    promotoresList.add("Seleccione ...");
+
+                    for (Promotores promotor :
+                            response.body()) {
+                        promotoresList.add(promotor.getNombre());
+                        promotores.add(promotor);
+                    }
+
+                    onCargarSpinnerPromotores();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Promotores>> call, Throwable t) {
+
+            }
+        });
+    }
+
+
+    /**
+     * Asigna los valores al spinner
+     **/
+    private void onCargarSpinnerPromotores() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                R.layout.support_simple_spinner_dropdown_item, promotoresList);
+
+        int itemSelection = onPreRenderSelectPromotor();
+
+        spinnerPromotor.setAdapter(adapter);
+        spinnerPromotor.setSelection(itemSelection);
+    }
+
+    private int onPreRenderSelectPromotor() {
+        int item = 0;
+
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
+            Clientes cliente = _clienteActual;
+            for (Promotores promotor : promotores) {
+                item++;
+                if (promotor.getId().equals(cliente.getIdPromotor())) {
+                    break;
+                }
+            }
+        }
+
+        return item;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        switch (parent.getId()) {
+            case R.id.spinner_promotor_cliente:
+                if (position > 0) {
+                    Promotores promotor = promotores.get(position - 1);
+                    _promotorSeleccionado = promotor;
+                }
+                break;
+        }
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 
     private void updateTxtDate() {
@@ -219,9 +317,11 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         boolean m = ValidationUtils.esTextoValido(tilSueldoEmpresa, fechaNacimiento);
         boolean o = ValidationUtils.esTextoValido(tilNombreJefe, fechaNacimiento);
         boolean p = ValidationUtils.esTextoValido(tilTelefonoJefe, fechaNacimiento);
+        boolean q = ValidationUtils.esSpinnerValido(spinnerPromotor);
 
-        if (a && b && c && d && e && f && g && h && i && j && k && l && m && o && p) {
+        if (a && b && c && d && e && f && g && h && i && j && k && l && m && o && p && q) {
             Clientes data = new Clientes();
+            data.setIdPromotor(_promotorSeleccionado.getId());
             data.setNombre(nombre);
             data.setDireccion(direccion);
             data.setTelefonoCasa(telefonoCasa);
@@ -279,9 +379,11 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         boolean m = ValidationUtils.esTextoValido(tilSueldoEmpresa, fechaNacimiento);
         boolean o = ValidationUtils.esTextoValido(tilNombreJefe, fechaNacimiento);
         boolean p = ValidationUtils.esTextoValido(tilTelefonoJefe, fechaNacimiento);
+        boolean q = ValidationUtils.esSpinnerValido(spinnerPromotor);
 
-        if (a && b && c && d && e && f && g && h && i && j && k && l && m && o && p) {
+        if (a && b && c && d && e && f && g && h && i && j && k && l && m && o && p && q) {
             Clientes data = new Clientes();
+            data.setIdPromotor(_promotorSeleccionado.getId());
             data.setNombre(nombre);
             data.setDireccion(direccion);
             data.setTelefonoCasa(telefonoCasa);
@@ -309,13 +411,14 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     }
 
     public static void setClientes(Clientes data) {
+        _clienteActual.setIdPromotor(data.getIdPromotor());
         _clienteActual.setNombre(data.getNombre());
         _clienteActual.setDireccion(data.getDireccion());
         _clienteActual.setTelefonoCasa(data.getTelefonoCasa());
         _clienteActual.setTelefonoCelular(data.getTelefonoCelular());
         _clienteActual.setCorreoElectronico(data.getCorreoElectronico());
         _clienteActual.setFechaNacimiento(data.getFechaNacimiento());
-        _clienteActual.setURLFoto(data.getURLFoto());
+        _clienteActual.setuRLFoto(data.getuRLFoto());
         _clienteActual.setNombreEmpresa(data.getNombreEmpresa());
         _clienteActual.setPuestoEmpresa(data.getPuestoEmpresa());
         _clienteActual.setDireccionEmpresa(data.getDireccionEmpresa());

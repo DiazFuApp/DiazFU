@@ -3,6 +3,8 @@ package com.skillcoders.diazfu.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
@@ -28,6 +30,18 @@ public class DateTimeUtils {
         String myFormat = Constants.MASK_DATE_TO_SQL_YMD; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.ROOT);
         return sdf.format(myCalendar.getTime());
+    }
+
+    public static String getActualTime() {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(c.getTime());
+    }
+
+    public static String addDay(int day) {
+        Calendar c = new GregorianCalendar();
+        c.add(Calendar.DATE, day);
+        return getParseTimeToSQL(c);
     }
 
 }

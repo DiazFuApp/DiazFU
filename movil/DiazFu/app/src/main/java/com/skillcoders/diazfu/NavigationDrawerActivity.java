@@ -353,7 +353,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void webServiceAutorizarGrupo() {
         Grupos grupo = (Grupos) _decodeItem.getItemModel();
-        grupo.setIdEstatus(Constants.ESTATUS_AUTORIZADO);
+        grupo.setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
         gruposRest.editarGrupo(grupo).enqueue(new Callback<Grupos>() {
             @Override
             public void onResponse(Call<Grupos> call, Response<Grupos> response) {

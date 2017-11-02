@@ -35,6 +35,9 @@
     <string name="default_activity_title_prestamos_individuales">Prestamos Individuales</string>
 
     <!--Form subtitle-->
+    <string name="default_form_title_autorizar">Autorizar</string>
+    <string name="default_form_title_entregar">Entregar</string>
+    <string name="default_form_title_ver">Consultar</string>
     <string name="default_form_title_edit">Modificar</string>
     <string name="default_form_title_new">Registrar</string>
 

@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Grupos;
-import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -79,11 +78,11 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
         String estatus = "";
 
         switch (item.getIdEstatus()) {
-            case Constants.ESTATUS_AUTORIZADO:
+            case Constants.DIAZFU_WEB_AUTORIZADO:
                 estatus = Constants.ESTATUS_AUTORIZADO_STR;
                 holder.btnAutorizar.setVisibility(View.GONE);
                 break;
-            case Constants.ESTATUS_NO_AUTORIZADO:
+            case Constants.DIAZFU_WEB_SIN_AUTORIZACION:
                 holder.btnAutorizar.setVisibility(View.VISIBLE);
                 break;
             default:

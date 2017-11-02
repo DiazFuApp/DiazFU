@@ -11,9 +11,7 @@ import android.view.ViewGroup;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.adapters.GruposAdapter;
 import com.skillcoders.diazfu.adapters.PrestamosGrupalesAdapter;
-import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
@@ -136,8 +134,14 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
-            case R.id.item_btn_editar_prestamo_grupal:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+            case R.id.item_btn_entregar_prestamo_grupal:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_ENTREGAR, MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_autorizar_prestamo_grupal:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_AUTORIZAR, MainRegisterActivity.class);
+                break;
+            case R.id.item_btn_ver_prestamo_grupal:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
         }
     }
