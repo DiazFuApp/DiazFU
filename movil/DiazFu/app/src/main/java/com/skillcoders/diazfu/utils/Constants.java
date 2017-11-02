@@ -24,10 +24,18 @@ public class Constants {
     /**
      * Constantes Principales
      **/
+    public static final int DIAZFU_WEB_SIN_ACTIVO = 1;
+    public static final int DIAZFU_WEB_SIN_INACTIVO = 2;
+    public static final int DIAZFU_WEB_SIN_AUTORIZACION = 3;
+    public static final int DIAZFU_WEB_AUTORIZADO = 4;
+    public static final int DIAZFU_WEB_ENTREGADO = 5;
+    public static final int DIAZFU_WEB_PAGADO = 6;
+    public static final int DIAZFU_WEB_PENDIENTE = 7;
+    public static final int DIAZFU_WEB_FINALIZADO = 8;
+    public static final int TIPO_RRESTAMO_INDIVIDUAL = 1;
+    public static final int TIPO_PRESTAMO_GRUPAL = 2;
     public static final int TIPO_REFERENCIA_CONOCIDO = 1;
     public static final int TIPO_REFERENCIA_AVAL = 2;
-    public static final int ESTATUS_AUTORIZADO = 4;
-    public static final int ESTATUS_NO_AUTORIZADO = 3;
     public static final int ESTATUS_NO_RESPONSABLE = 0;
     public static final int ESTATUS_RESPONSABLE = 1;
 
@@ -53,7 +61,9 @@ public class Constants {
     public static final int ACCION_REGISTRAR = 1;
     public static final int ACCION_EDITAR = 2;
     public static final int ACCION_VER = 3;
-    public static final int ACCION_ELIMINAR = 4;
+    public static final int ACCION_AUTORIZAR = 4;
+    public static final int ACCION_ENTREGAR = 5;
+    public static final int ACCION_ELIMINAR = 6;
 
     /**
      * Key Preferences
@@ -103,6 +113,13 @@ public class Constants {
     public static final String FORMULARIO_GRUPOS_ASIGNACIONES_LISTADO = "fragment_formulario_grupos_asignaciones_listado";
     public static final String FORMULARIO_GRUPOS_ACCIONES = "fragment_formulario_grupos_acciones";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES = "fragment_formulario_prestamos_grupales";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_AVAL = "fragment_formulario_prestamos_grupales_aval";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PRIMER_REFERENCIA = "fragment_formulario_prestamos_grupales_primer_referencia";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_SEGUNDA_REFERENCIA = "fragment_formulario_prestamos_grupales_segunda_referencia";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_AUTORIZACION = "fragment_formulario_prestamos_grupales_autorizacion";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_ENTREGA = "fragment_formulario_prestamos_grupales_entrega";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_ACCIONES = "fragment_formulario_prestamos_grupales_acciones";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_grupales_integrantes_plazos";
 
     /**
      * Fragmentos segundarios
@@ -131,7 +148,9 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_editar_promotor, FRAGMENT_PROMOTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_CLIENTES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_grupo, FRAGMENT_GRUPOS_REGISTER);
-        ITEM_FRAGMENT.put(R.id.item_btn_editar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_ver_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -161,6 +180,10 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_editar_promotor, R.string.default_activity_title_promotores);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_cliente, R.string.default_activity_title_clientes);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_grupo, R.string.default_activity_title_grupos);
+        TITLE_ACTIVITY.put(R.id.item_btn_ver_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
+        TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
+        TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
+
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;
@@ -169,6 +192,9 @@ public class Constants {
         TITLE_FORM_ACTION = new HashMap<>();
         TITLE_FORM_ACTION.put(Constants.ACCION_REGISTRAR, R.string.default_form_title_new);
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR, R.string.default_form_title_edit);
+        TITLE_FORM_ACTION.put(Constants.ACCION_VER, R.string.default_form_title_ver);
+        TITLE_FORM_ACTION.put(Constants.ACCION_AUTORIZAR, R.string.default_form_title_autorizar);
+        TITLE_FORM_ACTION.put(Constants.ACCION_ENTREGAR, R.string.default_form_title_autorizar);
     }
 
     /**

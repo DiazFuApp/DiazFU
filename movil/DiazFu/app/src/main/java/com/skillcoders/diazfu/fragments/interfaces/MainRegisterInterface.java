@@ -13,14 +13,10 @@ import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
 public interface MainRegisterInterface {
 
-    /**
-     * Permite mostrar el dialogo de preguntas
-     **/
+    void openExternalActivity(int action, Class<?> externalActivity);
+
     void showQuestion(String titulo, String mensage);
 
-    /**
-     * Permite transferir los valores seleccionados en DecodeItem
-     */
     void setDecodeItem(DecodeItemHelper decodeItem);
 
     void registrarPromotor(PromotoresHelper promotoresHelper);
@@ -37,5 +33,7 @@ public interface MainRegisterInterface {
 
     void registrarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 
-    void editarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
+    void autorizarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
+
+    void entregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 }

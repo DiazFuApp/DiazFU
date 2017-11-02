@@ -11,6 +11,7 @@ import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.fragments.PrestamosGrupalesFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,19 @@ public class PrestamosGrupalesAdapter extends RecyclerView.Adapter<PrestamosGrup
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
-        Button btnEditar;
+        Button btnPagar;
+        Button btnEntregar;
+        Button btnAutorizar;
+        Button btnVer;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_prestamo_grupal);
-            btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_prestamo_grupal);
+            btnPagar = (Button) itemView.findViewById(R.id.item_btn_pago_prestamo_grupal);
+            btnEntregar = (Button) itemView.findViewById(R.id.item_btn_entregar_prestamo_grupal);
+            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_prestamo_grupal);
+            btnVer = (Button) itemView.findViewById(R.id.item_btn_ver_prestamo_grupal);
         }
     }
 
@@ -70,7 +77,58 @@ public class PrestamosGrupalesAdapter extends RecyclerView.Adapter<PrestamosGrup
 
         holder.txtNombre.setText(item.getGrupo());
 
-        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
+        switch (item.getIdEstatus()) {
+            case Constants.DIAZFU_WEB_SIN_AUTORIZACION:
+                holder.btnVer.setVisibility(View.GONE);
+                holder.btnAutorizar.setVisibility(View.VISIBLE);
+                holder.btnEntregar.setVisibility(View.GONE);
+                holder.btnPagar.setVisibility(View.GONE);
+                break;
+            case Constants.DIAZFU_WEB_AUTORIZADO:
+                holder.btnVer.setVisibility(View.GONE);
+                holder.btnAutorizar.setVisibility(View.GONE);
+                holder.btnEntregar.setVisibility(View.VISIBLE);
+                holder.btnPagar.setVisibility(View.GONE);
+                break;
+            case Constants.DIAZFU_WEB_ENTREGADO:
+                holder.btnVer.setVisibility(View.VISIBLE);
+                holder.btnAutorizar.setVisibility(View.GONE);
+                holder.btnEntregar.setVisibility(View.GONE);
+                holder.btnPagar.setVisibility(View.VISIBLE);
+                break;
+            default:
+                holder.btnVer.setVisibility(View.VISIBLE);
+                holder.btnAutorizar.setVisibility(View.GONE);
+                holder.btnEntregar.setVisibility(View.GONE);
+                holder.btnPagar.setVisibility(View.GONE);
+                break;
+        }
+
+        holder.btnEntregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
+                PrestamosGrupalesFragment.onListenerAction(decodeItem);
+            }
+        });
+
+        holder.btnEntregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
+                PrestamosGrupalesFragment.onListenerAction(decodeItem);
+            }
+        });
+
+        holder.btnAutorizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
+                PrestamosGrupalesFragment.onListenerAction(decodeItem);
+            }
+        });
+
+        holder.btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());

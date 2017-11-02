@@ -12,15 +12,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
-import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
-import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
-import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
@@ -90,16 +85,19 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
     public void onStart() {
         super.onStart();
         this.onPreRender();
-        this.listadoGrupos();
     }
 
     private void onPreRender() {
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
+            case Constants.ACCION_VER:
+            case Constants.ACCION_AUTORIZAR:
+            case Constants.ACCION_ENTREGAR:
                 this.obtenerGrupo();
                 break;
             case Constants.ACCION_REGISTRAR:
                 _prestamoGrupalActual = new PrestamosGrupales();
+                this.listadoGrupos();
                 break;
             default:
                 break;
@@ -137,11 +135,22 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
                         _prestamoGrupalActual = prestamoGrupal;
 
                         tilMotivoPrstamo.getEditText().setText(prestamoGrupal.getMotivo());
-                        tilCantidadSolicitada.getEditText().setText(prestamoGrupal.getCantidadOtorgada().toString());
+                        tilCantidadSolicitada.getEditText().setText(prestamoGrupal.getCantidadSolicitada().toString());
                         tilGarantia.getEditText().setText(prestamoGrupal.getGarantia());
                         tilObservaciones.getEditText().setText(prestamoGrupal.getObservaciones());
+
+                        onPreRenderUI();
+
+                        listadoGrupos();
                     }
                 });
+    }
+
+    private void onPreRenderUI() {
+        tilMotivoPrstamo.getEditText().setKeyListener(null);
+        tilCantidadSolicitada.getEditText().setKeyListener(null);
+        tilGarantia.getEditText().setKeyListener(null);
+        tilObservaciones.getEditText().setKeyListener(null);
     }
 
     private void listadoGrupos() {
@@ -155,13 +164,29 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
 
                     gruposList.add("Seleccione ...");
 
-                    for (Grupos grupo :
-                            response.body()) {
-                        gruposList.add(grupo.getNombre());
-                        grupos.add(grupo);
+                    switch (_MAIN_DECODE.getAccionFragmento()) {
+                        case Constants.ACCION_EDITAR:
+                        case Constants.ACCION_VER:
+                        case Constants.ACCION_AUTORIZAR:
+                        case Constants.ACCION_ENTREGAR:
+                            for (Grupos grupo :
+                                    response.body()) {
+                                if (grupo.getId().equals(((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel()).getIdGrupo())) {
+                                    gruposList.add(grupo.getNombre());
+                                    grupos.add(grupo);
+                                }
+                            }
+                            break;
+                        case Constants.ACCION_REGISTRAR:
+                            for (Grupos grupo :
+                                    response.body()) {
+                                gruposList.add(grupo.getNombre());
+                                grupos.add(grupo);
+                            }
+                            break;
                     }
 
-                    onCargarSpinnerPromotores();
+                    onCargarSpinnerGrupos();
                 }
             }
 
@@ -175,27 +200,32 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
     /**
      * Asigna los valores al spinner
      **/
-    private void onCargarSpinnerPromotores() {
+    private void onCargarSpinnerGrupos() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
                 R.layout.support_simple_spinner_dropdown_item, gruposList);
 
-        int itemSelection = onPreRenderSelectPromotor();
+        int itemSelection = onPreRenderSelectGrupo();
 
         spinnerGrupos.setAdapter(adapter);
         spinnerGrupos.setSelection(itemSelection);
     }
 
-    private int onPreRenderSelectPromotor() {
+    private int onPreRenderSelectGrupo() {
         int item = 0;
 
-        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR) {
-            PrestamosGrupales prestamoGrupal = _prestamoGrupalActual;
-            for (Grupos grupo : grupos) {
-                item++;
-                if (grupo.getId().equals(prestamoGrupal.getIdGrupo())) {
-                    break;
+        switch (_MAIN_DECODE.getAccionFragmento()) {
+            case Constants.ACCION_EDITAR:
+            case Constants.ACCION_VER:
+            case Constants.ACCION_AUTORIZAR:
+            case Constants.ACCION_ENTREGAR:
+                PrestamosGrupales prestamoGrupal = _prestamoGrupalActual;
+                for (Grupos grupo : grupos) {
+                    item++;
+                    if (grupo.getId().equals(prestamoGrupal.getIdGrupo())) {
+                        break;
+                    }
                 }
-            }
+                break;
         }
 
         return item;
@@ -241,9 +271,13 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
             data.setObservaciones(observaciones);
             data.setIdGrupo(_grupoSeleccionado.getId());
 
+            data.setAnticipo(0.0);
+            data.setCantidadOtorgada(0.0);
+            data.setInteres(7.0);
+            data.setFechaEntrega("2017-10-23");
+
             setPrestamosGrupales(data);
             valido = true;
-
         }
 
         return valido;
@@ -257,10 +291,15 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
     }
 
     public static void setPrestamosGrupales(PrestamosGrupales data) {
+        _prestamoGrupalActual.setIdGrupo(data.getIdGrupo());
         _prestamoGrupalActual.setMotivo(data.getMotivo());
         _prestamoGrupalActual.setCantidadSolicitada(data.getCantidadSolicitada());
         _prestamoGrupalActual.setGarantia(data.getGarantia());
         _prestamoGrupalActual.setObservaciones(data.getObservaciones());
+        _prestamoGrupalActual.setAnticipo(data.getAnticipo());
+        _prestamoGrupalActual.setCantidadOtorgada(data.getCantidadOtorgada());
+        _prestamoGrupalActual.setInteres(data.getInteres());
+        _prestamoGrupalActual.setFechaEntrega(data.getFechaEntrega());
 
         _prestamoGrupalActual.setIdEstatus(data.getIdEstatus());
         _prestamoGrupalActual.setIdUsuario(data.getIdUsuario());

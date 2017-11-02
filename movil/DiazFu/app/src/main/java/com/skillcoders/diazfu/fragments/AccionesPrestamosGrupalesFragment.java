@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ScrollView;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
@@ -27,6 +28,8 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     private static DecodeExtraHelper _MAIN_DECODE;
     private static MainRegisterActivity activityInterface;
     private static Button btnRegistrar;
+
+    private int _idBtnOrigen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     private void onPreRender() {
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
+            case Constants.ACCION_VER:
+            case Constants.ACCION_AUTORIZAR:
+            case Constants.ACCION_ENTREGAR:
                 this.onPreRenderEditar();
                 break;
             case Constants.ACCION_REGISTRAR:
@@ -64,7 +70,24 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     }
 
     private void onPreRenderEditar() {
-        btnRegistrar.setText("EDITAR GRUPO");
+
+        ScrollView scrollView = (ScrollView) getActivity().findViewById(R.id.scrollView_register);
+        scrollView.fullScroll(View.FOCUS_DOWN);
+
+        switch (_MAIN_DECODE.getAccionFragmento()) {
+            case Constants.ACCION_EDITAR:
+                btnRegistrar.setText("EDITAR GRUPO");
+                break;
+            case Constants.ACCION_VER:
+                btnRegistrar.setVisibility(View.GONE);
+                break;
+            case Constants.ACCION_AUTORIZAR:
+                btnRegistrar.setText("AUTORIZAR GRUPO");
+                break;
+            case Constants.ACCION_ENTREGAR:
+                btnRegistrar.setText("ENTREGAR PRESTAMO");
+                break;
+        }
     }
 
     @Override
@@ -84,14 +107,21 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
 
     @Override
     public void onClick(View v) {
+        _idBtnOrigen = _MAIN_DECODE.getAccionFragmento();
         switch (v.getId()) {
             case R.id.btn_accion_prestamo_grupal:
                 switch (_MAIN_DECODE.getAccionFragmento()) {
-                    case Constants.ACCION_EDITAR:
-                        this.showQuestion();
+                    case Constants.ACCION_ENTREGAR:
+                        this.showQuestion("¿Esta seguro que desea enregar?");
+                        break;
+                    case Constants.ACCION_AUTORIZAR:
+                        this.showQuestion("¿Esta seguro que desea autorizar?");
                         break;
                     case Constants.ACCION_REGISTRAR:
-                        if (FormularioPrestamosGrupalesFragment.validarDatosRegistro())
+                        if (FormularioPrestamosGrupalesFragment.validarDatosRegistro()
+                                && FormularioAvalPrestamosGrupalesFragment.validarDatosRegistro()
+                                && FormularioPrimeraReferenciaPrestamosGrupalesFragment.validarDatosRegistro()
+                                && FormularioSegundaReferenciaPrestamosGrupalesFragment.validarDatosRegistro())
                             registrar();
                         break;
                 }
@@ -99,11 +129,11 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
         }
     }
 
-    private void showQuestion() {
+    private void showQuestion(String message) {
         AlertDialog.Builder ad = new AlertDialog.Builder(getContext());
 
         ad.setTitle(_MAIN_DECODE.getTituloActividad());
-        ad.setMessage("¿Esta seguro que desea editar?");
+        ad.setMessage(message);
         ad.setCancelable(false);
         ad.setNegativeButton(getString(R.string.default_alert_dialog_cancelar), this);
         ad.setPositiveButton(getString(R.string.default_alert_dialog_aceptar), this);
@@ -115,8 +145,16 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                if (FormularioPrestamosGrupalesFragment.validarDatosEdicion())
-                    editar();
+                switch (_idBtnOrigen) {
+                    case Constants.ACCION_ENTREGAR:
+                        if (FormularioEntregaPrestamosGrupalesFragment.validarDatosEntrega())
+                            entregar();
+                        break;
+                    case Constants.ACCION_AUTORIZAR:
+                        if (FormularioAutorizacionPrestamosGrupalesFragment.validarDatosAutorizacion())
+                            autorizar();
+                        break;
+                }
                 break;
         }
     }
@@ -124,15 +162,26 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     private void registrar() {
         PrestamosGrupalesHelper helper = new PrestamosGrupalesHelper();
         helper.setPrestamoGrupal(FormularioPrestamosGrupalesFragment._prestamoGrupalActual);
+        helper.setAval(FormularioAvalPrestamosGrupalesFragment._avalActual);
+        helper.setPrimeraReferencia(FormularioPrimeraReferenciaPrestamosGrupalesFragment._referenciaActual);
+        helper.setSegundaReferencia(FormularioSegundaReferenciaPrestamosGrupalesFragment._referenciaActual);
 
         activityInterface.registrarPrestamoGrupal(helper);
     }
 
-    private void editar() {
+    private void autorizar() {
+        PrestamosGrupalesHelper helper = new PrestamosGrupalesHelper();
+        helper.setPrestamoGrupal(FormularioPrestamosGrupalesFragment._prestamoGrupalActual);
+        helper.setPagos(FormularioAutorizacionPrestamosGrupalesFragment._pagosActual);
+
+        activityInterface.autorizarPrestamoGrupal(helper);
+    }
+
+    private void entregar() {
         PrestamosGrupalesHelper helper = new PrestamosGrupalesHelper();
         helper.setPrestamoGrupal(FormularioPrestamosGrupalesFragment._prestamoGrupalActual);
 
-        activityInterface.editarPrestamoGrupal(helper);
+        activityInterface.entregarPrestamoGrupal(helper);
     }
 
 

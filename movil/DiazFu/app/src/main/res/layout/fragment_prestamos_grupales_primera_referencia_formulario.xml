@@ -16,14 +16,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cliente"
+            android:text="Primer Referencia"
             android:textAlignment="textStart"
             android:textSize="20dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingresa la información del cliente."
+            android:text="Ingresa la información de la primer referencia."
             android:textAlignment="textStart"
             android:textSize="12dp" />
 
@@ -36,27 +36,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:text="Promotor"
-                android:textSize="18sp" />
-
-            <Spinner
-                android:id="@+id/spinner_promotor_cliente"
-                style="@style/Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:spinnerMode="dropdown" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical">
 
@@ -65,12 +44,12 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/nombre_cliente"
+                    android:id="@+id/nombre_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_nombre_cliente"
+                        android:id="@+id/txt_nombre_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -87,12 +66,34 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/direccion_cliente"
+                    android:id="@+id/rfc_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_direccion_cliente"
+                        android:id="@+id/txt_rfc_primera_referencia_prestamo_grupal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="RFC"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/direccion_primera_referencia_prestamo_grupal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_direccion_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -109,12 +110,34 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/telefono_casa_cliente"
+                    android:id="@+id/referencia_direccion_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_telefono_casa_cliente"
+                        android:id="@+id/txt_referencia_direccion_primera_referencia_prestamo_grupal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Referencia de Direción"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/telefono_casa_primera_referencia_prestamo_grupal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_telefono_casa_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -131,12 +154,12 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/telefono_celular_cliente"
+                    android:id="@+id/telefono_celular_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_telefono_celular_cliente"
+                        android:id="@+id/txt_telefono_celular_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -153,12 +176,12 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/correo_electronico_cliente"
+                    android:id="@+id/correo_electronico_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_correo_electronico_cliente"
+                        android:id="@+id/txt_correo_electronico_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -175,34 +198,12 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/fecha_nacimiento_cliente"
+                    android:id="@+id/facebook_referencia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_fecha_nacimiento_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Fecha de Nacimiento"
-                        android:inputType="date"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/facebook_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_facebook_cliente"
+                        android:id="@+id/txt_facebook_referencia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -219,12 +220,12 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/twitter_cliente"
+                    android:id="@+id/twitter_referencia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_twitter_cliente"
+                        android:id="@+id/txt_twitter_referencia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
@@ -241,16 +242,38 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/instagram_cliente"
+                    android:id="@+id/fecha_nacimiento_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_instagram_cliente"
+                        android:id="@+id/txt_fecha_nacimiento_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="Twitter"
+                        android:hint="Fecha de Nacimiento"
+                        android:inputType="date"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/curp_primera_referencia_prestamo_grupal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_curp_primera_referencia_prestamo_grupal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="CURP"
                         android:inputType="text"
                         android:singleLine="true" />
 
@@ -263,211 +286,20 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/nombre_empresa_cliente"
+                    android:id="@+id/clave_elector_primera_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/txt_nombre_empresa_cliente"
+                        android:id="@+id/txt_clave_elector_primera_referencia_prestamo_grupal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:hint="Empresa en la que labora"
+                        android:hint="Clave de Elector"
                         android:inputType="text"
                         android:singleLine="true" />
 
                 </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/puesto_empresa_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_puesto_empresa_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Puesto en la empresa"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/antiguedad_empresa_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_antiguedad_empresa_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Antigüedad en la empresa"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/horario_laboral_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_horario_laboral_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Horario laboral"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/telefono_empresa_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_telefono_empresa_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Teléfono de la empresa"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/salario_laboral_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_salario_laboral_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Sueldo en la empresa"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/direccion_empresa__cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_direccion_empresa_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Dirección empresa"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/nombre_jefe_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_nombre_jefe_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Nombre del jefe"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/telefono_jefe_cliente"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/txt_telefono_jefe_cliente"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Teléfono del jefe"
-                        android:inputType="text"
-                        android:singleLine="true" />
-
-                </android.support.design.widget.TextInputLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.beardedhen.androidbootstrap.BootstrapButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:backgroundTint="@color/bootstrap_brand_primary"
-                    android:text="Foto" />
 
             </LinearLayout>
 
@@ -543,21 +375,6 @@
                     android:layout_marginRight="20dp"
                     android:backgroundTint="@color/bootstrap_brand_primary"
                     android:text="Comprobante de Domicilio" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <com.beardedhen.androidbootstrap.BootstrapButton
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:backgroundTint="@color/bootstrap_brand_primary"
-                    android:text="Comprobante de Ingresos" />
 
             </LinearLayout>
 

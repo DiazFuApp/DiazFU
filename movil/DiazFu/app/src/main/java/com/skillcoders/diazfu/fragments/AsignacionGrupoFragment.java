@@ -44,7 +44,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
 
     public static List<Clientes> clientesList;
     private static RecyclerView recyclerView;
-    public static AsignacionesAdapter asignacionesAdapter;
+    public static AsignacionesAdapter adapter;
     private static MainRegisterInterface activityInterface;
 
     public static List<IntegrantesGrupos> integrantesGrupos;
@@ -63,8 +63,8 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        asignacionesAdapter = new AsignacionesAdapter();
-        asignacionesAdapter.setOnClickListener(this);
+        adapter = new AsignacionesAdapter();
+        adapter.setOnClickListener(this);
 
         clientesRest = ApiUtils.getClientesRest();
         integrantesRest = ApiUtils.getIntegrantesGruposRest();
@@ -124,7 +124,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
                     @Override
                     public void onNext(List<IntegrantesGrupos> integrantesGruposes) {
 
-                        asignacionesAdapter = new AsignacionesAdapter();
+                        adapter = new AsignacionesAdapter();
                         clientesList = new ArrayList<>();
 
                         for (IntegrantesGrupos integrante :
@@ -149,7 +149,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
 
                         if (integrantesGruposes.size() > 0)
                             AsignacionesGruposFragment.showMessageAsignacion(
-                                    (null != grupos.getIdClienteResponsable()) ? View.GONE : View.GONE,
+                                    (null != grupos.getIdClienteResponsable()) ? View.GONE : View.VISIBLE,
                                     (null != grupos.getIdClienteResponsable()) ? "" : "No existe responsable asignado");
                     }
                 });
@@ -167,8 +167,8 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
             }
         });
 
-        asignacionesAdapter.addAll(clientesList);
-        recyclerView.setAdapter(asignacionesAdapter);
+        adapter.addAll(clientesList);
+        recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

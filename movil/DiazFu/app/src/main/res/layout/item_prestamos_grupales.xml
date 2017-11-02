@@ -25,12 +25,39 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <Button
-                android:id="@+id/item_btn_editar_prestamo_grupal"
+                android:id="@+id/item_btn_pago_prestamo_grupal"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:background="@mipmap/ic_mode_edit_black_48dp"
+                android:background="@mipmap/ic_attach_money_black_48dp"
+                android:backgroundTint="@color/bootstrap_brand_warning" />
+
+            <Button
+                android:id="@+id/item_btn_entregar_prestamo_grupal"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_done_all_black_48dp"
+                android:backgroundTint="@color/bootstrap_brand_success" />
+
+            <Button
+                android:id="@+id/item_btn_autorizar_prestamo_grupal"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_done_black_48dp"
+                android:backgroundTint="@color/bootstrap_brand_success" />
+
+            <Button
+                android:id="@+id/item_btn_ver_prestamo_grupal"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_folder_black_48dp"
                 android:backgroundTint="@color/bootstrap_brand_primary" />
 
         </LinearLayout>

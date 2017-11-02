@@ -14,6 +14,9 @@ public class Clientes implements Serializable {
     @SerializedName("Id")
     @Expose
     private Integer id;
+    @SerializedName("IdPromotor")
+    @Expose
+    private Integer idPromotor;
     @SerializedName("Nombre")
     @Expose
     private String nombre;
@@ -69,12 +72,23 @@ public class Clientes implements Serializable {
     @Expose
     private Integer idUsuario;
 
+    public Clientes() {
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIdPromotor() {
+        return idPromotor;
+    }
+
+    public void setIdPromotor(Integer idPromotor) {
+        this.idPromotor = idPromotor;
     }
 
     public String getNombre() {
@@ -125,11 +139,11 @@ public class Clientes implements Serializable {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getURLFoto() {
+    public String getuRLFoto() {
         return uRLFoto;
     }
 
-    public void setURLFoto(String uRLFoto) {
+    public void setuRLFoto(String uRLFoto) {
         this.uRLFoto = uRLFoto;
     }
 
@@ -225,6 +239,7 @@ public class Clientes implements Serializable {
     public String toString() {
         return "Clientes{" +
                 "id=" + id +
+                ", idPromotor=" + idPromotor +
                 ", nombre='" + nombre + '\'' +
                 ", telefonoCasa='" + telefonoCasa + '\'' +
                 ", telefonoCelular='" + telefonoCelular + '\'' +

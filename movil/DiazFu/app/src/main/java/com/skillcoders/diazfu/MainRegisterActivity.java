@@ -2,6 +2,7 @@ package com.skillcoders.diazfu;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -17,15 +18,19 @@ import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
+import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
 import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
@@ -37,6 +42,7 @@ import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
+import com.skillcoders.diazfu.utils.DateTimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +50,9 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jvier on 04/09/2017.
@@ -57,15 +66,20 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static DecodeItemHelper _decodeItem;
     private ProgressDialog pDialog;
 
+    private int item;
+    private List<Pagos> _plazos;
+
     /**
      * Implementaciones REST
      */
     private PromotoresRest promotoresRest;
-    private ReferenciasPromotoresRest referenciasPromotores;
+    private ReferenciasPromotoresRest referenciasPromotoresRest;
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
     private IntegrantesGruposRest integrantesGruposRest;
     private PrestamosGrupalesRest prestamosGrupalesRest;
+    private ReferenciasPrestamosRest referenciasPrestamosRest;
+    private PagosRest pagosRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,11 +95,13 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         ab.setDisplayHomeAsUpEnabled(true);
 
         promotoresRest = ApiUtils.getPromotoresRest();
-        referenciasPromotores = ApiUtils.getReferenciasPromotoresRest();
+        referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
         prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
+        referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
+        pagosRest = ApiUtils.getPagosRest();
 
         this.onPreRender();
     }
@@ -132,10 +148,10 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceRegistroPromotores(promotoresHelper);
+        webServiceRegistrarPromotores(promotoresHelper);
     }
 
-    private void webServiceRegistroPromotores(final PromotoresHelper promotoresHelper) {
+    private void webServiceRegistrarPromotores(final PromotoresHelper promotoresHelper) {
 
         promotoresRest.agregarPromotor(promotoresHelper.getPromotor()).enqueue(new Callback<Promotores>() {
             @Override
@@ -183,7 +199,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private void webServiceRegistrarRefererenciaPromotor(ReferenciasPromotores referenciaPromotor) {
 
-        referenciasPromotores.agregarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
+        referenciasPromotoresRest.agregarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
             @Override
             public void onResponse(Call<ReferenciasPromotores> call, Response<ReferenciasPromotores> response) {
 
@@ -261,7 +277,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private void webServiceEditarRefererenciaPromotor(ReferenciasPromotores referenciaPromotor) {
 
-        referenciasPromotores.editarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
+        referenciasPromotoresRest.editarReferenciaPromotor(referenciaPromotor).enqueue(new Callback<ReferenciasPromotores>() {
             @Override
             public void onResponse(Call<ReferenciasPromotores> call, Response<ReferenciasPromotores> response) {
 
@@ -530,7 +546,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceRegistrarPrestamoGrupal(prestamosGrupalesHelper);
     }
 
-    private void webServiceRegistrarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+    private void webServiceRegistrarPrestamoGrupal(final PrestamosGrupalesHelper prestamosGrupalesHelper) {
         prestamosGrupalesRest.agregarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
             @Override
             public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
@@ -540,6 +556,21 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     PrestamosGrupales prestamoGrupal = response.body();
 
                     if (null != prestamoGrupal.getId()) {
+
+                        List<ReferenciasPrestamos> referencias = new ArrayList<>();
+
+                        prestamosGrupalesHelper.getAval().setIdPrestamo(prestamoGrupal.getId());
+                        prestamosGrupalesHelper.getPrimeraReferencia().setIdPrestamo(prestamoGrupal.getId());
+                        prestamosGrupalesHelper.getSegundaReferencia().setIdPrestamo(prestamoGrupal.getId());
+
+                        referencias.add(prestamosGrupalesHelper.getAval());
+                        referencias.add(prestamosGrupalesHelper.getPrimeraReferencia());
+                        referencias.add(prestamosGrupalesHelper.getSegundaReferencia());
+
+                        for (ReferenciasPrestamos referenciaPrestamo :
+                                referencias) {
+                            webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
+                        }
 
                         finish();
                         pDialog.dismiss();
@@ -559,24 +590,264 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
+    private void webServiceRegistrarReferenciaPrestamo(ReferenciasPrestamos referenciaPrestamo) {
+        referenciasPrestamosRest.agregarReferenciaPrestamo(referenciaPrestamo).enqueue(new Callback<ReferenciasPrestamos>() {
+            @Override
+            public void onResponse(Call<ReferenciasPrestamos> call, Response<ReferenciasPrestamos> response) {
+
+                if (response.isSuccessful()) {
+
+                    ReferenciasPrestamos referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+                        //TODO GUARDAR REDES SOCIALES
+                        //TODO DOCUMENTOS REFERENCIA
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferenciasPrestamos> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
     @Override
-    public void editarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+    public void autorizarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceEditarPrestamoGrupal(prestamosGrupalesHelper);
+        webServiceAutorizarrPrestamoGrupal(prestamosGrupalesHelper);
     }
 
-    private void webServiceEditarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+    private void webServiceAutorizarrPrestamoGrupal(final PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        integrantesGruposRest.getIntegrantesGrupo(prestamosGrupalesHelper.getPrestamoGrupal().getIdGrupo())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<IntegrantesGrupos>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<IntegrantesGrupos> integrantesGruposes) {
+
+                        _plazos = new ArrayList<>();
+                        item = 0;
+
+                        for (IntegrantesGrupos integrante :
+                                integrantesGruposes) {
+
+                            Pagos data = prestamosGrupalesHelper.getPagos();
+                            int plazos = Integer.valueOf(data.getPlazo());
+                            int day = 6;
+
+                            for (int i = 1; i <= plazos; i++) {
+                                Pagos pago = new Pagos();
+                                pago.setIdPrestamo(data.getIdPrestamo());
+                                pago.setIdCliente(integrante.getIdCliente());
+                                pago.setIdTipoPrestamo(data.getIdTipoPrestamo());
+                                pago.setMontoAPagar(data.getMontoAPagar());
+                                pago.setMontoPagado(0.0);
+                                pago.setPlazo(i + "/" + plazos);
+                                pago.setTipoPago("");
+                                pago.setFechaProgramada(DateTimeUtils.addDay(day));
+                                pago.setFechaPago(pago.getFechaPago());
+                                pago.setMorosidad(0.0);
+                                pago.setDescripcion("");
+                                pago.setIdEstatus(Constants.DIAZFU_WEB_PENDIENTE);
+                                pago.setIdUsuario(pago.getIdUsuario());
+
+                                day = day + 7;
+                                _plazos.add(pago);
+                            }
+                        }
+
+                        webServiceAgregarPlazos();
+
+                        Double cantidad = prestamosGrupalesHelper.getPrestamoGrupal().getCantidadOtorgada();
+                        Double porcentaje = (0.10 * cantidad);
+                        prestamosGrupalesHelper.getPrestamoGrupal().setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
+                        prestamosGrupalesHelper.getPrestamoGrupal().setAnticipo(porcentaje);
+
+                        webServiceEditarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal());
+                    }
+                });
+    }
+
+    private void webServiceAgregarPlazos() {
+        pagosRest.agregarPago(_plazos.get(item)).enqueue(new Callback<Pagos>() {
+            @Override
+            public void onResponse(Call<Pagos> call, Response<Pagos> response) {
+
+                if (response.isSuccessful()) {
+
+                    Pagos referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+                        item++;
+                        webServiceAgregarPlazo(_plazos.get(item));
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pagos> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void webServiceAgregarPlazo(Pagos pago) {
+        pagosRest.agregarPago(pago).enqueue(new Callback<Pagos>() {
+            @Override
+            public void onResponse(Call<Pagos> call, Response<Pagos> response) {
+
+                if (response.isSuccessful()) {
+
+                    Pagos referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+                        item++;
+                        if (item < _plazos.size()) {
+                            webServiceAgregarPlazo(_plazos.get(item));
+                        } else {
+                            //PrestamosGrupales prestamosGrupales = new PrestamosGrupales();
+                            //webServiceEditarPrestamoGrupal(prestamosGrupales);
+                            finish();
+                            pDialog.dismiss();
+                        }
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Pagos> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void webServiceEditarPrestamoGrupal(PrestamosGrupales prestamoGrupal) {
+        prestamosGrupalesRest.editarPrestamoGrupal(prestamoGrupal).enqueue(new Callback<PrestamosGrupales>() {
+            @Override
+            public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
+
+                if (response.isSuccessful()) {
+
+                    PrestamosGrupales referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrestamosGrupales> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void entregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEntregarPrestamoGrupal(prestamosGrupalesHelper);
+    }
+
+    private void webServiceEntregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
+        prestamosGrupalesRest.editarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
+            @Override
+            public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
+
+                if (response.isSuccessful()) {
+
+                    PrestamosGrupales referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+
+                    }
+
+                    finish();
+                    pDialog.dismiss();
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrestamosGrupales> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
     public void setDecodeItem(DecodeItemHelper decodeItem) {
         _decodeItem = decodeItem;
+    }
+
+    @Override
+    public void openExternalActivity(int action, Class<?> externalActivity) {
+        DecodeExtraHelper extraParams = new DecodeExtraHelper();
+
+        extraParams.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(_decodeItem.getIdView())));
+        extraParams.setTituloFormulario(getString(Constants.TITLE_FORM_ACTION.get(action)));
+        extraParams.setAccionFragmento(action);
+        extraParams.setFragmentTag(Constants.ITEM_FRAGMENT.get(_decodeItem.getIdView()));
+        extraParams.setDecodeItem(_decodeItem);
+
+        Intent intent = new Intent(this, externalActivity);
+        intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
+        //intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+        startActivity(intent);
     }
 
     @Override
@@ -634,7 +905,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private void webServiceDeletePromotor() {
         Clientes cliente = (Clientes) _decodeItem.getItemModel();
-        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
         AsignacionGrupoFragment.clientesList.remove(cliente);
         AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
 
@@ -663,7 +934,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private void webServiceAsignarPromotor() {
         Clientes cliente = (Clientes) _decodeItem.getItemModel();
 
-        AsignacionGrupoFragment.asignacionesAdapter = new AsignacionesAdapter();
+        AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
         AsignacionGrupoFragment.clientesList.remove(cliente);
         cliente.setIdEstatus(Constants.ESTATUS_RESPONSABLE);
         AsignacionGrupoFragment.clientesList.add(cliente);
@@ -674,3 +945,4 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.dismiss();
     }
 }
+
