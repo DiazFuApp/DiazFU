@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,9 +46,7 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
-    private static BootstrapButton btnVerPlazos;
     private static TextInputLayout tilAnticipo;
-    private static MainRegisterInterface activityInterface;
 
     public static PrestamosGrupales _prestamoGrupalActual;
 
@@ -54,7 +54,6 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
      * Implementaciones REST
      */
     private PrestamosGrupalesRest prestamosGrupalesRest;
-    private PagosRest pagosRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,7 +64,6 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
         tilAnticipo = (TextInputLayout) view.findViewById(R.id.anticipo_entrega);
 
         prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
-        pagosRest = ApiUtils.getPagosRest();
 
         return view;
     }
@@ -107,11 +105,6 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        try {
-            activityInterface = (MainRegisterInterface) getActivity();
-        } catch (ClassCastException e) {
-            throw new ClassCastException(getActivity().toString() + "debe implementar");
-        }
     }
 
     private void obtenerGrupo() {
@@ -143,6 +136,11 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
 
     private void onPreRenderUI() {
         tilAnticipo.getEditText().setKeyListener(null);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+        mainFragment.replace(R.id.listado_intregantes_plazos_prestamos_grupales_container, new IntegrantesPlazosPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS);
+        mainFragment.commit();
     }
 
     public static boolean validarDatosEntrega() {

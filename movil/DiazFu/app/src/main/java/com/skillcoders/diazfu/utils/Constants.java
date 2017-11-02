@@ -97,6 +97,7 @@ public class Constants {
     public static final String FRAGMENT_CLIENTES_REGISTER = "fragment_clientes_register";
     public static final String FRAGMENT_GRUPOS_REGISTER = "fragment_grupos_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_REGISTER = "fragment_prestamos_grupales_register";
+    public static final String FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS = "fragment_prestamos_grupales_entregas_plazos";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER = "fragment_prestamos_individuales_register";
 
     /**
@@ -151,6 +152,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_ver_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -167,6 +169,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_CLIENTES_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_GRUPOS_REGISTER, new RegistroGruposFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_REGISTER, new RegistroPrestamosGrupalesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new RegistroPrestamosGrupalesFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -183,7 +186,7 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_ver_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
-
+        TITLE_ACTIVITY.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, R.string.default_activity_title_prestamos_grupales);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;
