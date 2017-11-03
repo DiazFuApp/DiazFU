@@ -134,6 +134,9 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
         navigationDrawerInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
+            case R.id.item_btn_pagar_prestamo_grupal:
+                navigationDrawerInterface.openExternalActivity(Constants.ACCION_PAGAR, MainRegisterActivity.class);
+                break;
             case R.id.item_btn_entregar_prestamo_grupal:
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_ENTREGAR, MainRegisterActivity.class);
                 break;

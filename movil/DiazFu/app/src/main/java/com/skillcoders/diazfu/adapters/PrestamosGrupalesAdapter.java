@@ -37,7 +37,7 @@ public class PrestamosGrupalesAdapter extends RecyclerView.Adapter<PrestamosGrup
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_prestamo_grupal);
-            btnPagar = (Button) itemView.findViewById(R.id.item_btn_pago_prestamo_grupal);
+            btnPagar = (Button) itemView.findViewById(R.id.item_btn_pagar_prestamo_grupal);
             btnEntregar = (Button) itemView.findViewById(R.id.item_btn_entregar_prestamo_grupal);
             btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_prestamo_grupal);
             btnVer = (Button) itemView.findViewById(R.id.item_btn_ver_prestamo_grupal);
@@ -104,7 +104,7 @@ public class PrestamosGrupalesAdapter extends RecyclerView.Adapter<PrestamosGrup
                 break;
         }
 
-        holder.btnEntregar.setOnClickListener(new View.OnClickListener() {
+        holder.btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 decodeItem.setIdView(v.getId());

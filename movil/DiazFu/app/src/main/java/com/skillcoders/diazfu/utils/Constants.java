@@ -11,6 +11,7 @@ import com.skillcoders.diazfu.fragments.ListadoPrestamosGrupalesFragment;
 import com.skillcoders.diazfu.fragments.ListadoPromotoresFragment;
 import com.skillcoders.diazfu.fragments.RegistroClientesFragment;
 import com.skillcoders.diazfu.fragments.RegistroGruposFragment;
+import com.skillcoders.diazfu.fragments.RegistroPagosGrupalesFragment;
 import com.skillcoders.diazfu.fragments.RegistroPrestamosGrupalesFragment;
 import com.skillcoders.diazfu.fragments.RegistroPromotoresFragment;
 
@@ -75,6 +76,7 @@ public class Constants {
     public static final int ACCION_AUTORIZAR = 4;
     public static final int ACCION_ENTREGAR = 5;
     public static final int ACCION_ELIMINAR = 6;
+    public static final int ACCION_PAGAR = 7;
 
     /**
      * Key Preferences
@@ -109,6 +111,7 @@ public class Constants {
     public static final String FRAGMENT_GRUPOS_REGISTER = "fragment_grupos_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_REGISTER = "fragment_prestamos_grupales_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS = "fragment_prestamos_grupales_entregas_plazos";
+    public static final String FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER = "fragment_prestamos_grupales_register";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER = "fragment_prestamos_individuales_register";
 
     /**
@@ -133,6 +136,7 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_ACCIONES = "fragment_formulario_prestamos_grupales_acciones";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_grupales_integrantes_plazos";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_grupales_integrantes_plazos_entregas";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS = "fragment_formulario_prestamos_grupales_pagos";
 
     /**
      * Fragmentos segundarios
@@ -164,6 +168,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_ver_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS);
     }
 
@@ -181,6 +186,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_CLIENTES_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_GRUPOS_REGISTER, new RegistroGruposFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_REGISTER, new RegistroPrestamosGrupalesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER, new RegistroPagosGrupalesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
     }
 
@@ -198,6 +204,7 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_ver_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
+        TITLE_ACTIVITY.put(R.id.item_btn_pagar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, R.string.default_activity_title_prestamos_grupales);
     }
 
@@ -209,7 +216,8 @@ public class Constants {
         TITLE_FORM_ACTION.put(Constants.ACCION_EDITAR, R.string.default_form_title_edit);
         TITLE_FORM_ACTION.put(Constants.ACCION_VER, R.string.default_form_title_ver);
         TITLE_FORM_ACTION.put(Constants.ACCION_AUTORIZAR, R.string.default_form_title_autorizar);
-        TITLE_FORM_ACTION.put(Constants.ACCION_ENTREGAR, R.string.default_form_title_autorizar);
+        TITLE_FORM_ACTION.put(Constants.ACCION_ENTREGAR, R.string.default_form_title_entregar);
+        TITLE_FORM_ACTION.put(Constants.ACCION_PAGAR, R.string.default_form_title_pagar);
     }
 
     public static final HashMap<Integer, String> TITLE_STATUS_DIAZFU_WEB;

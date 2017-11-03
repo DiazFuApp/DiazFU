@@ -25,7 +25,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <Button
-                android:id="@+id/item_btn_pago_prestamo_grupal"
+                android:id="@+id/item_btn_pagar_prestamo_grupal"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
