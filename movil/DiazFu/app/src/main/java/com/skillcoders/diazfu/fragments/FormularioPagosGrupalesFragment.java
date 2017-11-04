@@ -38,7 +38,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
-    private static TextInputLayout tolCantidaPago;
+    public static TextInputLayout tilCantidaPago, tilMontoRestante, tilMorosidad, tilPlazoActual;
     private static Spinner spinnerTipoPago, spinnerClientes;
 
     private static List<String> clientesList;
@@ -60,7 +60,10 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
-        tolCantidaPago = (TextInputLayout) view.findViewById(R.id.cantidad_pago_pago_grupal);
+        tilCantidaPago = (TextInputLayout) view.findViewById(R.id.cantidad_pago_pago_grupal);
+        tilMontoRestante = (TextInputLayout) view.findViewById(R.id.monto_restante_pago_grupal);
+        tilMorosidad = (TextInputLayout) view.findViewById(R.id.morosidad_pago_grupal);
+        tilPlazoActual = (TextInputLayout) view.findViewById(R.id.plazo_actual_pago_grupal);
 
         spinnerClientes = (Spinner) view.findViewById(R.id.spinner_cliente_pago_grupal);
         spinnerClientes.setOnItemSelectedListener(this);
@@ -132,7 +135,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
                         for (IntegrantesGrupos integrante :
                                 integrantesGrupos) {
                             Clientes cliente = new Clientes();
-                            cliente.setId(integrante.getId());
+                            cliente.setId(integrante.getIdCliente());
                             cliente.setNombre(integrante.getCliente());
 
                             clientes.add(cliente);
@@ -196,10 +199,11 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
         switch (parent.getId()) {
-            case R.id.spinner_grupo_prestamo_grupal:
+            case R.id.spinner_cliente_pago_grupal:
                 if (position > 0) {
-                    Clientes grupo = clientes.get(position - 1);
-                    _clienteSeleccionado = grupo;
+                    Clientes cliente = clientes.get(position - 1);
+                    _clienteSeleccionado = cliente;
+                    HistorialPagosGrupalesFragment.listadoIntegrantes(_clienteSeleccionado.getId());
                 }
                 break;
         }

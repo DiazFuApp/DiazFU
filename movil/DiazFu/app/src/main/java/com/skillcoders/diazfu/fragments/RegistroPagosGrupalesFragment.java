@@ -39,7 +39,8 @@ public class RegistroPagosGrupalesFragment extends Fragment {
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
 
         mainFragment.replace(R.id.fragment_registro_pagos_grupales_container, new FormularioPagosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_PAGOS);
-        //mainFragment.replace(R.id.fragment_registro_pagos_grupales_container, new AccionesPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_ACCIONES);
+        mainFragment.replace(R.id.fragment_historial_pagos_grupales_container, new FormularioHistorialPagosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL);
+        mainFragment.replace(R.id.fragment_acciones_pagos_grupales_container, new AccionesPagosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_ACCIONES);
 
         mainFragment.commit();
 

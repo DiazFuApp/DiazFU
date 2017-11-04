@@ -27,7 +27,7 @@
                 android:background="@null" />
 
             <FrameLayout
-                android:id="@+id/fragment_asignaciones_pagos_grupales_container"
+                android:id="@+id/fragment_historial_pagos_grupales_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"

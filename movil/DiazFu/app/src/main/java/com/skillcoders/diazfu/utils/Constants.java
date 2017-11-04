@@ -26,6 +26,7 @@ public class Constants {
     /**
      * Constantes Principales
      **/
+    public static final int MONTO_MORATORIO = 50;
     public static final int TIPO_RRESTAMO_INDIVIDUAL = 1;
     public static final int TIPO_PRESTAMO_GRUPAL = 2;
     public static final int TIPO_REFERENCIA_CONOCIDO = 1;
@@ -111,7 +112,7 @@ public class Constants {
     public static final String FRAGMENT_GRUPOS_REGISTER = "fragment_grupos_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_REGISTER = "fragment_prestamos_grupales_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS = "fragment_prestamos_grupales_entregas_plazos";
-    public static final String FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER = "fragment_prestamos_grupales_register";
+    public static final String FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER = "fragment_prestamos_grupales__pagos_register";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER = "fragment_prestamos_individuales_register";
 
     /**
@@ -137,6 +138,9 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_grupales_integrantes_plazos";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_grupales_integrantes_plazos_entregas";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS = "fragment_formulario_prestamos_grupales_pagos";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL = "fragment_formulario_prestamos_grupales_pagos_historial";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL_LISTADO = "fragment_formulario_prestamos_grupales_pagos_historial_listado";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_ACCIONES = "fragment_formulario_prestamos_grupales_pagos_acciones";
 
     /**
      * Fragmentos segundarios
@@ -168,7 +172,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_ver_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
-        ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS);
     }
 
