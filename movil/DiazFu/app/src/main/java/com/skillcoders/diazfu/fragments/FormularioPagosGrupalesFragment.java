@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
@@ -39,6 +42,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     private static DecodeExtraHelper _MAIN_DECODE;
 
     public static TextInputLayout tilCantidaPago, tilMontoRestante, tilMorosidad, tilPlazoActual;
+    public static TextView txtEstatus;
     private static Spinner spinnerTipoPago, spinnerClientes;
 
     private static List<String> clientesList;
@@ -59,6 +63,8 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
         View view = inflater.inflate(R.layout.fragment_pagos_grupales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+
+        txtEstatus = (TextView) view.findViewById(R.id.txt_historial_plazos_pagos);
 
         tilCantidaPago = (TextInputLayout) view.findViewById(R.id.cantidad_pago_pago_grupal);
         tilMontoRestante = (TextInputLayout) view.findViewById(R.id.monto_restante_pago_grupal);
@@ -97,6 +103,15 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
             default:
                 break;
         }
+
+        tilMontoRestante.getEditText().setKeyListener(null);
+        tilMorosidad.getEditText().setKeyListener(null);
+        tilPlazoActual.getEditText().setKeyListener(null);
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+        mainFragment.replace(R.id.listado_historial_plazos_pagos_grupales_container, new HistorialPagosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL_LISTADO);
+        mainFragment.commit();
     }
 
     @Override
@@ -212,13 +227,5 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-
-    public static boolean validarDatosEdicion() {
-        boolean valido = false;
-
-
-        return valido;
     }
 }

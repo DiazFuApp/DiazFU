@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@null"
-    android:clipToPadding="false"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:orientation="vertical">
 
@@ -83,21 +82,41 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/plazo_actual_pago_grupal"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
                     <EditText
                         android:id="@+id/txt_plazo_actual_pago_grupal"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:ems="10"
                         android:hint="Plazo Actual"
                         android:inputType="text"
                         android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/cantidad_pago_pago_grupal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_cantidad_pago_pago_grupal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:hint="Cantidad"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
+                        android:text="0.0" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -142,28 +161,56 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/cantidad_pago_pago_grupal"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/txt_cantidad_pago_pago_grupal"
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Cantidad"
-                        android:inputType="numberDecimal"
-                        android:singleLine="true" />
+                        android:text="HISTORIAL PLAZOS"
+                        android:textAlignment="center"
+                        android:textSize="20dp" />
 
-                </android.support.design.widget.TextInputLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_margin="5dp"
+                        android:background="@color/colorPrimaryDark" />
+
+                </LinearLayout>
+
+                <FrameLayout
+                    android:id="@+id/listado_historial_plazos_pagos_grupales_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:background="@null" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txt_historial_plazos_pagos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Seleccione un cliente para visualizar su historial."
+                        android:textAlignment="center"
+                        android:textSize="15dp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

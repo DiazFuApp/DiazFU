@@ -941,6 +941,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     private void webServiceAsignarPromotor() {
+        //TODO CHECAR RESPONSABLE CLIENTES
         Clientes cliente = (Clientes) _decodeItem.getItemModel();
 
         AsignacionGrupoFragment.adapter = new AsignacionesAdapter();

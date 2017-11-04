@@ -1,47 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@null"
-    android:clipToPadding="false"
     android:orientation="vertical">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/registro_clientes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:orientation="vertical">
 
             <FrameLayout
                 android:id="@+id/fragment_registro_pagos_grupales_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@null" />
-
-            <FrameLayout
-                android:id="@+id/fragment_historial_pagos_grupales_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:background="@null" />
-
-            <FrameLayout
-                android:id="@+id/fragment_acciones_pagos_grupales_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_marginBottom="50dp"
                 android:background="@null" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/btn_pagar_prestamo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="PAGAR PRESTAMO"
+            android:textColor="@color/textColorPrimary" />
+
+    </RelativeLayout>
 
 </FrameLayout>

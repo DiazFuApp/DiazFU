@@ -91,6 +91,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
     private void onPreRender() {
 
         integrantesGrupos = new ArrayList<>();
+        clientesList = new ArrayList<>();
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
@@ -148,9 +149,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
                         onPreRenderListadoIntegrantes();
 
                         if (integrantesGruposes.size() > 0)
-                            AsignacionesGruposFragment.showMessageAsignacion(
-                                    (null != grupos.getIdClienteResponsable()) ? View.GONE : View.VISIBLE,
-                                    (null != grupos.getIdClienteResponsable()) ? "" : "No existe responsable asignado");
+                            AsignacionesGruposFragment.showMessageAsignacion(View.GONE, "");
                     }
                 });
     }

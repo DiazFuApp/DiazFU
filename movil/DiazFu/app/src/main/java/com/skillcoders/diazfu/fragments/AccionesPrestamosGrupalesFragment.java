@@ -71,9 +71,6 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
 
     private void onPreRenderEditar() {
 
-        ScrollView scrollView = (ScrollView) getActivity().findViewById(R.id.scrollView_register);
-        scrollView.fullScroll(View.FOCUS_DOWN);
-
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 btnRegistrar.setText("EDITAR GRUPO");

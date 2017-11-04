@@ -13,8 +13,7 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.IntegrantesPlazosActivity;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.adapters.IntegrantesPlazosAdapter;
-import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.adapters.HistorialPagosGrupalesAdapter;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -46,9 +45,9 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
-    public static List<IntegrantesGrupos> integrantesGruposList;
+    public static List<Pagos> pagosList;
     private static RecyclerView recyclerView;
-    public static IntegrantesPlazosAdapter adapter;
+    public static HistorialPagosGrupalesAdapter adapter;
     private static MainRegisterInterface activityInterface;
 
     public static List<Pagos> _pagosActuales;
@@ -66,7 +65,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
-        adapter = new IntegrantesPlazosAdapter();
+        adapter = new HistorialPagosGrupalesAdapter();
         adapter.setOnClickListener(this);
 
         pagosRest = ApiUtils.getPagosRest();
@@ -117,10 +116,11 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
                     @Override
                     public void onNext(List<Pagos> pagoses) {
+                        _pagosActuales = new ArrayList<>();
+                        adapter = new HistorialPagosGrupalesAdapter();
+                        pagosList = new ArrayList<>();
 
                         Pagos plazoActual = pagoses.get(0);
-                        _pagosActuales = new ArrayList<>();
-
                         Double montoRestante = 0.0;
                         Double morosidad = 0.0;
 
@@ -134,7 +134,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
                                 Calendar itemActualDate = DateTimeUtils.getParseTimeFromSQL(DateTimeUtils.getActualTime());
                                 Calendar itemDate = DateTimeUtils.getParseTimeFromSQL(pago.getFechaProgramada());
 
-                                if (itemActualDate.compareTo(itemDate) > 0) {
+                                if ((itemActualDate.compareTo(itemDate) > 0) && (itemActualDate.get(Calendar.YEAR) == itemDate.get(Calendar.YEAR))) {
                                     int dias = itemActualDate.get(Calendar.DAY_OF_YEAR) - itemDate.get(Calendar.DAY_OF_YEAR);
                                     morosidad += (dias + 1) * (Constants.MONTO_MORATORIO);
                                 }
@@ -145,43 +145,22 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
                                 /**-------Cache del preguardado-------**/
                                 pago.setMorosidad(morosidad);
                             }
+                            pagosList.add(pago);
                             _pagosActuales.add(pago);
                         }
 
                         FormularioPagosGrupalesFragment.tilMontoRestante.getEditText().setText(CommonUtils.showMeTheMoney(montoRestante));
                         FormularioPagosGrupalesFragment.tilMorosidad.getEditText().setText(CommonUtils.showMeTheMoney(morosidad));
                         FormularioPagosGrupalesFragment.tilPlazoActual.getEditText().setText(plazoActual.getPlazo());
-                    }
-                });
 
-        integrantesRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupo())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<IntegrantesGrupos>>() {
-
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<IntegrantesGrupos> integrantesGruposes) {
-
-                        adapter = new IntegrantesPlazosAdapter();
-                        integrantesGruposList = new ArrayList<>();
-
-                        for (IntegrantesGrupos integranteGrupo : integrantesGruposes) {
-                            integranteGrupo.setId(prestamoGrupal.getId());
-                            integrantesGruposList.add(integranteGrupo);
+                        if (_pagosActuales.size() > 0) {
+                            FormularioPagosGrupalesFragment.txtEstatus.setVisibility(View.GONE);
+                        } else {
+                            FormularioPagosGrupalesFragment.txtEstatus.setVisibility(View.VISIBLE);
+                            FormularioPagosGrupalesFragment.txtEstatus.setText("No existe historial de plazos.");
                         }
 
-                        onPreRenderListadoIntegrantes();
+                        onPreRenderListadoHistorialPagos();
                     }
                 });
     }
@@ -189,16 +168,16 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
     /**
      * Carga el listado predeterminado de firebase
      **/
-    public static void onPreRenderListadoIntegrantes() {
+    public static void onPreRenderListadoHistorialPagos() {
 
-        Collections.sort(integrantesGruposList, new Comparator<IntegrantesGrupos>() {
+        Collections.sort(pagosList, new Comparator<Pagos>() {
             @Override
-            public int compare(IntegrantesGrupos o1, IntegrantesGrupos o2) {
+            public int compare(Pagos o1, Pagos o2) {
                 return (o1.getCliente().compareTo(o2.getCliente()));
             }
         });
 
-        adapter.addAll(integrantesGruposList);
+        adapter.addAll(pagosList);
         recyclerView.setAdapter(adapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());

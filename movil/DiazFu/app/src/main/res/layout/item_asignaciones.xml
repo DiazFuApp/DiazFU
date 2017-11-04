@@ -20,15 +20,16 @@
 
             <TextView
                 android:id="@+id/item_nombre_asignacion_grupo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nombre del interesado" />
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:text="Francisco Javier Díaz Saurett"
+                android:textAlignment="textStart" />
 
             <TextView
                 android:id="@+id/item_responsable_asignacion_grupo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="Responsable"
                 android:textStyle="bold" />
