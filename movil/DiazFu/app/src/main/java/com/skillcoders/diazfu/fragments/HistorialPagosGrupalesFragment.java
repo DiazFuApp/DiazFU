@@ -116,6 +116,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
                     @Override
                     public void onNext(List<Pagos> pagoses) {
+                        /**_pagosActuales arreglo para el preguardado**/
                         _pagosActuales = new ArrayList<>();
                         adapter = new HistorialPagosGrupalesAdapter();
                         pagosList = new ArrayList<>();
@@ -124,9 +125,9 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
                         Double montoRestante = 0.0;
                         Double morosidad = 0.0;
 
-                        for (Pagos pago :
-                                pagoses) {
+                        for (Pagos pago : pagoses) {
                             if (pago.getIdEstatus().equals(Constants.DIAZFU_WEB_PENDIENTE)) {
+                                Double morosidadParcial = 0.0;
                                 /**-------Suma los pagos pendientes-------**/
                                 montoRestante += pago.getMontoAPagar();
 
@@ -136,17 +137,27 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
                                 if ((itemActualDate.compareTo(itemDate) > 0) && (itemActualDate.get(Calendar.YEAR) == itemDate.get(Calendar.YEAR))) {
                                     int dias = itemActualDate.get(Calendar.DAY_OF_YEAR) - itemDate.get(Calendar.DAY_OF_YEAR);
+                                    morosidadParcial = (dias + 1.0) * (Constants.MONTO_MORATORIO);
                                     morosidad += (dias + 1) * (Constants.MONTO_MORATORIO);
                                 }
 
                                 /**-------Busqueda del plazo actual-------**/
-                                plazoActual = (plazoActual.getId().compareTo(pago.getId()) < 0) ? plazoActual : pago;
+                                if (plazoActual.getIdEstatus().equals(Constants.DIAZFU_WEB_PENDIENTE)) {
+                                    plazoActual = (plazoActual.getId().compareTo(pago.getId()) < 0) ? plazoActual : pago;
+                                } else {
+                                    plazoActual = pago;
+                                }
 
                                 /**-------Cache del preguardado-------**/
-                                pago.setMorosidad(morosidad);
+                                pago.setMorosidad(morosidadParcial);
+                                pago.setMontoAPagar(pago.getMontoAPagar());
+
+                                _pagosActuales.add(pago);
+                            } else {
+                                morosidad += pago.getMorosidad();
                             }
+
                             pagosList.add(pago);
-                            _pagosActuales.add(pago);
                         }
 
                         FormularioPagosGrupalesFragment.tilMontoRestante.getEditText().setText(CommonUtils.showMeTheMoney(montoRestante));

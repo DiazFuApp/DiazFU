@@ -39,6 +39,7 @@ import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
+import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -68,6 +69,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private int item;
     private List<Pagos> _plazos;
+    private Double _montoGeneral;
 
     /**
      * Implementaciones REST
@@ -836,6 +838,72 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void registrarPago(PagosHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarPago(helper);
+    }
+
+    private void webServiceRegistrarPago(final PagosHelper helper) {
+        _montoGeneral = helper.getPago().getMontoAPagar();
+        Pagos pago = helper.getPagos().get(item);
+
+        Double montoAPagar = (pago.getMontoPagado() > 0) ? pago.getMontoAPagar() - pago.getMontoPagado() : pago.getMontoAPagar();
+        Double montoPagado = (helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                ? montoAPagar : helper.getPago().getMontoAPagar();
+
+        pago.setFechaPago(DateTimeUtils.getActualTime());
+        pago.setTipoPago(helper.getPago().getTipoPago());
+        pago.setIdEstatus((helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                ? Constants.DIAZFU_WEB_PAGADO : Constants.DIAZFU_WEB_PENDIENTE);
+        pago.setMontoPagado(pago.getMontoPagado() + montoPagado);
+        helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() - montoPagado);
+
+        if (montoPagado > 0) {
+            pagosRest.editarPago(pago).enqueue(new Callback<Pagos>() {
+                @Override
+                public void onResponse(Call<Pagos> call, Response<Pagos> response) {
+
+                    if (response.isSuccessful()) {
+
+                        Pagos data = response.body();
+
+                        if (null != data.getId()) {
+                            item++;
+
+                            webServiceRegistrarPago(helper);
+                        } else {
+                            finish();
+                            pDialog.dismiss();
+                        }
+
+                        Log.i(TAG, "post submitted to API." + response.body().toString());
+                    } else {
+                        int statusCode = response.code();
+                        Log.e(TAG, "CODIGO: " + statusCode);
+                        Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Pagos> call, Throwable t) {
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            finish();
+            pDialog.dismiss();
+        }
     }
 
     @Override

@@ -85,8 +85,12 @@ public class HistorialPagosGrupalesAdapter extends RecyclerView.Adapter<Historia
 
         holder.txtFechaProgramada.setTextColor(ContextCompat.getColor(holder.txtFechaProgramada.getContext(), R.color.bootstrap_brand_secondary_text));
 
-        if ((itemActualDate.compareTo(itemDate) > 0) && (itemActualDate.get(Calendar.YEAR) == itemDate.get(Calendar.YEAR))) {
-            holder.txtFechaProgramada.setTextColor(ContextCompat.getColor(holder.txtFechaProgramada.getContext(), R.color.bootstrap_brand_danger));
+        switch (item.getIdEstatus()) {
+            case Constants.DIAZFU_WEB_PENDIENTE:
+                if ((itemActualDate.compareTo(itemDate) > 0) && (itemActualDate.get(Calendar.YEAR) == itemDate.get(Calendar.YEAR))) {
+                    holder.txtFechaProgramada.setTextColor(ContextCompat.getColor(holder.txtFechaProgramada.getContext(), R.color.bootstrap_brand_danger));
+                }
+                break;
         }
 
         holder.txtPlazos.setText(item.getPlazo());

@@ -22,7 +22,7 @@ public class ApiUtils {
     }
 
     //public static final String BASE_URL = "http://diazfu-webapi.azurewebsites.net/api/";
-    public static final String BASE_URL = "http://192.168.1.71:8081/api/";
+    public static final String BASE_URL = "http://192.168.1.70:8081/api/";
 
     public static UsuariosRest getUsuariosRest() {
         return RetrofitClient.getClient(BASE_URL).create(UsuariosRest.class);

@@ -15,16 +15,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
+import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,11 +55,12 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     private static List<String> tiposPagosList;
     public static String _tipoPagoSeleccionado;
 
+    public static Pagos _pagoActual;
+
     /**
      * Implementaciones REST
      */
     private IntegrantesGruposRest integrantesGruposRest;
-    private GruposRest gruposRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,9 +80,9 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
         spinnerTipoPago = (Spinner) view.findViewById(R.id.spinner_tipo_pago_pago_grupal);
         spinnerTipoPago.setOnItemSelectedListener(this);
 
+        _pagoActual = new Pagos();
 
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
-        gruposRest = ApiUtils.getGruposRest();
 
         return view;
     }
@@ -221,11 +225,54 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
                     HistorialPagosGrupalesFragment.listadoIntegrantes(_clienteSeleccionado.getId());
                 }
                 break;
+            case R.id.spinner_tipo_pago_pago_grupal:
+                if (position > 0) {
+                    _tipoPagoSeleccionado = spinnerTipoPago.getSelectedItem().toString();
+                }
+                break;
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
+    }
+
+    public static boolean validarDatosRegistro() {
+        boolean valido = false;
+
+        String cantidad = tilCantidaPago.getEditText().getText().toString();
+
+        boolean a = ValidationUtils.esNumeroValido(tilCantidaPago, cantidad);
+        boolean b = ValidationUtils.esSpinnerValido(spinnerTipoPago);
+        boolean c = ValidationUtils.esSpinnerValido(spinnerClientes);
+        boolean d = (HistorialPagosGrupalesFragment._pagosActuales.size() > 0);
+
+        if (a && b && c && d) {
+
+            /*
+            Pagos plazo = HistorialPagosGrupalesFragment._pagosActuales.get(0);
+            Double montoAPagar = (plazo.getMontoPagado() > 0)
+                    ? plazo.getMontoAPagar() - plazo.getMontoPagado() : plazo.getMontoAPagar();*/
+
+            if (Double.valueOf(cantidad).compareTo(0.0) >= 0) {
+
+                Pagos pago = new Pagos();
+                pago.setMontoAPagar(Double.valueOf(cantidad));
+                pago.setIdCliente(_clienteSeleccionado.getId());
+                pago.setTipoPago(_tipoPagoSeleccionado);
+                pago.setIdEstatus(Constants.DIAZFU_WEB_PAGADO);
+
+                _pagoActual = pago;
+
+                valido = true;
+            } else {
+                Toast.makeText(tilCantidaPago.getContext(),
+                        "La cantidad debe ser mayor a $ " + 0, Toast.LENGTH_SHORT).show();
+                valido = false;
+            }
+        }
+
+        return valido;
     }
 }

@@ -4,6 +4,7 @@ import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
+import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
@@ -36,4 +37,6 @@ public interface MainRegisterInterface {
     void autorizarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 
     void entregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
+
+    void registrarPago(PagosHelper helper);
 }
