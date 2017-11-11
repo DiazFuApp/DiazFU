@@ -123,6 +123,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
                         Pagos plazoActual = pagoses.get(0);
                         Double montoRestante = 0.0;
+                        Double montoPagado = 0.0;
                         Double morosidad = 0.0;
 
                         for (Pagos pago : pagoses) {
@@ -151,6 +152,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
                                 /**-------Cache del preguardado-------**/
                                 pago.setMorosidad(morosidadParcial);
                                 pago.setMontoAPagar(pago.getMontoAPagar());
+                                montoPagado = montoRestante - pago.getMontoPagado();
 
                                 _pagosActuales.add(pago);
                             } else {
@@ -160,7 +162,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
                             pagosList.add(pago);
                         }
 
-                        FormularioPagosGrupalesFragment.tilMontoRestante.getEditText().setText(CommonUtils.showMeTheMoney(montoRestante));
+                        FormularioPagosGrupalesFragment.tilMontoRestante.getEditText().setText(CommonUtils.showMeTheMoney(montoPagado));
                         FormularioPagosGrupalesFragment.tilMorosidad.getEditText().setText(CommonUtils.showMeTheMoney(morosidad));
                         FormularioPagosGrupalesFragment.tilPlazoActual.getEditText().setText(plazoActual.getPlazo());
 

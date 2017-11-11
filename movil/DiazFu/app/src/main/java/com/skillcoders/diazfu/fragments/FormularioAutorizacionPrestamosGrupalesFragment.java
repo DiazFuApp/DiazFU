@@ -48,6 +48,8 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
     public static Pagos _pagosActual;
     public static int _plazosSeleccionado;
 
+    private View view;
+
     /**
      * Implementaciones REST
      */
@@ -56,7 +58,7 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_autorizaciones_prestamos_grupales_formulario, container, false);
+        view = inflater.inflate(R.layout.fragment_autorizaciones_prestamos_grupales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
@@ -88,16 +90,19 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
             case Constants.ACCION_VER:
             case Constants.ACCION_ENTREGAR:
                 this.obtenerGrupo();
-                RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.VISIBLE);
+                //RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_AUTORIZAR:
                 _pagosActual = new Pagos();
                 this.obtenerGrupo();
-                RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.VISIBLE);
+                //RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_REGISTRAR:
                 _prestamoGrupalActual = new PrestamosGrupales();
-                RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.GONE);
+                //RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
                 break;
             default:
                 break;

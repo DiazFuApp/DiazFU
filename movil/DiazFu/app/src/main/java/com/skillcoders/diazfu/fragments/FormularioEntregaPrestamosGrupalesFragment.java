@@ -47,6 +47,7 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
     private static DecodeExtraHelper _MAIN_DECODE;
 
     private static TextInputLayout tilAnticipo;
+    private View view;
 
     public static PrestamosGrupales _prestamoGrupalActual;
 
@@ -57,7 +58,7 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_entregas_prestamos_grupales_formulario, container, false);
+        view = inflater.inflate(R.layout.fragment_entregas_prestamos_grupales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
 
@@ -85,12 +86,14 @@ public class FormularioEntregaPrestamosGrupalesFragment extends Fragment {
             case Constants.ACCION_VER:
             case Constants.ACCION_ENTREGAR:
                 this.obtenerGrupo();
-                RegistroPrestamosGrupalesFragment.frameEntrega.setVisibility(View.VISIBLE);
+                //RegistroPrestamosGrupalesFragment.frameEntrega.setVisibility(View.VISIBLE);
+                view.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_AUTORIZAR:
             case Constants.ACCION_REGISTRAR:
                 _prestamoGrupalActual = new PrestamosGrupales();
-                RegistroPrestamosGrupalesFragment.frameEntrega.setVisibility(View.GONE);
+                //RegistroPrestamosGrupalesFragment.frameEntrega.setVisibility(View.GONE);
+                view.setVisibility(View.GONE);
                 break;
             default:
                 break;

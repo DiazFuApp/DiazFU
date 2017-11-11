@@ -1,12 +1,11 @@
 package com.skillcoders.diazfu.data.remote;
 
-import com.skillcoders.diazfu.data.model.Pagos;
-import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
+import com.skillcoders.diazfu.data.remote.rest.PrestamosIndividualesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
@@ -50,6 +49,10 @@ public class ApiUtils {
 
     public static PrestamosGrupalesRest getPrestamosGrupalesRest() {
         return RetrofitClient.getClient(BASE_URL).create(PrestamosGrupalesRest.class);
+    }
+
+    public static PrestamosIndividualesRest getPrestamosIndividualesRest() {
+        return RetrofitClient.getClient(BASE_URL).create(PrestamosIndividualesRest.class);
     }
 
     public static ReferenciasPrestamosRest getReferenciasPrestamosRest() {

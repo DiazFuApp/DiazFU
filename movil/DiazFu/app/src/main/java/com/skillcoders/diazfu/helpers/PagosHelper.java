@@ -1,6 +1,7 @@
 package com.skillcoders.diazfu.helpers;
 
 import com.skillcoders.diazfu.data.model.Pagos;
+import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public class PagosHelper {
     private Pagos pago;
     private List<Pagos> pagos;
+    private PrestamosGrupales prestamosGrupales;
 
     public PagosHelper() {
     }
@@ -29,5 +31,13 @@ public class PagosHelper {
 
     public void setPagos(List<Pagos> pagos) {
         this.pagos = pagos;
+    }
+
+    public PrestamosGrupales getPrestamosGrupales() {
+        return prestamosGrupales;
+    }
+
+    public void setPrestamosGrupales(PrestamosGrupales prestamosGrupales) {
+        this.prestamosGrupales = prestamosGrupales;
     }
 }

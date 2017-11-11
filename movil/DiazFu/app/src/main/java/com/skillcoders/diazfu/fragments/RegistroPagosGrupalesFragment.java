@@ -100,6 +100,7 @@ public class RegistroPagosGrupalesFragment extends Fragment implements View.OnCl
         PagosHelper helper = new PagosHelper();
         helper.setPago(FormularioPagosGrupalesFragment._pagoActual);
         helper.setPagos(HistorialPagosGrupalesFragment._pagosActuales);
+        helper.setPrestamosGrupales(FormularioPagosGrupalesFragment._prestamoGrupalActual);
 
         activityInterface.registrarPago(helper);
     }

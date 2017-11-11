@@ -806,11 +806,11 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceEntregarPrestamoGrupal(prestamosGrupalesHelper);
+        webServiceEntregarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal());
     }
 
-    private void webServiceEntregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
-        prestamosGrupalesRest.editarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
+    private void webServiceEntregarPrestamoGrupal(PrestamosGrupales prestamosGrupales) {
+        prestamosGrupalesRest.editarPrestamoGrupal(prestamosGrupales).enqueue(new Callback<PrestamosGrupales>() {
             @Override
             public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
 
@@ -853,18 +853,29 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private void webServiceRegistrarPago(final PagosHelper helper) {
         _montoGeneral = helper.getPago().getMontoAPagar();
-        Pagos pago = helper.getPagos().get(item);
+        Pagos pago = new Pagos();
+        Double montoPagado = 0.0;
 
-        Double montoAPagar = (pago.getMontoPagado() > 0) ? pago.getMontoAPagar() - pago.getMontoPagado() : pago.getMontoAPagar();
-        Double montoPagado = (helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
-                ? montoAPagar : helper.getPago().getMontoAPagar();
+        if (item < helper.getPagos().size()) {
+            pago = helper.getPagos().get(item);
 
-        pago.setFechaPago(DateTimeUtils.getActualTime());
-        pago.setTipoPago(helper.getPago().getTipoPago());
-        pago.setIdEstatus((helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
-                ? Constants.DIAZFU_WEB_PAGADO : Constants.DIAZFU_WEB_PENDIENTE);
-        pago.setMontoPagado(pago.getMontoPagado() + montoPagado);
-        helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() - montoPagado);
+            Double montoAPagar = (pago.getMontoPagado() > 0) ? pago.getMontoAPagar() - pago.getMontoPagado() : pago.getMontoAPagar();
+            montoPagado = (helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                    ? montoAPagar : helper.getPago().getMontoAPagar();
+
+            pago.setFechaPago(DateTimeUtils.getActualTime());
+            pago.setTipoPago(helper.getPago().getTipoPago());
+            pago.setIdEstatus((helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                    ? Constants.DIAZFU_WEB_PAGADO : Constants.DIAZFU_WEB_PENDIENTE);
+            pago.setMontoPagado(pago.getMontoPagado() + montoPagado);
+            helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() - montoPagado);
+
+            if (helper.getPago().getPlazo().equals(pago.getPlazo()) && (helper.getPago().getMontoAPagar() > 0)) {
+                helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() + montoPagado);
+                montoPagado = helper.getPago().getMontoAPagar();
+                pago.setMontoPagado(montoPagado);
+            }
+        }
 
         if (montoPagado > 0) {
             pagosRest.editarPago(pago).enqueue(new Callback<Pagos>() {
@@ -872,13 +883,17 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 public void onResponse(Call<Pagos> call, Response<Pagos> response) {
 
                     if (response.isSuccessful()) {
-
+                        item++;
                         Pagos data = response.body();
 
                         if (null != data.getId()) {
-                            item++;
-
-                            webServiceRegistrarPago(helper);
+                            if (helper.getPago().getPlazo().equals(data.getPlazo())
+                                    && data.getMontoPagado().compareTo(data.getMontoAPagar()) >= 0) {
+                                helper.getPrestamosGrupales().setIdEstatus(Constants.DIAZFU_WEB_PAGADO);
+                                webServiceEntregarPrestamoGrupal(helper.getPrestamosGrupales());
+                            } else {
+                                webServiceRegistrarPago(helper);
+                            }
                         } else {
                             finish();
                             pDialog.dismiss();

@@ -56,6 +56,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     public static String _tipoPagoSeleccionado;
 
     public static Pagos _pagoActual;
+    public static PrestamosGrupales _prestamoGrupalActual;
 
     /**
      * Implementaciones REST
@@ -81,6 +82,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
         spinnerTipoPago.setOnItemSelectedListener(this);
 
         _pagoActual = new Pagos();
+        _prestamoGrupalActual = new PrestamosGrupales();
 
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
 
@@ -129,9 +131,9 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     }
 
     private void listadoClientes() {
-        PrestamosGrupales prestamoGrupal = ((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel());
+        _prestamoGrupalActual = ((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel());
 
-        integrantesGruposRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupo())
+        integrantesGruposRest.getIntegrantesGrupo(_prestamoGrupalActual.getIdGrupo())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<IntegrantesGrupos>>() {
@@ -250,8 +252,9 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
 
         if (a && b && c && d) {
 
+            int plazos = HistorialPagosGrupalesFragment._pagosActuales.size();
+            Pagos plazo = HistorialPagosGrupalesFragment._pagosActuales.get(plazos - 1);
             /*
-            Pagos plazo = HistorialPagosGrupalesFragment._pagosActuales.get(0);
             Double montoAPagar = (plazo.getMontoPagado() > 0)
                     ? plazo.getMontoAPagar() - plazo.getMontoPagado() : plazo.getMontoAPagar();*/
 
@@ -262,6 +265,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
                 pago.setIdCliente(_clienteSeleccionado.getId());
                 pago.setTipoPago(_tipoPagoSeleccionado);
                 pago.setIdEstatus(Constants.DIAZFU_WEB_PAGADO);
+                pago.setPlazo(plazo.getPlazo());
 
                 _pagoActual = pago;
 
