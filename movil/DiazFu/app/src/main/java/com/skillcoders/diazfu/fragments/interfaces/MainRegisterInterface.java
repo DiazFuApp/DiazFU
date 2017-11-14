@@ -39,7 +39,9 @@ public interface MainRegisterInterface {
 
     void entregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 
-    void registrarPago(PagosHelper helper);
+    void registrarPagoGrupal(PagosHelper helper);
+
+    void registrarPagoIndividual(PagosHelper helper);
 
     void registrarPrestamoIndividual(PrestamosIndividualesHelper helper);
 

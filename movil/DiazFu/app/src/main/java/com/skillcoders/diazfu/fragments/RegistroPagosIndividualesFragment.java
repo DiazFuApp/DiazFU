@@ -24,7 +24,7 @@ import com.skillcoders.diazfu.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class RegistroPagosGrupalesFragment extends Fragment implements View.OnClickListener, AlertDialog.OnClickListener {
+public class RegistroPagosIndividualesFragment extends Fragment implements View.OnClickListener, AlertDialog.OnClickListener {
 
     private MainRegisterInterface activityInterface;
 
@@ -35,17 +35,17 @@ public class RegistroPagosGrupalesFragment extends Fragment implements View.OnCl
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_registro_pagos_grupales, container, false);
+        View view = inflater.inflate(R.layout.fragment_registro_pagos_individuales, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
-        btnPagar = (Button) view.findViewById(R.id.btn_pagar_prestamo);
+        btnPagar = (Button) view.findViewById(R.id.btn_pagar_prestamo_individual);
         btnPagar.setOnClickListener(this);
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.fragment_registro_pagos_grupales_container, new FormularioPagosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_PAGOS);
+        mainFragment.replace(R.id.fragment_registro_pagos_individuales_container, new FormularioPagosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS);
         mainFragment.commit();
 
         return view;
@@ -69,7 +69,7 @@ public class RegistroPagosGrupalesFragment extends Fragment implements View.OnCl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_pagar_prestamo:
+            case R.id.btn_pagar_prestamo_individual:
                 this.showQuestion();
                 break;
         }
@@ -90,17 +90,17 @@ public class RegistroPagosGrupalesFragment extends Fragment implements View.OnCl
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
-                if (FormularioPagosGrupalesFragment.validarDatosRegistro()) registrar();
+                if (FormularioPagosIndividualesFragment.validarDatosRegistro()) registrar();
                 break;
         }
     }
 
     private void registrar() {
         PagosHelper helper = new PagosHelper();
-        helper.setPago(FormularioPagosGrupalesFragment._pagoActual);
-        helper.setPagos(HistorialPagosGrupalesFragment._pagosActuales);
-        helper.setPrestamosGrupales(FormularioPagosGrupalesFragment._prestamoGrupalActual);
+        helper.setPago(FormularioPagosIndividualesFragment._pagoActual);
+        helper.setPagos(HistorialPagosIndividualesFragment._pagosActuales);
+        helper.setPrestamosIndividuales(FormularioPagosIndividualesFragment._prestamoIndividualActual);
 
-        activityInterface.registrarPagoGrupal(helper);
+        activityInterface.registrarPagoIndividual(helper);
     }
 }

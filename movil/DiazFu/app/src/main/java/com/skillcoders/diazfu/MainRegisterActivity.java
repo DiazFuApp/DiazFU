@@ -843,15 +843,57 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
+    private void webServiceEntregarPrestamosIndividuales(PrestamosIndividuales prestamosIndividuales) {
+        prestamosIndividualesRest.editarPrestamoIndividual(prestamosIndividuales).enqueue(new Callback<PrestamosIndividuales>() {
+            @Override
+            public void onResponse(Call<PrestamosIndividuales> call, Response<PrestamosIndividuales> response) {
+
+                if (response.isSuccessful()) {
+
+                    PrestamosIndividuales prestamoIndividual = response.body();
+
+                    if (null != prestamoIndividual.getId()) {
+
+                    }
+
+                    finish();
+                    pDialog.dismiss();
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrestamosIndividuales> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
-    public void registrarPago(PagosHelper helper) {
+    public void registrarPagoGrupal(PagosHelper helper) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        webServiceRegistrarPago(helper);
+        webServiceRegistrarPagoGrupal(helper);
+    }
+
+    @Override
+    public void registrarPagoIndividual(PagosHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarPagoIndividual(helper);
     }
 
     @Override
@@ -1052,7 +1094,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void webServiceRegistrarPago(final PagosHelper helper) {
+    private void webServiceRegistrarPagoGrupal(final PagosHelper helper) {
         _montoGeneral = helper.getPago().getMontoAPagar();
         Pagos pago = new Pagos();
         Double montoPagado = 0.0;
@@ -1093,7 +1135,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 helper.getPrestamosGrupales().setIdEstatus(Constants.DIAZFU_WEB_PAGADO);
                                 webServiceEntregarPrestamoGrupal(helper.getPrestamosGrupales());
                             } else {
-                                webServiceRegistrarPago(helper);
+                                webServiceRegistrarPagoGrupal(helper);
                             }
                         } else {
                             finish();
@@ -1120,6 +1162,77 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             finish();
             pDialog.dismiss();
         }
+    }
+
+    private void webServiceRegistrarPagoIndividual(final PagosHelper helper) {
+        _montoGeneral = helper.getPago().getMontoAPagar();
+        Pagos pago = new Pagos();
+        Double montoPagado = 0.0;
+
+        if (item < helper.getPagos().size()) {
+            pago = helper.getPagos().get(item);
+
+            Double montoAPagar = (pago.getMontoPagado() > 0) ? pago.getMontoAPagar() - pago.getMontoPagado() : pago.getMontoAPagar();
+            montoPagado = (helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                    ? montoAPagar : helper.getPago().getMontoAPagar();
+
+            pago.setFechaPago(DateTimeUtils.getActualTime());
+            pago.setTipoPago(helper.getPago().getTipoPago());
+            pago.setIdEstatus((helper.getPago().getMontoAPagar().compareTo(montoAPagar) >= 0)
+                    ? Constants.DIAZFU_WEB_PAGADO : Constants.DIAZFU_WEB_PENDIENTE);
+            pago.setMontoPagado(pago.getMontoPagado() + montoPagado);
+            helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() - montoPagado);
+
+            if (helper.getPago().getPlazo().equals(pago.getPlazo()) && (helper.getPago().getMontoAPagar() > 0)) {
+                helper.getPago().setMontoAPagar(helper.getPago().getMontoAPagar() + montoPagado);
+                montoPagado = helper.getPago().getMontoAPagar();
+                pago.setMontoPagado(montoPagado);
+            }
+        }
+
+        if (montoPagado > 0) {
+            pagosRest.editarPago(pago).enqueue(new Callback<Pagos>() {
+                @Override
+                public void onResponse(Call<Pagos> call, Response<Pagos> response) {
+
+                    if (response.isSuccessful()) {
+                        item++;
+                        Pagos data = response.body();
+
+                        if (null != data.getId()) {
+                            if (helper.getPago().getPlazo().equals(data.getPlazo())
+                                    && data.getMontoPagado().compareTo(data.getMontoAPagar()) >= 0) {
+                                helper.getPrestamosIndividuales().setIdEstatus(Constants.DIAZFU_WEB_PAGADO);
+                                webServiceEntregarPrestamosIndividuales(helper.getPrestamosIndividuales());
+                            } else {
+                                webServiceRegistrarPagoIndividual(helper);
+                            }
+                        } else {
+                            finish();
+                            pDialog.dismiss();
+                        }
+
+                        Log.i(TAG, "post submitted to API." + response.body().toString());
+                    } else {
+                        int statusCode = response.code();
+                        Log.e(TAG, "CODIGO: " + statusCode);
+                        Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Pagos> call, Throwable t) {
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            finish();
+            pDialog.dismiss();
+        }
+
     }
 
     @Override
