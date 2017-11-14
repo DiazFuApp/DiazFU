@@ -29,7 +29,7 @@ public class Constants {
      * Constantes Principales
      **/
     public static final int MONTO_MORATORIO = 50;
-    public static final int TIPO_RRESTAMO_INDIVIDUAL = 1;
+    public static final int TIPO_PRESTAMO_INDIVIDUAL = 1;
     public static final int TIPO_PRESTAMO_GRUPAL = 2;
     public static final int TIPO_REFERENCIA_CONOCIDO = 1;
     public static final int TIPO_REFERENCIA_AVAL = 2;
@@ -114,8 +114,10 @@ public class Constants {
     public static final String FRAGMENT_GRUPOS_REGISTER = "fragment_grupos_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_REGISTER = "fragment_prestamos_grupales_register";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS = "fragment_prestamos_grupales_entregas_plazos";
-    public static final String FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER = "fragment_prestamos_grupales__pagos_register";
+    public static final String FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER = "fragment_prestamos_grupales_pagos_register";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER = "fragment_prestamos_individuales_register";
+    public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS = "fragment_prestamos_individuales_entregas_plazos";
+    public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER = "fragment_prestamos_individuales_pagos_register";
 
     /**
      * Formularios
@@ -149,6 +151,8 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_SEGUNDA_REFERENCIA = "fragment_formulario_prestamos_individuales_segunda_referencia";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_AUTORIZACION = "fragment_formulario_prestamos_individuales_autorizacion";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_ENTREGA = "fragment_formulario_prestamos_individuales_entrega";
+    public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_individuales_integrantes_plazos";
+    public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_individuales_integrantes_plazos_entregas";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_ACCIONES = "fragment_formulario_prestamos_individuales_acciones";
 
     /**
@@ -184,6 +188,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS);
+        ITEM_FRAGMENT.put(R.id.item_btn_inspeccionar_cliente_plazo_entrega, FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS);
         ITEM_FRAGMENT.put(R.id.item_btn_ver_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
@@ -207,6 +212,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER, new RegistroPrestamosIndividualessFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_PAGOS_REGISTER, new RegistroPagosGrupalesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
+        TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -226,6 +232,7 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_pagar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_inspeccionar_integrante_plazo_entrega, R.string.default_activity_title_prestamos_grupales);
+        TITLE_ACTIVITY.put(R.id.item_btn_inspeccionar_cliente_plazo_entrega, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_ver_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);

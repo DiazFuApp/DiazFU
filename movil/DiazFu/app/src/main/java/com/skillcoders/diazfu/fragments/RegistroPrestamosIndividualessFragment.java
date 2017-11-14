@@ -43,12 +43,12 @@ public class RegistroPrestamosIndividualessFragment extends Fragment {
 
         mainFragment.replace(R.id.fragment_registro_prestamos_individuales_container, new FormularioPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES);
         //mainFragment.replace(R.id.fragment_asignaciones_grupo_container, new AsignacionesGruposFragment(), Constants.FORMULARIO_GRUPOS_ASIGNACIONES);
-        mainFragment.replace(R.id.fragment_aval_prestamos_individuales_container, new FormularioAvalPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_AVAL);
-        //mainFragment.replace(R.id.fragment_primera_referencia_prestamos_individuales_container, new FormularioPrimeraReferenciaPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_PRIMER_REFERENCIA);
-        //mainFragment.replace(R.id.fragment_segunda_referencia_prestamos_individuales_container, new FormularioSegundaReferenciaPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_SEGUNDA_REFERENCIA);
-        //mainFragment.replace(R.id.fragment_autorizacion_prestamos_individuales_container, new FormularioAutorizacionPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_AUTORIZACION);
-        //mainFragment.replace(R.id.fragment_entrega_prestamos_individuales_container, new FormularioEntregaPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_ENTREGA);
-        //mainFragment.replace(R.id.fragment_acciones_prestamos_individuales_container, new AccionesPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_ACCIONES);
+        mainFragment.replace(R.id.fragment_aval_prestamos_individuales_container, new FormularioAvalPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_AVAL);
+        mainFragment.replace(R.id.fragment_primera_referencia_prestamos_individuales_container, new FormularioPrimeraReferenciaPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_PRIMER_REFERENCIA);
+        mainFragment.replace(R.id.fragment_segunda_referencia_prestamos_individuales_container, new FormularioSegundaReferenciaPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_SEGUNDA_REFERENCIA);
+        mainFragment.replace(R.id.fragment_autorizacion_prestamos_individuales_container, new FormularioAutorizacionPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_AUTORIZACION);
+        mainFragment.replace(R.id.fragment_entrega_prestamos_individuales_container, new FormularioEntregaPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_ENTREGA);
+        mainFragment.replace(R.id.fragment_acciones_prestamos_individuales_container, new AccionesPrestamosIndividualesFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_ACCIONES);
 
         mainFragment.commit();
 

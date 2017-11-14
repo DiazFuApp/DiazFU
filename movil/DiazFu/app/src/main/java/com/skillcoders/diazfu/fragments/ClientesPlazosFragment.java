@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.PlazosAdapter;
-import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -35,7 +34,7 @@ import rx.schedulers.Schedulers;
  * Created by saurett on 24/02/2017.
  */
 
-public class IntegrantePlazosFragment extends Fragment implements View.OnClickListener {
+public class ClientesPlazosFragment extends Fragment implements View.OnClickListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
@@ -49,6 +48,7 @@ public class IntegrantePlazosFragment extends Fragment implements View.OnClickLi
      * Implementaciones REST
      */
     private static PagosRest pagosRest;
+    private static ClientesRest clientesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -61,6 +61,7 @@ public class IntegrantePlazosFragment extends Fragment implements View.OnClickLi
         adapter = new PlazosAdapter();
         adapter.setOnClickListener(this);
 
+        clientesRest = ApiUtils.getClientesRest();
         pagosRest = ApiUtils.getPagosRest();
 
         return view;
@@ -90,11 +91,11 @@ public class IntegrantePlazosFragment extends Fragment implements View.OnClickLi
 
     private void listadoIntegrantes() {
 
-        final Clientes clientes = (Clientes) _MAIN_DECODE.getDecodeItem().getItemModel();
+        final IntegrantesGrupos integranteGrupo = (IntegrantesGrupos) _MAIN_DECODE.getDecodeItem().getItemModel();
 
         Pagos pago = new Pagos();
-        pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_INDIVIDUAL);
-        pago.setIdPrestamo(clientes.getId());
+        pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);
+        pago.setIdPrestamo(integranteGrupo.getId());
 
         pagosRest.getPago(pago)
                 .subscribeOn(Schedulers.io())
@@ -118,8 +119,11 @@ public class IntegrantePlazosFragment extends Fragment implements View.OnClickLi
                         adapter = new PlazosAdapter();
                         pagosList = new ArrayList<>();
 
-                        for (Pagos pago : pagos) {
-                            pagosList.add(pago);
+                        for (Pagos pago :
+                                pagos) {
+                            if (integranteGrupo.getIdCliente().equals(pago.getIdCliente())) {
+                                pagosList.add(pago);
+                            }
                         }
 
                         onPreRenderListadoIntegrantes();

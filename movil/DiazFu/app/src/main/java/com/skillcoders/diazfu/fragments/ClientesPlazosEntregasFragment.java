@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Usuarios;
-import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
@@ -21,7 +20,7 @@ import com.skillcoders.diazfu.utils.Constants;
  * Created by saurett on 24/02/2017.
  */
 
-public class IntegrantesPlazosEntregasFragment extends Fragment {
+public class ClientesPlazosEntregasFragment extends Fragment {
 
     private static DecodeExtraHelper _MAIN_DECODE;
     private static Usuarios _SESSION_USER;
@@ -30,7 +29,7 @@ public class IntegrantesPlazosEntregasFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_integrantes_plazos_entregas, container, false);
+        View view = inflater.inflate(R.layout.fragment_clientes_plazos_entregas, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
@@ -53,7 +52,7 @@ public class IntegrantesPlazosEntregasFragment extends Fragment {
 
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
-        mainFragment.replace(R.id.listado_integrantes_plazos_entregas_container, new IntegrantePlazosFragment(), Constants.FORMULARIO_PRESTAMOS_INDIVIDUALES_INTEGRANTES_PLAZOS_ENTREGAS);
+        mainFragment.replace(R.id.listado_clientes_plazos_entregas_container, new ClientesPlazosFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS);
         mainFragment.commit();
     }
 

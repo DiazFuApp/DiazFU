@@ -20,6 +20,7 @@ import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
+import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
@@ -29,6 +30,7 @@ import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
+import com.skillcoders.diazfu.data.remote.rest.PrestamosIndividualesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
@@ -41,6 +43,7 @@ import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
+import com.skillcoders.diazfu.helpers.PrestamosIndividualesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.DateTimeUtils;
@@ -80,6 +83,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private GruposRest gruposRest;
     private IntegrantesGruposRest integrantesGruposRest;
     private PrestamosGrupalesRest prestamosGrupalesRest;
+    private PrestamosIndividualesRest prestamosIndividualesRest;
     private ReferenciasPrestamosRest referenciasPrestamosRest;
     private PagosRest pagosRest;
 
@@ -102,6 +106,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         gruposRest = ApiUtils.getGruposRest();
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
         prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
+        prestamosIndividualesRest = ApiUtils.getPrestamosIndividualesRest();
         referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
         pagosRest = ApiUtils.getPagosRest();
 
@@ -748,8 +753,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         if (item < _plazos.size()) {
                             webServiceAgregarPlazo(_plazos.get(item));
                         } else {
-                            //PrestamosGrupales prestamosGrupales = new PrestamosGrupales();
-                            //webServiceEditarPrestamoGrupal(prestamosGrupales);
                             finish();
                             pDialog.dismiss();
                         }
@@ -849,6 +852,204 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.show();
 
         webServiceRegistrarPago(helper);
+    }
+
+    @Override
+    public void registrarPrestamoIndividual(PrestamosIndividualesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarPrestamoIndividual(helper);
+    }
+
+    private void webServiceRegistrarPrestamoIndividual(final PrestamosIndividualesHelper helper) {
+        prestamosIndividualesRest.agregarPrestamoIndividual(helper.getPrestamoIndividual())
+                .enqueue(new Callback<PrestamosIndividuales>() {
+                    @Override
+                    public void onResponse(Call<PrestamosIndividuales> call, Response<PrestamosIndividuales> response) {
+
+                        if (response.isSuccessful()) {
+
+                            PrestamosIndividuales prestamoIndividual = response.body();
+
+                            if (null != prestamoIndividual.getId()) {
+
+                                List<ReferenciasPrestamos> referencias = new ArrayList<>();
+
+                                helper.getAval().setIdPrestamo(prestamoIndividual.getId());
+                                helper.getPrimeraReferencia().setIdPrestamo(prestamoIndividual.getId());
+                                helper.getSegundaReferencia().setIdPrestamo(prestamoIndividual.getId());
+
+                                referencias.add(helper.getAval());
+                                referencias.add(helper.getPrimeraReferencia());
+                                referencias.add(helper.getSegundaReferencia());
+
+                                for (ReferenciasPrestamos referenciaPrestamo :
+                                        referencias) {
+                                    webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
+                                }
+
+                                finish();
+                                pDialog.dismiss();
+                            }
+
+                            Log.i(TAG, "post submitted to API." + response.body().toString());
+                        } else {
+                            int statusCode = response.code();
+                            Log.e(TAG, "CODIGO: " + statusCode);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PrestamosIndividuales> call, Throwable t) {
+
+                    }
+                });
+    }
+
+    @Override
+    public void autorizarPrestamoIndividual(PrestamosIndividualesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceAutorizarrPrestamoIndividual(helper);
+    }
+
+    private void webServiceAutorizarrPrestamoIndividual(final PrestamosIndividualesHelper helper) {
+        clientesRest.getCliente(helper.getPrestamoIndividual().getIdCliente())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Clientes>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Clientes cliente) {
+
+                        _plazos = new ArrayList<>();
+                        item = 0;
+
+                        Pagos data = helper.getPagos();
+                        int plazos = Integer.valueOf(data.getPlazo());
+                        int day = 6;
+
+                        for (int i = 1; i <= plazos; i++) {
+                            Pagos pago = new Pagos();
+                            pago.setIdPrestamo(data.getIdPrestamo());
+                            pago.setIdCliente(cliente.getId());
+                            pago.setIdTipoPrestamo(data.getIdTipoPrestamo());
+                            pago.setMontoAPagar(data.getMontoAPagar());
+                            pago.setMontoPagado(0.0);
+                            pago.setPlazo(i + "/" + plazos);
+                            pago.setTipoPago("");
+                            pago.setFechaProgramada(DateTimeUtils.addDay(day));
+                            pago.setFechaPago(pago.getFechaPago());
+                            pago.setMorosidad(0.0);
+                            pago.setDescripcion("");
+                            pago.setIdEstatus(Constants.DIAZFU_WEB_PENDIENTE);
+                            pago.setIdUsuario(pago.getIdUsuario());
+
+                            day = day + 7;
+                            _plazos.add(pago);
+                        }
+
+                        webServiceAgregarPlazos();
+
+                        Double cantidad = helper.getPrestamoIndividual().getCantidadOtorgada();
+                        Double porcentaje = (0.10 * cantidad);
+                        helper.getPrestamoIndividual().setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
+                        helper.getPrestamoIndividual().setAnticipo(porcentaje);
+
+                        webServiceEditarPrestamoIndividual(helper.getPrestamoIndividual());
+                    }
+                });
+    }
+
+    private void webServiceEditarPrestamoIndividual(PrestamosIndividuales prestamoIndividual) {
+        prestamosIndividualesRest.editarPrestamoIndividual(prestamoIndividual)
+                .enqueue(new Callback<PrestamosIndividuales>() {
+                    @Override
+                    public void onResponse(Call<PrestamosIndividuales> call, Response<PrestamosIndividuales> response) {
+
+                        if (response.isSuccessful()) {
+
+                            PrestamosIndividuales prestamosIndividuales = response.body();
+
+                            if (null != prestamosIndividuales.getId()) {
+
+                            }
+
+                            Log.i(TAG, "post submitted to API." + response.body().toString());
+                        } else {
+                            int statusCode = response.code();
+                            Log.e(TAG, "CODIGO: " + statusCode);
+                            Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PrestamosIndividuales> call, Throwable t) {
+                        Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
+    @Override
+    public void entregarPrestamoIndividual(PrestamosIndividualesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEntregarPrestamoIndividual(helper.getPrestamoIndividual());
+    }
+
+    private void webServiceEntregarPrestamoIndividual(PrestamosIndividuales prestamoIndividual) {
+        prestamosIndividualesRest.editarPrestamoIndividual(prestamoIndividual).enqueue(new Callback<PrestamosIndividuales>() {
+            @Override
+            public void onResponse(Call<PrestamosIndividuales> call, Response<PrestamosIndividuales> response) {
+
+                if (response.isSuccessful()) {
+
+                    PrestamosIndividuales referenciasPrestamos = response.body();
+
+                    if (null != referenciasPrestamos.getId()) {
+
+                    }
+
+                    finish();
+                    pDialog.dismiss();
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PrestamosIndividuales> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void webServiceRegistrarPago(final PagosHelper helper) {

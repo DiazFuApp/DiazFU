@@ -6,6 +6,7 @@ import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
+import com.skillcoders.diazfu.helpers.PrestamosIndividualesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 
 /**
@@ -39,4 +40,10 @@ public interface MainRegisterInterface {
     void entregarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper);
 
     void registrarPago(PagosHelper helper);
+
+    void registrarPrestamoIndividual(PrestamosIndividualesHelper helper);
+
+    void autorizarPrestamoIndividual(PrestamosIndividualesHelper helper);
+
+    void entregarPrestamoIndividual(PrestamosIndividualesHelper helper);
 }
