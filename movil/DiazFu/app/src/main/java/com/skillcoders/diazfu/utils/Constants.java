@@ -4,12 +4,14 @@ import android.support.v4.app.Fragment;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.fragments.IntegrantesPlazosEntregasFragment;
+import com.skillcoders.diazfu.fragments.ListadoActividadesFragment;
 import com.skillcoders.diazfu.fragments.ListadoClientesFragment;
 import com.skillcoders.diazfu.fragments.ListadoGruposFragment;
 import com.skillcoders.diazfu.fragments.ListadoInicioFragment;
 import com.skillcoders.diazfu.fragments.ListadoPrestamosGrupalesFragment;
 import com.skillcoders.diazfu.fragments.ListadoPrestamosIndividualesFragment;
 import com.skillcoders.diazfu.fragments.ListadoPromotoresFragment;
+import com.skillcoders.diazfu.fragments.RegistroActividadesFragment;
 import com.skillcoders.diazfu.fragments.RegistroClientesFragment;
 import com.skillcoders.diazfu.fragments.RegistroGruposFragment;
 import com.skillcoders.diazfu.fragments.RegistroPagosGrupalesFragment;
@@ -46,6 +48,11 @@ public class Constants {
     public static final int DIAZFU_WEB_PENDIENTE = 7;
     public static final int DIAZFU_WEB_FINALIZADO = 8;
 
+    public static final int DIAZFU_WEB_PRIORIDAD_BAJA = 1;
+    public static final int DIAZFU_WEB_PRIORIDAD_MEDIA = 2;
+    public static final int DIAZFU_WEB_PRIORIDAD_ALTA = 3;
+    public static final int DIAZFU_WEB_PRIORIDAD_URGENTE = 4;
+
     public static final String DIAZFU_WEB_ACTIVO_STR = "Activo";
     public static final String DIAZFU_WEB_INACTIVO_STR = "Inactivo";
     public static final String DIAZFU_WEB_SIN_AUTORIZACION_STR = "Sin Autorización";
@@ -54,6 +61,11 @@ public class Constants {
     public static final String DIAZFU_WEB_PAGADO_STR = "Pagado";
     public static final String DIAZFU_WEB_PENDIENTE_STR = "Pendiente";
     public static final String DIAZFU_WEB_FINALIZADO_STR = "Finalizado";
+
+    public static final String DIAZFU_WEB_PRIORIDAD_BAJA_STR = "Baja";
+    public static final String DIAZFU_WEB_PRIORIDAD_MEDIA_STR = "Media";
+    public static final String DIAZFU_WEB_PRIORIDAD_ALTA_STR = "Alta";
+    public static final String DIAZFU_WEB_PRIORIDAD_URGENTE_STR = "Urgente";
 
     /**
      * Constantes traducidas
@@ -106,6 +118,8 @@ public class Constants {
     public static final String FRAGMENT_LISTADO_PRESTAMOS_GRUPALES = "fragment_listado_prestamos_grupales";
     public static final String FRAGMENT_LISTADO_PRESTAMOS_INDIVIDUALES = "fragment_listado_prestamos_individuales";
     public static final String FRAGMENT_LISTADO_PAGOS = "fragment_listado_pagos";
+    public static final String FRAGMENT_LISTADO_ACTIVIDADES = "fragment_listado_actividades";
+    public static final String FRAGMENT_LISTADO_COMISIONES = "fragment_listado_comisiones";
 
     /**
      * Fragmentos de registros
@@ -119,6 +133,7 @@ public class Constants {
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER = "fragment_prestamos_individuales_register";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS = "fragment_prestamos_individuales_entregas_plazos";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER = "fragment_prestamos_individuales_pagos_register";
+    public static final String FRAGMENT_ACTIVIDADES_REGISTER = "fragment_actividades_register";
 
     /**
      * Formularios
@@ -159,6 +174,8 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_HISTORIAL = "fragment_formulario_prestamos_individuales_pagos_historial";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_HISTORIAL_LISTADO = "fragment_formulario_prestamos_individuales_pagos_historial_listado";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_ACCIONES = "fragment_formulario_prestamos_individuales_pagos_acciones";
+    public static final String FORMULARIO_ACTIVIDADES = "fragment_formulario_actividades";
+    public static final String FORMULARIO_ACTIVIDADES_ACCIONES = "fragment_formulario_actividades_acciones";
 
     /**
      * Fragmentos segundarios
@@ -168,6 +185,7 @@ public class Constants {
     public static final String FRAGMENT_GRUPOS = "fragment_grupos";
     public static final String FRAGMENT_PRESTAMOS_GRUPALES = "fragment_prestamos_grupales";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES = "fragment_prestamos_individuales";
+    public static final String FRAGMENT_ACTIVIDADES = "fragment_actividades";
 
     public static final HashMap<Integer, String> ITEM_FRAGMENT;
 
@@ -180,8 +198,11 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.menu_item_prestamos_grupales, FRAGMENT_LISTADO_PRESTAMOS_GRUPALES);
         ITEM_FRAGMENT.put(R.id.menu_item_prestamos_individuales, FRAGMENT_LISTADO_PRESTAMOS_INDIVIDUALES);
         ITEM_FRAGMENT.put(R.id.menu_item_registro_pagos, FRAGMENT_LISTADO_PAGOS);
+        ITEM_FRAGMENT.put(R.id.menu_item_actividades, FRAGMENT_LISTADO_ACTIVIDADES);
+        ITEM_FRAGMENT.put(R.id.menu_item_comisiones, FRAGMENT_LISTADO_COMISIONES);
         ITEM_FRAGMENT.put(R.id.btn_registrar_promotor, FRAGMENT_PROMOTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_cliente, FRAGMENT_CLIENTES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.btn_registrar_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_grupo, FRAGMENT_GRUPOS_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
@@ -198,6 +219,8 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_autorizar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_entregar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_editar_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_ver_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -210,6 +233,8 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_GRUPOS, new ListadoGruposFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_PRESTAMOS_GRUPALES, new ListadoPrestamosGrupalesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_PRESTAMOS_INDIVIDUALES, new ListadoPrestamosIndividualesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_COMISIONES, new ListadoClientesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_ACTIVIDADES, new ListadoActividadesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PROMOTORES_REGISTER, new RegistroPromotoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_CLIENTES_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_GRUPOS_REGISTER, new RegistroGruposFragment());
@@ -219,6 +244,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_GRUPALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER, new RegistroPagosIndividualesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
+        TAG_FRAGMENT.put(FRAGMENT_ACTIVIDADES_REGISTER, new RegistroActividadesFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -232,6 +258,8 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.btn_registrar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_promotor, R.string.default_activity_title_promotores);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_cliente, R.string.default_activity_title_clientes);
+        TITLE_ACTIVITY.put(R.id.item_btn_editar_actividad, R.string.default_activity_title_actividades);
+        TITLE_ACTIVITY.put(R.id.item_btn_ver_actividad, R.string.default_activity_title_actividades);
         TITLE_ACTIVITY.put(R.id.item_btn_editar_grupo, R.string.default_activity_title_grupos);
         TITLE_ACTIVITY.put(R.id.item_btn_ver_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
         TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_grupal, R.string.default_activity_title_prestamos_grupales);
@@ -243,6 +271,7 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_autorizar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_pagar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
+        TITLE_ACTIVITY.put(R.id.btn_registrar_actividad, R.string.default_activity_title_actividades);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;
@@ -271,6 +300,26 @@ public class Constants {
         TITLE_STATUS_DIAZFU_WEB.put(DIAZFU_WEB_FINALIZADO, DIAZFU_WEB_FINALIZADO_STR);
     }
 
+    public static final HashMap<Integer, String> TITLE_STATUS_DIAZFU_WEB_PRIORIDADES;
+
+    static {
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES = new HashMap<>();
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES.put(DIAZFU_WEB_PRIORIDAD_BAJA, DIAZFU_WEB_PRIORIDAD_BAJA_STR);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES.put(DIAZFU_WEB_PRIORIDAD_MEDIA, DIAZFU_WEB_PRIORIDAD_MEDIA_STR);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES.put(DIAZFU_WEB_PRIORIDAD_ALTA, DIAZFU_WEB_PRIORIDAD_ALTA_STR);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES.put(DIAZFU_WEB_PRIORIDAD_URGENTE, DIAZFU_WEB_PRIORIDAD_URGENTE_STR);
+    }
+
+    public static final HashMap<String, Integer> TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR;
+
+    static {
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR = new HashMap<>();
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.put(DIAZFU_WEB_PRIORIDAD_BAJA_STR, DIAZFU_WEB_PRIORIDAD_BAJA);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.put(DIAZFU_WEB_PRIORIDAD_MEDIA_STR, DIAZFU_WEB_PRIORIDAD_MEDIA);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.put(DIAZFU_WEB_PRIORIDAD_ALTA_STR, DIAZFU_WEB_PRIORIDAD_ALTA);
+        TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.put(DIAZFU_WEB_PRIORIDAD_URGENTE_STR, DIAZFU_WEB_PRIORIDAD_URGENTE);
+    }
+
     /**
      * Identificadores
      **/
@@ -280,5 +329,7 @@ public class Constants {
     public static final int WS_KEY_AUTORIZAR_GRUPOS = 31;
     public static final int WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS = 40;
     public static final int WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS = 41;
+    public static final int WS_KEY_ELIMINAR_ACTIVIDADES = 50;
+    public static final int WS_KEY_FINALIZAR_ACTIVIDADES = 51;
 
 }

@@ -1,6 +1,7 @@
 package com.skillcoders.diazfu.fragments.interfaces;
 
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
+import com.skillcoders.diazfu.helpers.ActividadesHelper;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
@@ -48,4 +49,9 @@ public interface MainRegisterInterface {
     void autorizarPrestamoIndividual(PrestamosIndividualesHelper helper);
 
     void entregarPrestamoIndividual(PrestamosIndividualesHelper helper);
+
+    void registrarActividad(ActividadesHelper helper);
+
+    void editarActividad(ActividadesHelper helper);
+
 }

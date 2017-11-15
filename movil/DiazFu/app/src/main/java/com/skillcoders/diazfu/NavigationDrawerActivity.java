@@ -18,13 +18,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.fragments.ActividadesFragment;
 import com.skillcoders.diazfu.fragments.ClientesFragment;
 import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.fragments.PromotoresFragment;
@@ -51,6 +54,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private PromotoresRest promotoresRest;
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
+    private ActividadesRest actividadesRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
+        actividadesRest = ApiUtils.getActividadesRest();
     }
 
     @Override
@@ -166,6 +171,14 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 getSupportActionBar().setTitle(getString(R.string.default_item_menu_title_registro_pagos));
                 this.openFragment(Constants.ITEM_FRAGMENT.get(id));
                 break;
+            case R.id.menu_item_actividades:
+                getSupportActionBar().setTitle(getString(R.string.default_item_menu_title_actividades));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
+                break;
+            case R.id.menu_item_comisiones:
+                getSupportActionBar().setTitle(getString(R.string.default_item_menu_title_comisiones));
+                this.openFragment(Constants.ITEM_FRAGMENT.get(id));
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -227,6 +240,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_autorizan_grupo:
                         operation = Constants.WS_KEY_AUTORIZAR_GRUPOS;
                         break;
+                    case R.id.item_btn_finalizar_actividad:
+                        operation = Constants.WS_KEY_FINALIZAR_ACTIVIDADES;
+                        break;
+                    case R.id.item_btn_eliminar_actividad:
+                        operation = Constants.WS_KEY_ELIMINAR_ACTIVIDADES;
+                        break;
                 }
 
                 this.webServiceOperations(operation);
@@ -235,7 +254,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     private void webServiceOperations(int operation) {
-               pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+        pDialog = new ProgressDialog(NavigationDrawerActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
@@ -259,6 +278,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 break;
             case Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS:
                 this.webServiceAutorizarGrupo();
+                break;
+            case Constants.WS_KEY_ELIMINAR_ACTIVIDADES:
+                this.webServiceDeleteActividad();
+                break;
+            case Constants.WS_KEY_FINALIZAR_ACTIVIDADES:
+                this.webServiceFinalizarActividad();
                 break;
         }
     }
@@ -322,6 +347,35 @@ public class NavigationDrawerActivity extends AppCompatActivity
         });
     }
 
+    private void webServiceDeleteActividad() {
+        Actividades actividad = (Actividades) _decodeItem.getItemModel();
+        actividadesRest.eliminarActividad(actividad).enqueue(new Callback<Actividades>() {
+            @Override
+            public void onResponse(Call<Actividades> call, Response<Actividades> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Actividades data = response.body();
+
+                    if (null != data.getId()) {
+                        ActividadesFragment.listadoActividades();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actividades> call, Throwable t) {
+
+            }
+        });
+    }
+
     private void webServiceDeleteGrupos() {
         Grupos grupo = (Grupos) _decodeItem.getItemModel();
         gruposRest.eliminarGrupo(grupo).enqueue(new Callback<Grupos>() {
@@ -380,6 +434,36 @@ public class NavigationDrawerActivity extends AppCompatActivity
             }
         });
 
+    }
+
+    private void webServiceFinalizarActividad() {
+        Actividades actividad = (Actividades) _decodeItem.getItemModel();
+        actividad.setIdEstatus(Constants.DIAZFU_WEB_FINALIZADO);
+        actividadesRest.editarActividad(actividad).enqueue(new Callback<Actividades>() {
+            @Override
+            public void onResponse(Call<Actividades> call, Response<Actividades> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Actividades data = response.body();
+
+                    if (null != data.getId()) {
+                        ActividadesFragment.listadoActividades();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actividades> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

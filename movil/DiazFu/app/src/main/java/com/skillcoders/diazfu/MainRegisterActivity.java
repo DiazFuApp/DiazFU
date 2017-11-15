@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
+import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
@@ -25,6 +26,7 @@ import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
@@ -37,6 +39,7 @@ import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
 import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
+import com.skillcoders.diazfu.helpers.ActividadesHelper;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
@@ -86,6 +89,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private PrestamosIndividualesRest prestamosIndividualesRest;
     private ReferenciasPrestamosRest referenciasPrestamosRest;
     private PagosRest pagosRest;
+    private ActividadesRest actividadesRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,6 +113,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         prestamosIndividualesRest = ApiUtils.getPrestamosIndividualesRest();
         referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
         pagosRest = ApiUtils.getPagosRest();
+        actividadesRest = ApiUtils.getActividadesRest();
 
         this.onPreRender();
     }
@@ -396,6 +401,88 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void registrarActividad(ActividadesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarActividad(helper);
+
+    }
+
+    private void webServiceRegistrarActividad(ActividadesHelper helper) {
+        actividadesRest.agregarActividad(helper.getActividades()).enqueue(new Callback<Actividades>() {
+            @Override
+            public void onResponse(Call<Actividades> call, Response<Actividades> response) {
+
+                if (response.isSuccessful()) {
+
+                    Actividades data = response.body();
+
+                    if (null != data.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actividades> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void editarActividad(ActividadesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEditarActividad(helper);
+
+    }
+
+    private void webServiceEditarActividad(ActividadesHelper helper) {
+        actividadesRest.editarActividad(helper.getActividades()).enqueue(new Callback<Actividades>() {
+            @Override
+            public void onResponse(Call<Actividades> call, Response<Actividades> response) {
+
+                if (response.isSuccessful()) {
+
+                    Actividades data = response.body();
+
+                    if (null != data.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Actividades> call, Throwable t) {
 
             }
         });

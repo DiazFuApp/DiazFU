@@ -25,7 +25,9 @@
     <string name="default_item_menu_title_grupos">Grupos</string>
     <string name="default_item_menu_title_prestamos_grupales">Préstamos Grupales</string>
     <string name="default_item_menu_title_prestamos_individuales">Préstamos Individuales</string>
-    <string name="default_item_menu_title_registro_pagos">Registro de Pagos</string>
+    <string name="default_item_menu_title_registro_pagos">Proximos Pagos</string>
+    <string name="default_item_menu_title_actividades">Actividades</string>
+    <string name="default_item_menu_title_comisiones">Comisiones</string>
 
     <!--Titulos de la actividad-->
     <string name="default_activity_title_promotores">Promotores</string>
@@ -33,6 +35,9 @@
     <string name="default_activity_title_grupos">Grupos</string>
     <string name="default_activity_title_prestamos_grupales">Prestamos Grupales</string>
     <string name="default_activity_title_prestamos_individuales">Prestamos Individuales</string>
+    <string name="default_activity_title_proximos_pagos">Proximos Pagos</string>
+    <string name="default_activity_title_actividades">Actividades</string>
+    <string name="default_activity_title_comisiones">Comisiones</string>
 
     <!--Form subtitle-->
     <string name="default_form_title_pagar">Pagar</string>
