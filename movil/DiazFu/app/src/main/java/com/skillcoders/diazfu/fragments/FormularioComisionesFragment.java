@@ -14,14 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.data.model.Actividades;
+import com.skillcoders.diazfu.data.model.Comisiones;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
-import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
+import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.utils.CommonUtils;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -39,48 +40,43 @@ import rx.schedulers.Schedulers;
  * Created by jvier on 03/10/2017.
  */
 
-public class FormularioActividadesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class FormularioComisionesFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private MainRegisterInterface activityInterface;
 
     private static DecodeExtraHelper _MAIN_DECODE;
     private static Usuarios _SESSION_USER;
 
-    private static TextInputLayout tilTitulo, tilDescripcion;
+    private static TextInputLayout tilDescripcion, tilComision;
 
-    private static Spinner spinnerPromotor, spinnerPrioridad;
+    private static Spinner spinnerPromotor;
 
     private static List<String> promotoresList;
-    private static List<String> prioridadesList;
     private List<Promotores> promotores;
 
-    public static Actividades _actividadActual;
+    public static Comisiones _comisionActual;
     public static Promotores _promotorSeleccionado;
-    public static String _prioridadSeleccionada;
 
     /**
      * Implementaciones REST
      */
-    private ActividadesRest actividadesRest;
+    private ComisionesRest comisionesRest;
     private PromotoresRest promotoresRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_actividades_formulario, container, false);
+        View view = inflater.inflate(R.layout.fragment_comisiones_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
         _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
-        tilTitulo = (TextInputLayout) view.findViewById(R.id.titulo_actividad);
-        tilDescripcion = (TextInputLayout) view.findViewById(R.id.descripcion_actividad);
+        tilDescripcion = (TextInputLayout) view.findViewById(R.id.descripcion_comision);
+        tilComision = (TextInputLayout) view.findViewById(R.id.comision_comision);
 
-        spinnerPromotor = (Spinner) view.findViewById(R.id.spinner_promotor_actividad);
+        spinnerPromotor = (Spinner) view.findViewById(R.id.spinner_promotor_comision);
         spinnerPromotor.setOnItemSelectedListener(this);
 
-        spinnerPrioridad = (Spinner) view.findViewById(R.id.spinner_prioridad_actividad);
-        spinnerPrioridad.setOnItemSelectedListener(this);
-
-        actividadesRest = ApiUtils.getActividadesRest();
+        comisionesRest = ApiUtils.getComisionesRest();
         promotoresRest = ApiUtils.getPromotoresRest();
 
         return view;
@@ -99,14 +95,12 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
 
     private void onPreRender() {
         switch (_MAIN_DECODE.getAccionFragmento()) {
-            case Constants.ACCION_EDITAR:
-            case Constants.ACCION_VER:
-                this.obtenerActividad();
+            case Constants.ACCION_PAGAR:
+                this.obtenerComision();
                 break;
             case Constants.ACCION_REGISTRAR:
-                _actividadActual = new Actividades();
+                _comisionActual = new Comisiones();
                 this.listadoPromotores();
-                this.listadoPrioridades();
                 break;
             default:
                 break;
@@ -123,13 +117,13 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
         super.onAttach(context);
     }
 
-    private void obtenerActividad() {
-        Actividades actividad = ((Actividades) _MAIN_DECODE.getDecodeItem().getItemModel());
+    private void obtenerComision() {
+        Comisiones comisiones = ((Comisiones) _MAIN_DECODE.getDecodeItem().getItemModel());
 
-        actividadesRest.getCliente(Long.valueOf(actividad.getId()))
+        comisionesRest.getComision(Long.valueOf(comisiones.getId()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Actividades>() {
+                .subscribe(new Subscriber<Comisiones>() {
                     @Override
                     public void onCompleted() {
                     }
@@ -139,22 +133,16 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
                     }
 
                     @Override
-                    public void onNext(Actividades data) {
+                    public void onNext(Comisiones data) {
 
-                        _actividadActual = data;
+                        _comisionActual = data;
 
-                        tilTitulo.getEditText().setText(data.getTitulo());
                         tilDescripcion.getEditText().setText(data.getDescripcion());
-
-                        prioridadesList = new ArrayList<>();
-                        prioridadesList.add("Seleccione ...");
-                        prioridadesList.add(data.getPrioridad());
+                        tilComision.getEditText().setText(data.getComision().toString());
 
                         listadoPromotores();
 
-                        onCargarSpinnerPrioridades();
-
-                        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_VER) {
+                        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_PAGAR) {
                             onPreRenderUI();
                         }
                     }
@@ -162,7 +150,6 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
     }
 
     private void onPreRenderUI() {
-        tilTitulo.getEditText().setKeyListener(null);
         tilDescripcion.getEditText().setKeyListener(null);
     }
 
@@ -185,12 +172,11 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
                                 promotores.add(promotor);
                             }
                             break;
-                        case Constants.ACCION_EDITAR:
-                        case Constants.ACCION_VER:
+                        case Constants.ACCION_PAGAR:
 
                             for (Promotores promotor :
                                     response.body()) {
-                                if (promotor.getId().equals(_actividadActual.getIdPromotor())) {
+                                if (promotor.getId().equals(_comisionActual.getIdPromotor())) {
                                     promotoresList.add(promotor.getNombre());
                                     promotores.add(promotor);
                                 }
@@ -209,17 +195,6 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
         });
     }
 
-    private void listadoPrioridades() {
-        prioridadesList = new ArrayList<>();
-        prioridadesList.add("Seleccione ...");
-        prioridadesList.add("Baja");
-        prioridadesList.add("Media");
-        prioridadesList.add("Alta");
-        prioridadesList.add("Urgente");
-
-        onCargarSpinnerPrioridades();
-    }
-
     /**
      * Asigna los valores al spinner
      **/
@@ -236,41 +211,13 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
     private int onPreRenderSelectPromotor() {
         int item = 0;
 
-        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR
-                || _MAIN_DECODE.getAccionFragmento() == Constants.ACCION_VER) {
-            Actividades actividad = _actividadActual;
+        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_PAGAR) {
+            Comisiones data = _comisionActual;
             for (Promotores promotor : promotores) {
                 item++;
-                if (promotor.getId().equals(actividad.getIdPromotor())) {
+                if (promotor.getId().equals(data.getIdPromotor())) {
                     break;
                 }
-            }
-        }
-
-        return item;
-    }
-
-    private void onCargarSpinnerPrioridades() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.support_simple_spinner_dropdown_item, prioridadesList);
-
-        int itemSelection = onPreRenderSelectPrioridades();
-
-        spinnerPrioridad.setAdapter(adapter);
-        spinnerPrioridad.setSelection(itemSelection);
-    }
-
-    private int onPreRenderSelectPrioridades() {
-        int item = 0;
-
-        if (_MAIN_DECODE.getAccionFragmento() == Constants.ACCION_EDITAR
-                || _MAIN_DECODE.getAccionFragmento() == Constants.ACCION_VER) {
-            Actividades actividad = _actividadActual;
-            for (String prioridad : prioridadesList) {
-                if (prioridad.equals(actividad.getPrioridad())) {
-                    break;
-                }
-                item++;
             }
         }
 
@@ -280,15 +227,10 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()) {
-            case R.id.spinner_promotor_actividad:
+            case R.id.spinner_promotor_comision:
                 if (position > 0) {
                     Promotores promotor = promotores.get(position - 1);
                     _promotorSeleccionado = promotor;
-                }
-                break;
-            case R.id.spinner_prioridad_actividad:
-                if (position > 0) {
-                    _prioridadSeleccionada = spinnerPrioridad.getSelectedItem().toString();
                 }
                 break;
         }
@@ -303,22 +245,20 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
     public static boolean validarDatosRegistro() {
         boolean valido = false;
 
-        String titulo = tilTitulo.getEditText().getText().toString();
         String descripcion = tilDescripcion.getEditText().getText().toString();
+        String comision = tilComision.getEditText().getText().toString();
 
-        boolean a = ValidationUtils.esTextoValido(tilTitulo, titulo);
-        boolean b = ValidationUtils.esTextoValido(tilDescripcion, descripcion);
+        boolean a = ValidationUtils.esTextoValido(tilDescripcion, descripcion);
+        boolean b = ValidationUtils.esNumeroValido(tilComision, comision);
         boolean d = ValidationUtils.esSpinnerValido(spinnerPromotor);
-        boolean e = ValidationUtils.esSpinnerValido(spinnerPrioridad);
 
-        if (a && b && d && e) {
-            Actividades data = new Actividades();
+        if (a && b && d) {
+            Comisiones data = new Comisiones();
             data.setIdPromotor(_promotorSeleccionado.getId());
-            data.setIdPrioridad(Constants.TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.get(_prioridadSeleccionada));
-            data.setTitulo(titulo);
+            data.setComision(Double.valueOf(comision));
             data.setDescripcion(descripcion);
 
-            setActividad(data);
+            setComision(data);
             valido = true;
         }
 
@@ -326,39 +266,38 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
     }
 
     public static boolean validarDatosEdicion() {
-
         boolean valido = false;
 
-        String titulo = tilTitulo.getEditText().getText().toString();
         String descripcion = tilDescripcion.getEditText().getText().toString();
+        String comision = tilComision.getEditText().getText().toString();
 
-        boolean a = ValidationUtils.esTextoValido(tilTitulo, titulo);
-        boolean b = ValidationUtils.esTextoValido(tilDescripcion, descripcion);
+        boolean a = ValidationUtils.esTextoValido(tilDescripcion, descripcion);
+        boolean b = ValidationUtils.esNumeroValido(tilComision, comision);
+        boolean d = ValidationUtils.esSpinnerValido(spinnerPromotor);
 
-        if (a && b) {
-            Actividades data = new Actividades();
+        if (a && b && d) {
+            Comisiones data = new Comisiones();
             data.setIdPromotor(_promotorSeleccionado.getId());
-            data.setIdPrioridad(Constants.TITLE_STATUS_DIAZFU_WEB_PRIORIDADES_STR.get(_prioridadSeleccionada));
-            data.setTitulo(titulo);
+            data.setComision(Double.valueOf(comision));
             data.setDescripcion(descripcion);
 
-            data.setIdUsuario(_actividadActual.getIdUsuario());
-            data.setIdEstatus(_actividadActual.getIdEstatus());
 
-            setActividad(data);
+            data.setIdUsuario(_comisionActual.getIdUsuario());
+            data.setIdEstatus(Constants.DIAZFU_WEB_FINALIZADO);
+
+            setComision(data);
             valido = true;
         }
 
         return valido;
     }
 
-    public static void setActividad(Actividades data) {
-        _actividadActual.setIdPromotor(data.getIdPromotor());
-        _actividadActual.setIdPrioridad(data.getIdPrioridad());
-        _actividadActual.setTitulo(data.getTitulo());
-        _actividadActual.setDescripcion(data.getDescripcion());
+    public static void setComision(Comisiones data) {
+        _comisionActual.setIdPromotor(data.getIdPromotor());
+        _comisionActual.setDescripcion(data.getDescripcion());
+        _comisionActual.setComision(data.getComision());
 
-        _actividadActual.setIdEstatus(data.getIdEstatus());
-        _actividadActual.setIdUsuario(data.getIdUsuario());
+        _comisionActual.setIdEstatus(data.getIdEstatus());
+        _comisionActual.setIdUsuario(data.getIdUsuario());
     }
 }

@@ -23,38 +23,13 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/item_nombre_actividad"
+                    android:id="@+id/item_nombre_comision"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="Francisco Javier Díaz Saurett"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body2"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/item_estatus_actividad"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Urgente"
-                    android:textAlignment="textEnd"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-                    android:textColor="@color/bootstrap_brand_danger"
                     android:textStyle="bold" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/item_titulo_actividad"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Actividad para el promotor 1"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
 
             </LinearLayout>
 
@@ -64,7 +39,7 @@
                 android:layout_marginTop="5dp">
 
                 <TextView
-                    android:id="@+id/item_descripcion_actividad"
+                    android:id="@+id/item_descripcion_comision"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -77,55 +52,59 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp">
 
-                <Button
-                    android:id="@+id/item_btn_finalizar_actividad"
+                <TextView
+                    android:id="@+id/textView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/bootstrap_brand_success"
-                    android:text="Finalizar"
-                    android:textColor="@color/bootstrap_brand_secondary_fill" />
+                    android:text="Monto:"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/bootstrap_brand_secondary_text"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/item_btn_editar_actividad"
+                <TextView
+                    android:id="@+id/item_monto_comision"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/bootstrap_brand_primary"
-                    android:text="Editar"
-                    android:textColor="@color/bootstrap_brand_secondary_fill" />
+                    android:text="$ 500.00"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/bootstrap_brand_success"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/item_btn_ver_actividad"
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/bootstrap_brand_primary"
-                    android:text="Ver"
-                    android:textColor="@color/bootstrap_brand_secondary_fill" />
+                    android:text="Estatus:"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/bootstrap_brand_secondary_text"
+                    android:textStyle="bold" />
 
-                <Button
-                    android:id="@+id/item_btn_eliminar_actividad"
+                <TextView
+                    android:id="@+id/item_estatus_comision"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/bootstrap_brand_danger"
-                    android:text="Eliminar"
-                    android:textColor="@color/bootstrap_brand_secondary_fill"
-                    android:visibility="gone" />
+                    android:text="Pendinete"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/bootstrap_brand_warning"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
+
+            <Button
+                android:id="@+id/item_btn_pagar_comision"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/bootstrap_brand_primary"
+                android:text="Pagar"
+                android:textColor="@color/bootstrap_brand_secondary_fill" />
 
         </LinearLayout>
 

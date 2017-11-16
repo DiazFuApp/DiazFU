@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.Comisiones;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
@@ -28,6 +29,7 @@ import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
@@ -41,6 +43,7 @@ import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.ActividadesHelper;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
+import com.skillcoders.diazfu.helpers.ComisionesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
@@ -90,6 +93,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private ReferenciasPrestamosRest referenciasPrestamosRest;
     private PagosRest pagosRest;
     private ActividadesRest actividadesRest;
+    private ComisionesRest comisionesRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -114,6 +118,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
         pagosRest = ApiUtils.getPagosRest();
         actividadesRest = ApiUtils.getActividadesRest();
+        comisionesRest = ApiUtils.getComisionesRest();
 
         this.onPreRender();
     }
@@ -456,7 +461,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pDialog.show();
 
         webServiceEditarActividad(helper);
-
     }
 
     private void webServiceEditarActividad(ActividadesHelper helper) {
@@ -487,6 +491,90 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             }
         });
     }
+
+
+    @Override
+    public void registrarComision(ComisionesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceRegistrarComision(helper);
+    }
+
+    private void webServiceRegistrarComision(ComisionesHelper helper) {
+        comisionesRest.agregarComision(helper.getComisiones()).enqueue(new Callback<Comisiones>() {
+            @Override
+            public void onResponse(Call<Comisiones> call, Response<Comisiones> response) {
+
+                if (response.isSuccessful()) {
+
+                    Comisiones data = response.body();
+
+                    if (null != data.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comisiones> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void pagarComision(ComisionesHelper helper) {
+        pDialog = new ProgressDialog(MainRegisterActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceEditarComision(helper);
+    }
+
+    private void webServiceEditarComision(ComisionesHelper helper) {
+        comisionesRest.editarComision(helper.getComisiones()).enqueue(new Callback<Comisiones>() {
+            @Override
+            public void onResponse(Call<Comisiones> call, Response<Comisiones> response) {
+
+                if (response.isSuccessful()) {
+
+                    Comisiones data = response.body();
+
+                    if (null != data.getId()) {
+
+                        finish();
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Comisiones> call, Throwable t) {
+
+            }
+        });
+
+    }
+
 
     @Override
     public void registrarGrupo(GruposHelper gruposHelper) {

@@ -6,6 +6,7 @@ import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.fragments.IntegrantesPlazosEntregasFragment;
 import com.skillcoders.diazfu.fragments.ListadoActividadesFragment;
 import com.skillcoders.diazfu.fragments.ListadoClientesFragment;
+import com.skillcoders.diazfu.fragments.ListadoComisionesFragment;
 import com.skillcoders.diazfu.fragments.ListadoGruposFragment;
 import com.skillcoders.diazfu.fragments.ListadoInicioFragment;
 import com.skillcoders.diazfu.fragments.ListadoPrestamosGrupalesFragment;
@@ -13,6 +14,7 @@ import com.skillcoders.diazfu.fragments.ListadoPrestamosIndividualesFragment;
 import com.skillcoders.diazfu.fragments.ListadoPromotoresFragment;
 import com.skillcoders.diazfu.fragments.RegistroActividadesFragment;
 import com.skillcoders.diazfu.fragments.RegistroClientesFragment;
+import com.skillcoders.diazfu.fragments.RegistroComisionesFragment;
 import com.skillcoders.diazfu.fragments.RegistroGruposFragment;
 import com.skillcoders.diazfu.fragments.RegistroPagosGrupalesFragment;
 import com.skillcoders.diazfu.fragments.RegistroPagosIndividualesFragment;
@@ -134,6 +136,7 @@ public class Constants {
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS = "fragment_prestamos_individuales_entregas_plazos";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER = "fragment_prestamos_individuales_pagos_register";
     public static final String FRAGMENT_ACTIVIDADES_REGISTER = "fragment_actividades_register";
+    public static final String FRAGMENT_COMISIONES_REGISTER = "fragment_comisiones_register";
 
     /**
      * Formularios
@@ -158,9 +161,7 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS = "fragment_formulario_prestamos_grupales_integrantes_plazos";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_grupales_integrantes_plazos_entregas";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS = "fragment_formulario_prestamos_grupales_pagos";
-    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL = "fragment_formulario_prestamos_grupales_pagos_historial";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL_LISTADO = "fragment_formulario_prestamos_grupales_pagos_historial_listado";
-    public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_ACCIONES = "fragment_formulario_prestamos_grupales_pagos_acciones";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES = "fragment_formulario_prestamos_individuales";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_AVAL = "fragment_formulario_prestamos_individuales_aval";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PRIMER_REFERENCIA = "fragment_formulario_prestamos_individuales_primer_referencia";
@@ -171,11 +172,11 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_individuales_integrantes_plazos_entregas";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_ACCIONES = "fragment_formulario_prestamos_individuales_acciones";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS = "fragment_formulario_prestamos_individuales_pagos";
-    public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_HISTORIAL = "fragment_formulario_prestamos_individuales_pagos_historial";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_HISTORIAL_LISTADO = "fragment_formulario_prestamos_individuales_pagos_historial_listado";
-    public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PAGOS_ACCIONES = "fragment_formulario_prestamos_individuales_pagos_acciones";
     public static final String FORMULARIO_ACTIVIDADES = "fragment_formulario_actividades";
     public static final String FORMULARIO_ACTIVIDADES_ACCIONES = "fragment_formulario_actividades_acciones";
+    public static final String FORMULARIO_COMISIONES = "fragment_formulario_comisiones";
+    public static final String FORMULARIO_COMISIONES_ACCIONES = "fragment_formulario_comisiones_acciones";
 
     /**
      * Fragmentos segundarios
@@ -186,6 +187,7 @@ public class Constants {
     public static final String FRAGMENT_PRESTAMOS_GRUPALES = "fragment_prestamos_grupales";
     public static final String FRAGMENT_PRESTAMOS_INDIVIDUALES = "fragment_prestamos_individuales";
     public static final String FRAGMENT_ACTIVIDADES = "fragment_actividades";
+    public static final String FRAGMENT_COMISIONES = "fragment_comisiones";
 
     public static final HashMap<Integer, String> ITEM_FRAGMENT;
 
@@ -206,6 +208,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.btn_registrar_grupo, FRAGMENT_GRUPOS_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_prestamo_grupal, FRAGMENT_PRESTAMOS_GRUPALES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_registrar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.btn_registrar_comision, FRAGMENT_COMISIONES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_promotor, FRAGMENT_PROMOTORES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_cliente, FRAGMENT_CLIENTES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_grupo, FRAGMENT_GRUPOS_REGISTER);
@@ -221,6 +224,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_pagar_prestamo_individual, FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_editar_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_ver_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
+        ITEM_FRAGMENT.put(R.id.item_btn_pagar_comision, FRAGMENT_COMISIONES_REGISTER);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -233,8 +237,8 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_GRUPOS, new ListadoGruposFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_PRESTAMOS_GRUPALES, new ListadoPrestamosGrupalesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_PRESTAMOS_INDIVIDUALES, new ListadoPrestamosIndividualesFragment());
-        TAG_FRAGMENT.put(FRAGMENT_LISTADO_COMISIONES, new ListadoClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_LISTADO_ACTIVIDADES, new ListadoActividadesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_COMISIONES, new ListadoComisionesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PROMOTORES_REGISTER, new RegistroPromotoresFragment());
         TAG_FRAGMENT.put(FRAGMENT_CLIENTES_REGISTER, new RegistroClientesFragment());
         TAG_FRAGMENT.put(FRAGMENT_GRUPOS_REGISTER, new RegistroGruposFragment());
@@ -245,6 +249,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_PAGOS_REGISTER, new RegistroPagosIndividualesFragment());
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
         TAG_FRAGMENT.put(FRAGMENT_ACTIVIDADES_REGISTER, new RegistroActividadesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_COMISIONES_REGISTER, new RegistroComisionesFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -272,6 +277,8 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_entregar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.item_btn_pagar_prestamo_individual, R.string.default_activity_title_prestamos_individuales);
         TITLE_ACTIVITY.put(R.id.btn_registrar_actividad, R.string.default_activity_title_actividades);
+        TITLE_ACTIVITY.put(R.id.btn_registrar_comision, R.string.default_activity_title_comisiones);
+        TITLE_ACTIVITY.put(R.id.item_btn_pagar_comision, R.string.default_activity_title_comisiones);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;

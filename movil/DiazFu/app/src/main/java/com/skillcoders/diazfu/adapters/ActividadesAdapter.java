@@ -1,5 +1,6 @@
 package com.skillcoders.diazfu.adapters;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -30,6 +32,9 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
+        TextView txtEstatus;
+        TextView txtTitulo;
+        TextView txtDescripcion;
         Button btnEditar;
         Button btnVer;
         Button btnEliminar;
@@ -39,6 +44,9 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_actividad);
+            txtEstatus = (TextView) itemView.findViewById(R.id.item_estatus_actividad);
+            txtTitulo = (TextView) itemView.findViewById(R.id.item_titulo_actividad);
+            txtDescripcion = (TextView) itemView.findViewById(R.id.item_descripcion_actividad);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_actividad);
             btnVer = (Button) itemView.findViewById(R.id.item_btn_ver_actividad);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_actividad);
@@ -77,21 +85,39 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
+        switch (item.getIdPrioridad()) {
+            case Constants.DIAZFU_WEB_PRIORIDAD_BAJA:
+                holder.txtEstatus.setTextColor(ContextCompat.getColor(holder.txtEstatus.getContext(), R.color.bootstrap_brand_primary));
+                break;
+            case Constants.DIAZFU_WEB_PRIORIDAD_MEDIA:
+                holder.txtEstatus.setTextColor(ContextCompat.getColor(holder.txtEstatus.getContext(), R.color.bootstrap_brand_info));
+                break;
+            case Constants.DIAZFU_WEB_PRIORIDAD_ALTA:
+                holder.txtEstatus.setTextColor(ContextCompat.getColor(holder.txtEstatus.getContext(), R.color.bootstrap_brand_warning));
+                break;
+            case Constants.DIAZFU_WEB_PRIORIDAD_URGENTE:
+                holder.txtEstatus.setTextColor(ContextCompat.getColor(holder.txtEstatus.getContext(), R.color.bootstrap_brand_danger));
+                break;
+        }
 
-        holder.txtNombre.setText(item.getTitulo());
+
+        holder.txtNombre.setText(item.getPromotor());
+        holder.txtEstatus.setText(Constants.TITLE_STATUS_DIAZFU_WEB_PRIORIDADES.get(item.getIdPrioridad()));
+        holder.txtTitulo.setText(item.getTitulo());
+        holder.txtDescripcion.setText(item.getDescripcion());
 
         switch (item.getIdEstatus()) {
             case Constants.DIAZFU_WEB_PENDIENTE:
-                holder.btnEliminar.setVisibility(View.VISIBLE);
+                holder.btnEliminar.setVisibility(View.GONE);
                 holder.btnEditar.setVisibility(View.VISIBLE);
                 holder.btnVer.setVisibility(View.VISIBLE);
                 holder.btnFinalizar.setVisibility(View.VISIBLE);
                 break;
             case Constants.DIAZFU_WEB_FINALIZADO:
-                holder.btnEliminar.setVisibility(View.INVISIBLE);
-                holder.btnEditar.setVisibility(View.INVISIBLE);
+                holder.btnEliminar.setVisibility(View.GONE);
+                holder.btnEditar.setVisibility(View.GONE);
                 holder.btnVer.setVisibility(View.VISIBLE);
-                holder.btnFinalizar.setVisibility(View.INVISIBLE);
+                holder.btnFinalizar.setVisibility(View.GONE);
                 break;
         }
 

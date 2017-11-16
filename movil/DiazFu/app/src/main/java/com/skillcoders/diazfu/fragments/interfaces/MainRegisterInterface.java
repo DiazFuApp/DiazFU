@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.fragments.interfaces;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.helpers.ActividadesHelper;
 import com.skillcoders.diazfu.helpers.ClientesHelper;
+import com.skillcoders.diazfu.helpers.ComisionesHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PagosHelper;
@@ -54,4 +55,7 @@ public interface MainRegisterInterface {
 
     void editarActividad(ActividadesHelper helper);
 
+    void registrarComision(ComisionesHelper helper);
+
+    void pagarComision(ComisionesHelper helper);
 }

@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.data.remote;
 import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
@@ -67,5 +68,9 @@ public class ApiUtils {
 
     public static ActividadesRest getActividadesRest() {
         return RetrofitClient.getClient(BASE_URL).create(ActividadesRest.class);
+    }
+
+    public static ComisionesRest getComisionesRest() {
+        return RetrofitClient.getClient(BASE_URL).create(ComisionesRest.class);
     }
 }
