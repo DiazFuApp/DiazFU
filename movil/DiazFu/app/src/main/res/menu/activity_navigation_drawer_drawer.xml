@@ -51,9 +51,9 @@
         android:id="@+id/submenu_actividades"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/menu_item_registro_pagos"
+            android:id="@+id/menu_item_proximos_pagos"
             android:icon="@mipmap/ic_event_available_black_48dp"
-            android:title="@string/default_item_menu_title_registro_pagos" />
+            android:title="@string/default_item_menu_title_proximos_pagos" />
         <item
             android:id="@+id/menu_item_actividades"
             android:icon="@mipmap/ic_event_note_black_48dp"

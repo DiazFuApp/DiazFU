@@ -42,7 +42,6 @@ public class ListadoInicioFragment extends Fragment {
         mainFragment.commit();
 
         getActivity().setTitle(getString(R.string.default_item_menu_title_inicio));
-        getActivity().setTitle(getString(R.string.default_item_menu_title_inicio));
     }
 
     @Override

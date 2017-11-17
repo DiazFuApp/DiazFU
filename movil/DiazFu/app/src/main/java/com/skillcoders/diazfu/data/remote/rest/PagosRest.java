@@ -24,6 +24,9 @@ public interface PagosRest {
     @POST("pagos/objeto")
     Observable<List<Pagos>> getPago(@Body Pagos pago);
 
+    @POST("pagos/proximospagos")
+    Observable<List<Pagos>> getProximosPagos(@Body Pagos pago);
+
     @POST("pagos/agregar")
     Call<Pagos> agregarPago(@Body Pagos pago);
 

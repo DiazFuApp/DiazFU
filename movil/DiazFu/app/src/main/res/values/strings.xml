@@ -25,7 +25,7 @@
     <string name="default_item_menu_title_grupos">Grupos</string>
     <string name="default_item_menu_title_prestamos_grupales">Préstamos Grupales</string>
     <string name="default_item_menu_title_prestamos_individuales">Préstamos Individuales</string>
-    <string name="default_item_menu_title_registro_pagos">Proximos Pagos</string>
+    <string name="default_item_menu_title_proximos_pagos">Proximos Pagos</string>
     <string name="default_item_menu_title_actividades">Actividades</string>
     <string name="default_item_menu_title_comisiones">Comisiones</string>
 
