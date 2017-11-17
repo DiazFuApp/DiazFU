@@ -3,28 +3,30 @@ package com.skillcoders.diazfu.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Usuarios;
+import com.skillcoders.diazfu.utils.Constants;
 
 /**
  * Created by jvier on 04/09/2017.
  */
 
-public class ListadoInicioFragment extends Fragment implements View.OnClickListener {
+public class ListadoInicioFragment extends Fragment {
 
-    private Button btnPlay;
+    private static Usuarios _SESSION_USER;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listado_inicio, container, false);
-        btnPlay = (Button) view.findViewById(R.id.play_test);
-        btnPlay.setOnClickListener(this);
 
-        btnPlay.setVisibility(View.GONE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         return view;
     }
@@ -32,24 +34,20 @@ public class ListadoInicioFragment extends Fragment implements View.OnClickListe
     @Override
     public void onStart() {
 
-        getActivity().setTitle(getString(R.string.default_item_menu_title_inicio));
-
         super.onStart();
+
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+        mainFragment.replace(R.id.listado_inicio_container, new ActividadesFragment(), Constants.FRAGMENT_INICIOS);
+        mainFragment.commit();
+
+        getActivity().setTitle(getString(R.string.default_item_menu_title_inicio));
+        getActivity().setTitle(getString(R.string.default_item_menu_title_inicio));
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.play_test:
-
-                break;
-        }
-
     }
 
     /*

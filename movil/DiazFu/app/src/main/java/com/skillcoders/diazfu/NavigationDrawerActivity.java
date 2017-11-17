@@ -47,6 +47,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private static DecodeItemHelper _decodeItem;
     private ProgressDialog pDialog;
+    private NavigationView navigationView;
 
     /**
      * Implementaciones REST
@@ -70,13 +71,15 @@ public class NavigationDrawerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
         actividadesRest = ApiUtils.getActividadesRest();
+
+        onPreRenderMenu(navigationView);
     }
 
     @Override
@@ -86,9 +89,12 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_main_container);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else if (null != fragment.getFragmentManager().getFragments()) {
+            MenuItem menuItem = navigationView.getMenu().getItem(0);
+            onNavigationItemSelected(menuItem);
+            navigationView.setCheckedItem(menuItem.getItemId());
         } else {
             super.onBackPressed();
-
         }
     }
 
@@ -132,6 +138,10 @@ public class NavigationDrawerActivity extends AppCompatActivity
         Intent intent = new Intent(NavigationDrawerActivity.this, LoginActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    public void onPreRenderMenu(NavigationView navigationView) {
+        onNavigationItemSelected(navigationView.getMenu().getItem(0));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

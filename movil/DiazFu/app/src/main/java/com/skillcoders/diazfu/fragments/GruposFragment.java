@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
@@ -38,6 +39,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     private static RecyclerView recyclerView;
     private static GruposAdapter gruposAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
+    public static LinearLayout linearLayout;
 
     /**
      * Implementaciones REST
@@ -48,6 +50,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_grupos, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_grupos);
         gruposAdapter = new GruposAdapter();
@@ -84,6 +87,11 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
                     gruposList = new ArrayList<>();
                     gruposList.addAll(response.body());
                     onPreRender();
+
+                    if (gruposList.size() == 0) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
+
                 }
             }
 

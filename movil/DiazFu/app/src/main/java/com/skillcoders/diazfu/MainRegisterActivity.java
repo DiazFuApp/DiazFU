@@ -5,7 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -140,6 +143,16 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             default:
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_main_register_container);
+        if (null != fragment.getFragmentManager().getFragments()) {
+            finish();
+        } else {
+            super.onBackPressed();
         }
     }
 

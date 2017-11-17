@@ -181,6 +181,7 @@ public class Constants {
     /**
      * Fragmentos segundarios
      **/
+    public static final String FRAGMENT_INICIOS = "fragment_inicios";
     public static final String FRAGMENT_PROMOTORES = "fragment_promotores";
     public static final String FRAGMENT_CLIENTES = "fragment_clientes";
     public static final String FRAGMENT_GRUPOS = "fragment_grupos";

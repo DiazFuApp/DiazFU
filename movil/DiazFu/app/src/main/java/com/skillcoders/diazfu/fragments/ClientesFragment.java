@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
@@ -40,6 +41,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     private static RecyclerView recyclerView;
     private static ClientesAdapter clientesAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
+    public static LinearLayout linearLayout;
 
 
     /**
@@ -51,6 +53,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
         clientesAdapter = new ClientesAdapter();
@@ -87,6 +90,10 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                     clientesList = new ArrayList<>();
                     clientesList.addAll(response.body());
                     onPreRender();
+
+                    if (clientesList.size() == 0) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -145,7 +152,7 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
                 navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_cliente:
-                navigationDrawerInterface.showQuestion("Eliminar","¿Esta seguro que desea elminar?");
+                navigationDrawerInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
         }
     }

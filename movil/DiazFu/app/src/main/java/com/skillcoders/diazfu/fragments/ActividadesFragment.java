@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
@@ -41,6 +42,7 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
     private static ActividadesAdapter actividadesAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
     private View view;
+    public static LinearLayout linearLayout;
 
 
     /**
@@ -51,9 +53,10 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_clientes, container, false);
+        view = inflater.inflate(R.layout.fragment_actividades, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_clientes);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_actividades);
         actividadesAdapter = new ActividadesAdapter();
         actividadesAdapter.setOnClickListener(this);
 
@@ -88,6 +91,10 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
                     actividadesList = new ArrayList<>();
                     actividadesList.addAll(response.body());
                     onPreRenderActividades();
+
+                    if (actividadesList.size() == 0) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

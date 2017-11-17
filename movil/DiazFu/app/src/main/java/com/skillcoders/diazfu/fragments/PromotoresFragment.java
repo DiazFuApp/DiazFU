@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
@@ -38,6 +39,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     private static RecyclerView recyclerView;
     private static PromotoresAdapter promotoresAdapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
+    public static LinearLayout linearLayout;
 
     /**
      * Implementaciones REST
@@ -48,6 +50,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_promotores, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_promotores);
         promotoresAdapter = new PromotoresAdapter();
@@ -84,6 +87,10 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
                     promotoresList = new ArrayList<>();
                     promotoresList.addAll(response.body());
                     onPreRenderListadoPromotores();
+
+                    if (promotoresList.size() == 0) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

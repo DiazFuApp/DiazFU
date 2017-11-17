@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
@@ -42,6 +43,7 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
     private static ComisionesAdapter adapter;
     private static NavigationDrawerInterface navigationDrawerInterface;
     private View view;
+    public static LinearLayout linearLayout;
 
 
     /**
@@ -53,6 +55,7 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_comisiones, container, false);
+        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_comisiones);
         adapter = new ComisionesAdapter();
@@ -89,6 +92,10 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
                     comisionesList = new ArrayList<>();
                     comisionesList.addAll(response.body());
                     onPreRenderActividades();
+
+                    if (comisionesList.size() == 0) {
+                        linearLayout.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 

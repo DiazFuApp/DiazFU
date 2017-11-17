@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -88,6 +89,16 @@ public class IntegrantesPlazosActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle(_MAIN_DECODE.getTituloActividad());
         getSupportActionBar().setSubtitle(_MAIN_DECODE.getTituloFormulario());
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_integrantes_plazos_container);
+        if (null != fragment.getFragmentManager().getFragments()) {
+            finish();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

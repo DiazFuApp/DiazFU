@@ -25,6 +25,14 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
+                <!--Fragmento para traer el listado de actividades-->
+                <FrameLayout
+                    android:id="@+id/listado_inicio_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:background="@null" />
+
 
             </LinearLayout>
 
@@ -32,19 +40,4 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/play_test"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_margin="20dp"
-            android:background="@color/colorPrimary"
-            android:text="PLAY"
-            android:textColor="@color/textColorPrimary" />
-
-    </RelativeLayout>
 </FrameLayout>
