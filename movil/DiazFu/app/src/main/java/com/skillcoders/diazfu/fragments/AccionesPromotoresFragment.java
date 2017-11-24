@@ -11,11 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -132,6 +130,9 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
         helper.setPromotor(FormularioPromotoresFragment._promotorActual);
         helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+        helper.setRedesSocialesPromotor(FormularioPromotoresFragment._redesSocialesActuales);
+        helper.setRedesSocialesPrimerReferencia(FormularioReferenciaPromotoresFragment._redesSocialesActuales);
+        helper.setRedesSocialesSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._redesSocialesActuales);
 
         activityInterface.registrarPromotor(helper);
     }
@@ -141,6 +142,10 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
         helper.setPromotor(FormularioPromotoresFragment._promotorActual);
         helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
+        helper.setRedesSocialesPromotor(FormularioPromotoresFragment._redesSocialesActuales);
+        helper.setRedesSocialesPrimerReferencia(FormularioReferenciaPromotoresFragment._redesSocialesActuales);
+        helper.setRedesSocialesSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._redesSocialesActuales);
+
         activityInterface.editarPromotor(helper);
     }
 }

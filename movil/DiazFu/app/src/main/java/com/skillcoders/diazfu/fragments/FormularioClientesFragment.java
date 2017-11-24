@@ -17,12 +17,13 @@ import android.widget.Spinner;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
-import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -68,12 +69,14 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
 
     public static Clientes _clienteActual;
     public static Promotores _promotorSeleccionado;
+    public static List<RedesSociales> _redesSocialesActuales;
 
     /**
      * Implementaciones REST
      */
     private ClientesRest clientesRest;
     private PromotoresRest promotoresRest;
+    private RedesSocialesRest redesSocialesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +122,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
 
         clientesRest = ApiUtils.getClientesRest();
         promotoresRest = ApiUtils.getPromotoresRest();
+        redesSocialesRest = ApiUtils.getRedesSocialesRest();
 
         return view;
     }
@@ -131,7 +135,6 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     @Override
     public void onStart() {
         super.onStart();
-        this.listadoPromotores();
         this.onPreRender();
     }
 
@@ -141,7 +144,12 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
                 this.obtenerCliente();
                 break;
             case Constants.ACCION_REGISTRAR:
+                this.listadoPromotores();
                 _clienteActual = new Clientes();
+                _redesSocialesActuales = new ArrayList<>();
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK, Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER, Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM, Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE, ""));
                 break;
             default:
                 break;
@@ -279,6 +287,56 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
                         tilSueldoEmpresa.getEditText().setText(cliente.getSueldoMensual());
                         tilNombreJefe.getEditText().setText(cliente.getNombreJefe());
                         tilTelefonoJefe.getEditText().setText(cliente.getTelefonoJefe());
+
+                        listadoPromotores();
+                        obtenerRedesSociales();
+                    }
+                });
+    }
+
+    private void obtenerRedesSociales() {
+        RedesSociales redSocial = new RedesSociales();
+        redSocial.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE);
+        redSocial.setIdActor(_clienteActual.getId());
+
+        redesSocialesRest.getRedesSociales(redSocial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RedesSociales>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<RedesSociales> data) {
+
+                        _redesSocialesActuales = new ArrayList<>();
+
+                        for (RedesSociales redSocial :
+                                data) {
+
+                            switch (redSocial.getIdTipoRedSocial()) {
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                                    tilFacebook.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                                    tilTwitter.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                                    tilInstagram.getEditText().setText(redSocial.getURL());
+                                    break;
+                            }
+
+                            _redesSocialesActuales.add(redSocial);
+                        }
                     }
                 });
     }
@@ -339,6 +397,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
             data.setTelefonoJefe(telefonoJefe);
 
             setClientes(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -404,6 +463,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
             data.setIdEstatus(_clienteActual.getIdEstatus());
 
             setClientes(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -431,6 +491,24 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
 
         _clienteActual.setIdEstatus(data.getIdEstatus());
         _clienteActual.setIdUsuario(data.getIdUsuario());
+    }
+
+    public static void setRedesSociales() {
+        for (RedesSociales data :
+                _redesSocialesActuales) {
+            switch (data.getIdTipoRedSocial()) {
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                    data.setURL(tilFacebook.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                    data.setURL(tilTwitter.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                    data.setURL(tilInstagram.getEditText().getText().toString());
+                    break;
+            }
+
+        }
     }
 
     @Override

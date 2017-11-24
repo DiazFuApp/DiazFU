@@ -64,7 +64,7 @@ public class AccionesClientesFragment extends Fragment implements View.OnClickLi
     }
 
     private void onPreRenderEditar() {
-        btnRegistrar.setText("EDITAR PROMOTOR");
+        btnRegistrar.setText("EDITAR CLIENTE");
     }
 
     @Override
@@ -123,6 +123,7 @@ public class AccionesClientesFragment extends Fragment implements View.OnClickLi
     private void registrar() {
         ClientesHelper helper = new ClientesHelper();
         helper.setCliente(FormularioClientesFragment._clienteActual);
+        helper.setRedesSociales(FormularioClientesFragment._redesSocialesActuales);
 
         activityInterface.registrarCliente(helper);
     }
@@ -130,6 +131,7 @@ public class AccionesClientesFragment extends Fragment implements View.OnClickLi
     private void editar() {
         ClientesHelper helper = new ClientesHelper();
         helper.setCliente(FormularioClientesFragment._clienteActual);
+        helper.setRedesSociales(FormularioClientesFragment._redesSocialesActuales);
 
         activityInterface.editarCliente(helper);
     }

@@ -14,9 +14,12 @@ import android.widget.Button;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.PrestamosIndividualesHelper;
 import com.skillcoders.diazfu.utils.Constants;
+
+import java.util.ArrayList;
 
 /**
  * Created by jvier on 03/10/2017.
@@ -161,6 +164,8 @@ public class AccionesPrestamosIndividualesFragment extends Fragment implements V
         helper.setAval(FormularioAvalPrestamosIndividualesFragment._avalActual);
         helper.setPrimeraReferencia(FormularioPrimeraReferenciaPrestamosIndividualesFragment._referenciaActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPrestamosIndividualesFragment._referenciaActual);
+        helper.setRedesSociales(new ArrayList<RedesSociales>());
+        helper.getRedesSociales().addAll(FormularioAvalPrestamosIndividualesFragment._redesSocialesActuales);
 
         activityInterface.registrarPrestamoIndividual(helper);
     }

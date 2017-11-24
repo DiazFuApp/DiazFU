@@ -15,8 +15,10 @@ import android.widget.DatePicker;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -54,6 +56,7 @@ public class FormularioSegundaReferenciaPrestamosIndividualesFragment extends Fr
      * Implementaciones REST
      */
     private ReferenciasPrestamosRest referenciasPrestamosRest;
+    private RedesSocialesRest redesSocialesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,7 +73,7 @@ public class FormularioSegundaReferenciaPrestamosIndividualesFragment extends Fr
         tilCorreoElectronico = (TextInputLayout) view.findViewById(R.id.correo_electronico_segunda_referencia_prestamo_individual);
         tilFacebook = (TextInputLayout) view.findViewById(R.id.facebook_referencia);
         tilTwitter = (TextInputLayout) view.findViewById(R.id.twitter_referencia);
-        //tilInstagram = (TextInputLayout) view.findViewById(R.id.instagram_refe);
+        tilInstagram = (TextInputLayout) view.findViewById(R.id.instagram_referencia);
         tilFechaNacimiento = (TextInputLayout) view.findViewById(R.id.fecha_nacimiento_segunda_referencia_prestamo_individual);
         tilCURP = (TextInputLayout) view.findViewById(R.id.curp_segunda_referencia_prestamo_individual);
         tilClaveElector = (TextInputLayout) view.findViewById(R.id.clave_elector_segunda_referencia_prestamo_individual);
@@ -89,6 +92,7 @@ public class FormularioSegundaReferenciaPrestamosIndividualesFragment extends Fr
         };
 
         referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
+        redesSocialesRest = ApiUtils.getRedesSocialesRest();
 
         return view;
     }
@@ -173,6 +177,51 @@ public class FormularioSegundaReferenciaPrestamosIndividualesFragment extends Fr
                         tilCorreoElectronico.getEditText().setText(_referenciaActual.getCorreoElectronico());
                         tilCURP.getEditText().setText(_referenciaActual.getCURP());
                         tilClaveElector.getEditText().setText(_referenciaActual.getClaveElector());
+
+                        obtenerRedesSociales();
+                    }
+                });
+    }
+
+    private void obtenerRedesSociales() {
+        RedesSociales redSocial = new RedesSociales();
+        redSocial.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO);
+        redSocial.setIdActor(_referenciaActual.getId());
+
+        redesSocialesRest.getRedesSociales(redSocial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RedesSociales>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<RedesSociales> data) {
+
+                        for (RedesSociales redSocial :
+                                data) {
+
+                            switch (redSocial.getIdTipoRedSocial()) {
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                                    tilFacebook.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                                    tilTwitter.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                                    tilInstagram.getEditText().setText(redSocial.getURL());
+                                    break;
+                            }
+                        }
                     }
                 });
     }

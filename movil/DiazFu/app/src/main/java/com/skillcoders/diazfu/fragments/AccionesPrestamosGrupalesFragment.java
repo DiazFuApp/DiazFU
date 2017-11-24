@@ -15,9 +15,12 @@ import android.widget.ScrollView;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.utils.Constants;
+
+import java.util.ArrayList;
 
 /**
  * Created by jvier on 03/10/2017.
@@ -162,6 +165,10 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
         helper.setAval(FormularioAvalPrestamosGrupalesFragment._avalActual);
         helper.setPrimeraReferencia(FormularioPrimeraReferenciaPrestamosGrupalesFragment._referenciaActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPrestamosGrupalesFragment._referenciaActual);
+        helper.setRedesSociales(new ArrayList<RedesSociales>());
+        helper.getRedesSociales().addAll(FormularioAvalPrestamosGrupalesFragment._redesSocialesActuales);
+        helper.getRedesSociales().addAll(FormularioPrimeraReferenciaPrestamosGrupalesFragment._redesSocialesActuales);
+        helper.getRedesSociales().addAll(FormularioSegundaReferenciaPrestamosGrupalesFragment._redesSocialesActuales);
 
         activityInterface.registrarPrestamoGrupal(helper);
     }

@@ -242,6 +242,28 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/instagram_referencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_instagram_referencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Instagram"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/fecha_nacimiento_segunda_referencia_prestamo_grupal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">

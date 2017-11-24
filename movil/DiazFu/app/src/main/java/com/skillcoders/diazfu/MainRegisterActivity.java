@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +25,7 @@ import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -39,6 +38,7 @@ import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosIndividualesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
@@ -81,6 +81,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
     private int item;
     private List<Pagos> _plazos;
+    private List<RedesSociales> _redesSociales;
+    private List<ReferenciasPrestamos> _referencias;
     private Double _montoGeneral;
 
     /**
@@ -97,6 +99,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private PagosRest pagosRest;
     private ActividadesRest actividadesRest;
     private ComisionesRest comisionesRest;
+    private RedesSocialesRest redesSocialesRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,6 +125,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         pagosRest = ApiUtils.getPagosRest();
         actividadesRest = ApiUtils.getActividadesRest();
         comisionesRest = ApiUtils.getComisionesRest();
+        redesSocialesRest = ApiUtils.getRedesSocialesRest();
 
         this.onPreRender();
     }
@@ -201,6 +205,20 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     Promotores promotor = response.body();
 
                     if (null != promotor.getId()) {
+
+                        Integer id = promotor.getId();
+                        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
+
+                        for (RedesSociales redSocial :
+                                _redesSociales) {
+
+                            switch (redSocial.getIdTipoActor()) {
+                                case Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR:
+                                    redSocial.setIdActor(id);
+                                    break;
+                            }
+                        }
+
                         promotoresHelper.getPrimeraReferencia().setIdActor(promotor.getId());
                         promotoresHelper.getSegundaReferencia().setIdActor(promotor.getId());
 
@@ -209,12 +227,15 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         referencias.add(promotoresHelper.getPrimeraReferencia());
                         referencias.add(promotoresHelper.getSegundaReferencia());
 
+                        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
+                        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
+
                         for (ReferenciasPromotores referenciasPromotor : referencias) {
                             webServiceRegistrarRefererenciaPromotor(referenciasPromotor);
                         }
 
-                        finish();
-                        pDialog.dismiss();
+                        item = 0;
+                        webServiceRegistrarRedesSociales();
 
                     }
 
@@ -247,8 +268,23 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     ReferenciasPromotores referenciaPromotor = response.body();
 
                     if (null != referenciaPromotor.getId()) {
-                        //TODO GUARDAR REDES SOCIALES
-                        //TODO DOCUMENTOS REFERENCIA
+                        Integer id = referenciaPromotor.getId();
+                        Integer tempItem = 0;
+
+                        for (RedesSociales redSocial :
+                                _redesSociales) {
+
+                            if (tempItem >= 3) break;
+
+                            switch (redSocial.getIdTipoActor()) {
+                                case Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR:
+                                    if (null == redSocial.getIdActor()) {
+                                        redSocial.setIdActor(id);
+                                        tempItem++;
+                                        break;
+                                    }
+                            }
+                        }
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -296,8 +332,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             webServiceEditarRefererenciaPromotor(referenciasPromotor);
                         }
 
-                        finish();
-                        pDialog.dismiss();
+                        item = 0;
+                        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
+                        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
+                        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
+                        webServiceEditarRedesSociales();
+
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -355,7 +395,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceRegistrarClientes(clientesHelper);
     }
 
-    private void webServiceRegistrarClientes(ClientesHelper clientesHelper) {
+    private void webServiceRegistrarClientes(final ClientesHelper clientesHelper) {
         clientesRest.agregarCliente(clientesHelper.getCliente()).enqueue(new Callback<Clientes>() {
             @Override
             public void onResponse(Call<Clientes> call, Response<Clientes> response) {
@@ -363,11 +403,23 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 if (response.isSuccessful()) {
 
                     Clientes cliente = response.body();
+                    item = 0;
 
                     if (null != cliente.getId()) {
+                        Integer id = cliente.getId();
+                        _redesSociales = clientesHelper.getRedesSociales();
 
-                        finish();
-                        pDialog.dismiss();
+                        for (RedesSociales redSocial :
+                                _redesSociales) {
+
+                            switch (redSocial.getIdTipoActor()) {
+                                case Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE:
+                                    redSocial.setIdActor(id);
+                                    break;
+                            }
+                        }
+
+                        webServiceRegistrarRedesSociales();
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -384,6 +436,40 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
+    private void webServiceRegistrarRedesSociales() {
+        redesSocialesRest.agregarRedSocial(_redesSociales.get(item)).enqueue(new Callback<RedesSociales>() {
+            @Override
+            public void onResponse(Call<RedesSociales> call, Response<RedesSociales> response) {
+
+                if (response.isSuccessful()) {
+
+                    RedesSociales data = response.body();
+                    item++;
+
+                    if (null != data.getId()) {
+                        if (item < _redesSociales.size()) {
+                            webServiceRegistrarRedesSociales();
+                        } else {
+                            finish();
+                            pDialog.dismiss();
+                        }
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RedesSociales> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     @Override
     public void editarCliente(ClientesHelper clientesHelper) {
         pDialog = new ProgressDialog(MainRegisterActivity.this);
@@ -395,7 +481,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceEditarClientes(clientesHelper);
     }
 
-    private void webServiceEditarClientes(ClientesHelper clientesHelper) {
+    private void webServiceEditarClientes(final ClientesHelper clientesHelper) {
         clientesRest.editarCliente(clientesHelper.getCliente()).enqueue(new Callback<Clientes>() {
             @Override
             public void onResponse(Call<Clientes> call, Response<Clientes> response) {
@@ -406,8 +492,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     if (null != cliente.getId()) {
 
-                        finish();
-                        pDialog.dismiss();
+                        item = 0;
+                        _redesSociales = clientesHelper.getRedesSociales();
+                        webServiceEditarRedesSociales();
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -419,6 +506,39 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void webServiceEditarRedesSociales() {
+        redesSocialesRest.agregarRedSocial(_redesSociales.get(item)).enqueue(new Callback<RedesSociales>() {
+            @Override
+            public void onResponse(Call<RedesSociales> call, Response<RedesSociales> response) {
+
+                if (response.isSuccessful()) {
+
+                    RedesSociales data = response.body();
+                    item++;
+
+                    if (null != data.getId()) {
+                        if (item < _redesSociales.size()) {
+                            webServiceEditarRedesSociales();
+                        } else {
+                            finish();
+                            pDialog.dismiss();
+                        }
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RedesSociales> call, Throwable t) {
 
             }
         });
@@ -761,23 +881,27 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     if (null != prestamoGrupal.getId()) {
 
-                        List<ReferenciasPrestamos> referencias = new ArrayList<>();
+                        _referencias = new ArrayList<>();
+                        _redesSociales = prestamosGrupalesHelper.getRedesSociales();
 
                         prestamosGrupalesHelper.getAval().setIdPrestamo(prestamoGrupal.getId());
                         prestamosGrupalesHelper.getPrimeraReferencia().setIdPrestamo(prestamoGrupal.getId());
                         prestamosGrupalesHelper.getSegundaReferencia().setIdPrestamo(prestamoGrupal.getId());
 
-                        referencias.add(prestamosGrupalesHelper.getAval());
-                        referencias.add(prestamosGrupalesHelper.getPrimeraReferencia());
-                        referencias.add(prestamosGrupalesHelper.getSegundaReferencia());
+                        _referencias.add(prestamosGrupalesHelper.getAval());
+                        _referencias.add(prestamosGrupalesHelper.getPrimeraReferencia());
+                        _referencias.add(prestamosGrupalesHelper.getSegundaReferencia());
 
+                        /*
                         for (ReferenciasPrestamos referenciaPrestamo :
-                                referencias) {
+                                _referencias) {
                             webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
                         }
+                        */
 
-                        finish();
-                        pDialog.dismiss();
+                        //Se usa primero para registrar referencias
+                        item = 0;
+                        webServiceRegistrarReferenciaPrestamoGrupal(_referencias.get(0));
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -794,18 +918,42 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void webServiceRegistrarReferenciaPrestamo(ReferenciasPrestamos referenciaPrestamo) {
+    private void webServiceRegistrarReferenciaPrestamoGrupal(final ReferenciasPrestamos referenciaPrestamo) {
         referenciasPrestamosRest.agregarReferenciaPrestamo(referenciaPrestamo).enqueue(new Callback<ReferenciasPrestamos>() {
             @Override
             public void onResponse(Call<ReferenciasPrestamos> call, Response<ReferenciasPrestamos> response) {
 
                 if (response.isSuccessful()) {
 
-                    ReferenciasPrestamos referenciasPrestamos = response.body();
+                    ReferenciasPrestamos data = response.body();
 
-                    if (null != referenciasPrestamos.getId()) {
-                        //TODO GUARDAR REDES SOCIALES
-                        //TODO DOCUMENTOS REFERENCIA
+                    if (null != data.getId()) {
+                        Integer id = data.getId();
+                        Integer tempItem = 0;
+
+                        for (RedesSociales redSocial :
+                                _redesSociales) {
+
+                            if (tempItem >= 3) break;
+
+                            switch (redSocial.getIdTipoActor()) {
+                                case Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO:
+                                    if (null == redSocial.getIdActor()) {
+                                        redSocial.setIdActor(id);
+                                        tempItem++;
+                                        break;
+                                    }
+                            }
+                        }
+
+                        item++;
+                        /**Al completar las referencias se usa para las redes sociales*/
+                        if (item == 3) {
+                            item = 0;
+                            webServiceRegistrarRedesSociales();
+                        } else {
+                            webServiceRegistrarReferenciaPrestamoGrupal(_referencias.get(item));
+                        }
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -822,7 +970,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             }
         });
     }
-
 
     @Override
     public void autorizarPrestamoGrupal(PrestamosGrupalesHelper prestamosGrupalesHelper) {
@@ -1107,23 +1254,27 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                             if (null != prestamoIndividual.getId()) {
 
-                                List<ReferenciasPrestamos> referencias = new ArrayList<>();
+                                _referencias = new ArrayList<>();
+                                _redesSociales = helper.getRedesSociales();
 
                                 helper.getAval().setIdPrestamo(prestamoIndividual.getId());
                                 helper.getPrimeraReferencia().setIdPrestamo(prestamoIndividual.getId());
                                 helper.getSegundaReferencia().setIdPrestamo(prestamoIndividual.getId());
 
-                                referencias.add(helper.getAval());
-                                referencias.add(helper.getPrimeraReferencia());
-                                referencias.add(helper.getSegundaReferencia());
+                                _referencias.add(helper.getAval());
+                                _referencias.add(helper.getPrimeraReferencia());
+                                _referencias.add(helper.getSegundaReferencia());
 
+                                /*
                                 for (ReferenciasPrestamos referenciaPrestamo :
-                                        referencias) {
+                                        _referencias) {
                                     webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
                                 }
+                                */
 
-                                finish();
-                                pDialog.dismiss();
+                                //Se usa primero para registrar referencias
+                                item = 0;
+                                webServiceRegistrarReferenciaPrestamoIndividual(_referencias.get(0));
                             }
 
                             Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -1138,6 +1289,59 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     }
                 });
+    }
+
+    private void webServiceRegistrarReferenciaPrestamoIndividual(ReferenciasPrestamos referenciasPrestamos) {
+        referenciasPrestamosRest.agregarReferenciaPrestamo(referenciasPrestamos).enqueue(new Callback<ReferenciasPrestamos>() {
+            @Override
+            public void onResponse(Call<ReferenciasPrestamos> call, Response<ReferenciasPrestamos> response) {
+
+                if (response.isSuccessful()) {
+
+                    ReferenciasPrestamos data = response.body();
+
+                    if (null != data.getId()) {
+                        Integer id = data.getId();
+                        Integer tempItem = 0;
+
+                        for (RedesSociales redSocial :
+                                _redesSociales) {
+
+                            if (tempItem >= 3) break;
+
+                            switch (redSocial.getIdTipoActor()) {
+                                case Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO:
+                                    if (null == redSocial.getIdActor()) {
+                                        redSocial.setIdActor(id);
+                                        tempItem++;
+                                        break;
+                                    }
+                            }
+                        }
+
+                        item++;
+                        /**Al completar las referencias se usa para las redes sociales*/
+                        if (item == 3) {
+                            item = 0;
+                            webServiceRegistrarRedesSociales();
+                        } else {
+                            webServiceRegistrarReferenciaPrestamoIndividual(_referencias.get(item));
+                        }
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferenciasPrestamos> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

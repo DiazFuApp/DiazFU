@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/facebook_segunda_referencia"
+                    android:id="@+id/facebook_segunda_referencia_promotor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -198,7 +198,7 @@
                 android:layout_height="wrap_content">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/twitter_segunda_promotor"
+                    android:id="@+id/twitter_segunda_referencia_promotor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -208,6 +208,28 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Twitter"
+                        android:inputType="text"
+                        android:singleLine="true" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/instagram_segunda_referencia_promotor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_instagram_segunda_referencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="Instagram"
                         android:inputType="text"
                         android:singleLine="true" />
 

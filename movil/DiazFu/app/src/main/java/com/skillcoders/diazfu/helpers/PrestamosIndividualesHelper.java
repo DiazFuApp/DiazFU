@@ -3,7 +3,10 @@ package com.skillcoders.diazfu.helpers;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
+
+import java.util.List;
 
 /**
  * Created by jvier on 16/10/2017.
@@ -16,6 +19,7 @@ public class PrestamosIndividualesHelper {
     private ReferenciasPrestamos primeraReferencia;
     private ReferenciasPrestamos segundaReferencia;
     private Pagos pagos;
+    private List<RedesSociales> redesSociales;
 
     public PrestamosIndividualesHelper() {
     }
@@ -58,5 +62,13 @@ public class PrestamosIndividualesHelper {
 
     public void setPagos(Pagos pagos) {
         this.pagos = pagos;
+    }
+
+    public List<RedesSociales> getRedesSociales() {
+        return redesSociales;
+    }
+
+    public void setRedesSociales(List<RedesSociales> redesSociales) {
+        this.redesSociales = redesSociales;
     }
 }

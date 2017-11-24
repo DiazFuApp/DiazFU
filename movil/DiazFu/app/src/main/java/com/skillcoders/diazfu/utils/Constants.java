@@ -53,6 +53,25 @@ public class Constants {
     public static final int DIAZFU_WEB_PENDIENTE = 7;
     public static final int DIAZFU_WEB_FINALIZADO = 8;
 
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_ACTA_NACIMIENTO = 1;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_INE = 2;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_CURP = 3;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_CONSTANCIA_RESIDENCIA = 4;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_DOMICILIO = 5;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_INGRESOS = 6;
+
+    public static final int DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK = 1;
+    public static final int DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER = 2;
+    public static final int DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM = 3;
+
+    public static final int DIAZFU_WEB_TIPO_ACTOR_ADMINISTRADOR = 1;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_PROMOTOR = 2;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_CLIENTE = 3;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_GRUPO = 4;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR = 5;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_PRESTAMO = 6;
+    public static final int DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO = 7;
+
     public static final int DIAZFU_WEB_PRIORIDAD_BAJA = 1;
     public static final int DIAZFU_WEB_PRIORIDAD_MEDIA = 2;
     public static final int DIAZFU_WEB_PRIORIDAD_ALTA = 3;

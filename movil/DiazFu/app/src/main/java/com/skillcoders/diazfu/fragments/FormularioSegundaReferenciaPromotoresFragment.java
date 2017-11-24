@@ -14,8 +14,10 @@ import android.widget.DatePicker;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -23,6 +25,7 @@ import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -48,11 +51,13 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
 
     public static Promotores _promotorActual;
     public static ReferenciasPromotores _referenciaDosActual;
+    public static List<RedesSociales> _redesSocialesActuales;
 
     /**
      * Implementaciones REST
      */
     private ReferenciasPromotoresRest referenciasPromotoresRest;
+    private RedesSocialesRest redesSocialesRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,9 +71,9 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
         tilTelefonoCasa = (TextInputLayout) view.findViewById(R.id.telefono_casa_segunda_referencia);
         tilTelefonoCelular = (TextInputLayout) view.findViewById(R.id.telefono_celular_segunda_referencia);
         tilCorreoElectronico = (TextInputLayout) view.findViewById(R.id.correo_electronico_segunda_referencia);
-        tilFacebook = (TextInputLayout) view.findViewById(R.id.facebook_segunda_referencia);
-        tilTwitter = (TextInputLayout) view.findViewById(R.id.twitter_segunda_promotor);
-        //tilInstagram = (TextInputLayout) view.findViewById(R.id.instagram_refe);
+        tilFacebook = (TextInputLayout) view.findViewById(R.id.facebook_segunda_referencia_promotor);
+        tilTwitter = (TextInputLayout) view.findViewById(R.id.twitter_segunda_referencia_promotor);
+        tilInstagram = (TextInputLayout) view.findViewById(R.id.instagram_segunda_referencia_promotor);
         tilFechaNacimiento = (TextInputLayout) view.findViewById(R.id.fecha_nacimiento_segunda_referencia);
         tilCURP = (TextInputLayout) view.findViewById(R.id.curp_segunda_referencia);
         tilClaveElector = (TextInputLayout) view.findViewById(R.id.clave_elector_segunda_referencia);
@@ -87,6 +92,7 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
         };
 
         referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
+        redesSocialesRest = ApiUtils.getRedesSocialesRest();
 
         return view;
     }
@@ -109,6 +115,10 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
                 break;
             case Constants.ACCION_REGISTRAR:
                 _referenciaDosActual = new ReferenciasPromotores();
+                _redesSocialesActuales = new ArrayList<>();
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR, ""));
                 break;
             default:
                 break;
@@ -166,6 +176,55 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
                         tilCorreoElectronico.getEditText().setText(_referenciaDosActual.getCorreoElectronico());
                         tilCURP.getEditText().setText(_referenciaDosActual.getCURP());
                         tilClaveElector.getEditText().setText(_referenciaDosActual.getClaveElector());
+
+                        obtenerRedesSociales();
+                    }
+                });
+    }
+
+    private void obtenerRedesSociales() {
+        RedesSociales redSocial = new RedesSociales();
+        redSocial.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PROMOTOR);
+        redSocial.setIdActor(_referenciaDosActual.getId());
+
+        redesSocialesRest.getRedesSociales(redSocial)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<RedesSociales>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<RedesSociales> data) {
+
+                        _redesSocialesActuales = new ArrayList<>();
+
+                        for (RedesSociales redSocial :
+                                data) {
+
+                            switch (redSocial.getIdTipoRedSocial()) {
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                                    tilFacebook.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                                    tilTwitter.getEditText().setText(redSocial.getURL());
+                                    break;
+                                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                                    tilInstagram.getEditText().setText(redSocial.getURL());
+                                    break;
+                            }
+
+                            _redesSocialesActuales.add(redSocial);
+                        }
                     }
                 });
     }
@@ -207,6 +266,7 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
             data.setClaveElector(claveElector);
 
             setReferenciaPromotor(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -254,6 +314,7 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
             data.setIdEstatus(_referenciaDosActual.getIdEstatus());
 
             setReferenciaPromotor(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -277,6 +338,24 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
 
         _referenciaDosActual.setIdEstatus(data.getIdEstatus());
         _referenciaDosActual.setIdUsuario(data.getIdUsuario());
+    }
+
+    public static void setRedesSociales() {
+        for (RedesSociales data :
+                _redesSocialesActuales) {
+            switch (data.getIdTipoRedSocial()) {
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                    data.setURL(tilFacebook.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                    data.setURL(tilTwitter.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                    data.setURL(tilInstagram.getEditText().getText().toString());
+                    break;
+            }
+
+        }
     }
 
 
