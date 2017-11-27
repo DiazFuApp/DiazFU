@@ -40,4 +40,6 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     //Boostrap
     compile 'com.beardedhen:androidbootstrap:2.3.2'
+    //Azure
+    compile 'com.microsoft.azure:azure-storage:6.1.0'
 }
