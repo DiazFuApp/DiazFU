@@ -38,6 +38,7 @@
     <string name="default_activity_title_proximos_pagos">Proximos Pagos</string>
     <string name="default_activity_title_actividades">Actividades</string>
     <string name="default_activity_title_comisiones">Comisiones</string>
+    <string name="default_activity_title_documentos">Documentos</string>
 
     <!--Form subtitle-->
     <string name="default_form_title_pagar">Pagar</string>

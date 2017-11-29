@@ -330,7 +330,6 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
         _promotorActual.setRFC(data.getRFC());
         _promotorActual.setCURP(data.getCURP());
         _promotorActual.setClaveElector(data.getClaveElector());
-        _promotorActual.setURLFoto(data.getURLFoto());
 
         _promotorActual.setIdEstatus(data.getIdEstatus());
         _promotorActual.setIdUsuario(data.getIdUsuario());

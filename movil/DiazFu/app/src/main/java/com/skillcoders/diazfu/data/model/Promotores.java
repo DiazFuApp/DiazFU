@@ -41,9 +41,6 @@ public class Promotores implements Serializable {
     @SerializedName("ClaveElector")
     @Expose
     private String claveElector;
-    @SerializedName("URLFoto")
-    @Expose
-    private String uRLFoto;
     @SerializedName("IdEstatus")
     @Expose
     private Integer idEstatus;
@@ -131,14 +128,6 @@ public class Promotores implements Serializable {
         this.claveElector = claveElector;
     }
 
-    public String getURLFoto() {
-        return uRLFoto;
-    }
-
-    public void setURLFoto(String uRLFoto) {
-        this.uRLFoto = uRLFoto;
-    }
-
     public Integer getIdEstatus() {
         return idEstatus;
     }
@@ -168,7 +157,6 @@ public class Promotores implements Serializable {
                 ", rFC='" + rFC + '\'' +
                 ", cURP='" + cURP + '\'' +
                 ", claveElector='" + claveElector + '\'' +
-                ", uRLFoto='" + uRLFoto + '\'' +
                 ", idEstatus=" + idEstatus +
                 ", idUsuario=" + idUsuario +
                 '}';

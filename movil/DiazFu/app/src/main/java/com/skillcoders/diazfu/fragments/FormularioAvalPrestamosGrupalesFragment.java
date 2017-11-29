@@ -404,7 +404,6 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
         _avalActual.setRFC(data.getRFC());
         _avalActual.setCURP(data.getCURP());
         _avalActual.setClaveElector(data.getClaveElector());
-        _avalActual.setURLFoto(data.getURLFoto());
         _avalActual.setParentesco(data.getParentesco());
         _avalActual.setEmpresa(data.getNombre());
         _avalActual.setPuestoEmpresa(data.getPuestoEmpresa());

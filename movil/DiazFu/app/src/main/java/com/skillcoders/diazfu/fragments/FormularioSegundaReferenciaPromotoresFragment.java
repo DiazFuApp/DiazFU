@@ -334,7 +334,6 @@ public class FormularioSegundaReferenciaPromotoresFragment extends Fragment impl
         _referenciaDosActual.setRFC(data.getRFC());
         _referenciaDosActual.setCURP(data.getCURP());
         _referenciaDosActual.setClaveElector(data.getClaveElector());
-        _referenciaDosActual.setURLFoto(data.getURLFoto());
 
         _referenciaDosActual.setIdEstatus(data.getIdEstatus());
         _referenciaDosActual.setIdUsuario(data.getIdUsuario());

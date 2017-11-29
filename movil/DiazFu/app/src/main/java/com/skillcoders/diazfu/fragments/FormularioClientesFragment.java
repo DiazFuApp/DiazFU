@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 
+import com.skillcoders.diazfu.DocumentosActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.Usuarios;
@@ -53,6 +57,8 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
 
     private static DecodeExtraHelper _MAIN_DECODE;
     private static Usuarios _SESSION_USER;
+
+    private Button btnDocumentos;
 
     private static TextInputLayout tilNombre, tilDireccion, tilTelefonoCasa, tilTelefonoCelular,
             tilCorreoElectronico, tilFacebook, tilTwitter, tilInstagram, tilFechaNacimiento, tilNombreEmpresa,
@@ -104,6 +110,9 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         tilNombreJefe = (TextInputLayout) view.findViewById(R.id.nombre_jefe_cliente);
         tilTelefonoJefe = (TextInputLayout) view.findViewById(R.id.telefono_jefe_cliente);
 
+        btnDocumentos = (Button) view.findViewById(R.id.btn_documentos_cliente);
+        btnDocumentos.setOnClickListener(this);
+
         spinnerPromotor = (Spinner) view.findViewById(R.id.spinner_promotor_cliente);
         spinnerPromotor.setOnItemSelectedListener(this);
 
@@ -142,6 +151,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.obtenerCliente();
+                btnDocumentos.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_REGISTRAR:
                 this.listadoPromotores();
@@ -478,7 +488,6 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         _clienteActual.setTelefonoCelular(data.getTelefonoCelular());
         _clienteActual.setCorreoElectronico(data.getCorreoElectronico());
         _clienteActual.setFechaNacimiento(data.getFechaNacimiento());
-        _clienteActual.setuRLFoto(data.getuRLFoto());
         _clienteActual.setNombreEmpresa(data.getNombreEmpresa());
         _clienteActual.setPuestoEmpresa(data.getPuestoEmpresa());
         _clienteActual.setDireccionEmpresa(data.getDireccionEmpresa());
@@ -518,6 +527,24 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
                 new DatePickerDialog(getContext(), R.style.MyCalendarTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            case R.id.btn_documentos_cliente:
+                DecodeExtraHelper extra = new DecodeExtraHelper();
+
+                extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
+                extra.setTituloFormulario(_clienteActual.getNombre());
+                extra.setAccionFragmento(Constants.ACCION_VER);
+                extra.setFragmentTag(Constants.ITEM_FRAGMENT.get(v.getId()));
+
+                Documentos documento = new Documentos();
+                documento.setIdActor(_clienteActual.getId());
+                documento.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE);
+
+                Intent intent = new Intent(getActivity(), DocumentosActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+                intent.putExtra(Constants.KEY_MAIN_DOCUMENTOS, documento);
+                startActivity(intent);
                 break;
         }
     }

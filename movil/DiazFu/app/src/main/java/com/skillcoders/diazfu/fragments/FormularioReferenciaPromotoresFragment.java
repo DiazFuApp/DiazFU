@@ -334,7 +334,6 @@ public class FormularioReferenciaPromotoresFragment extends Fragment implements 
         _referenciaUnoActual.setRFC(data.getRFC());
         _referenciaUnoActual.setCURP(data.getCURP());
         _referenciaUnoActual.setClaveElector(data.getClaveElector());
-        _referenciaUnoActual.setURLFoto(data.getURLFoto());
 
         _referenciaUnoActual.setIdEstatus(data.getIdEstatus());
         _referenciaUnoActual.setIdUsuario(data.getIdUsuario());

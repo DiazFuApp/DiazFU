@@ -31,6 +31,10 @@
         <activity
             android:name=".IntegrantesPlazosActivity"
             android:label="@string/title_activity_navigation_drawer" />
+
+        <activity
+            android:name=".DocumentosActivity"
+            android:label="@string/title_activity_navigation_drawer" />
     </application>
 
 </manifest>

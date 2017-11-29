@@ -346,7 +346,6 @@ public class FormularioSegundaReferenciaPrestamosGrupalesFragment extends Fragme
         _referenciaActual.setRFC(data.getRFC());
         _referenciaActual.setCURP(data.getCURP());
         _referenciaActual.setClaveElector(data.getClaveElector());
-        _referenciaActual.setURLFoto(data.getURLFoto());
 
         _referenciaActual.setIdEstatus(data.getIdEstatus());
         _referenciaActual.setIdUsuario(data.getIdUsuario());

@@ -54,9 +54,6 @@ public class ReferenciasPrestamos {
     @SerializedName("Parentesco")
     @Expose
     private String parentesco;
-    @SerializedName("URLFoto")
-    @Expose
-    private String uRLFoto;
     @SerializedName("Empresa")
     @Expose
     private String empresa;
@@ -88,59 +85,6 @@ public class ReferenciasPrestamos {
     public ReferenciasPrestamos() {
     }
 
-    /**
-     * @param direccion
-     * @param parentesco
-     * @param idPrestamo
-     * @param cURP
-     * @param telefonoCasa
-     * @param referenciaDireccion
-     * @param antiguedadEmpresa
-     * @param telefonoCelular
-     * @param fechaNacimiento
-     * @param direccionEmpresa
-     * @param puestoEmpresa
-     * @param uRLFoto
-     * @param claveElector
-     * @param id
-     * @param nombre
-     * @param correoElectronico
-     * @param idUsuario
-     * @param nombreJefe
-     * @param telefonoEmpresa
-     * @param rFC
-     * @param empresa
-     * @param idTipoPrestamo
-     * @param idEstatus
-     * @param idTipoReferencia
-     */
-    public ReferenciasPrestamos(Integer id, Integer idPrestamo, Integer idTipoPrestamo, Integer idTipoReferencia, String nombre, String rFC, String cURP, String fechaNacimiento, String claveElector, String direccion, String referenciaDireccion, String telefonoCasa, String telefonoCelular, String correoElectronico, String parentesco, String uRLFoto, String empresa, String puestoEmpresa, String direccionEmpresa, String antiguedadEmpresa, String telefonoEmpresa, String nombreJefe, Integer idEstatus, Integer idUsuario) {
-        super();
-        this.id = id;
-        this.idPrestamo = idPrestamo;
-        this.idTipoPrestamo = idTipoPrestamo;
-        this.idTipoReferencia = idTipoReferencia;
-        this.nombre = nombre;
-        this.rFC = rFC;
-        this.cURP = cURP;
-        this.fechaNacimiento = fechaNacimiento;
-        this.claveElector = claveElector;
-        this.direccion = direccion;
-        this.referenciaDireccion = referenciaDireccion;
-        this.telefonoCasa = telefonoCasa;
-        this.telefonoCelular = telefonoCelular;
-        this.correoElectronico = correoElectronico;
-        this.parentesco = parentesco;
-        this.uRLFoto = uRLFoto;
-        this.empresa = empresa;
-        this.puestoEmpresa = puestoEmpresa;
-        this.direccionEmpresa = direccionEmpresa;
-        this.antiguedadEmpresa = antiguedadEmpresa;
-        this.telefonoEmpresa = telefonoEmpresa;
-        this.nombreJefe = nombreJefe;
-        this.idEstatus = idEstatus;
-        this.idUsuario = idUsuario;
-    }
 
     public Integer getId() {
         return id;
@@ -262,14 +206,6 @@ public class ReferenciasPrestamos {
         this.parentesco = parentesco;
     }
 
-    public String getURLFoto() {
-        return uRLFoto;
-    }
-
-    public void setURLFoto(String uRLFoto) {
-        this.uRLFoto = uRLFoto;
-    }
-
     public String getEmpresa() {
         return empresa;
     }
@@ -352,7 +288,6 @@ public class ReferenciasPrestamos {
                 ", telefonoCelular='" + telefonoCelular + '\'' +
                 ", correoElectronico='" + correoElectronico + '\'' +
                 ", parentesco='" + parentesco + '\'' +
-                ", uRLFoto='" + uRLFoto + '\'' +
                 ", empresa='" + empresa + '\'' +
                 ", puestoEmpresa='" + puestoEmpresa + '\'' +
                 ", direccionEmpresa='" + direccionEmpresa + '\'' +

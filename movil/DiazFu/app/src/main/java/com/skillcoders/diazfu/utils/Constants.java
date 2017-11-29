@@ -8,6 +8,7 @@ import com.skillcoders.diazfu.fragments.IntegrantesPlazosEntregasFragment;
 import com.skillcoders.diazfu.fragments.ListadoActividadesFragment;
 import com.skillcoders.diazfu.fragments.ListadoClientesFragment;
 import com.skillcoders.diazfu.fragments.ListadoComisionesFragment;
+import com.skillcoders.diazfu.fragments.ListadoDocumentosFragment;
 import com.skillcoders.diazfu.fragments.ListadoGruposFragment;
 import com.skillcoders.diazfu.fragments.ListadoInicioFragment;
 import com.skillcoders.diazfu.fragments.ListadoPrestamosGrupalesFragment;
@@ -53,12 +54,22 @@ public class Constants {
     public static final int DIAZFU_WEB_PENDIENTE = 7;
     public static final int DIAZFU_WEB_FINALIZADO = 8;
 
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_IMAGEN_PERFIL = 0;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_ACTA_NACIMIENTO = 1;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_INE = 2;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_CURP = 3;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_CONSTANCIA_RESIDENCIA = 4;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_DOMICILIO = 5;
     public static final int DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_INGRESOS = 6;
+    public static final int DIAZFU_WEB_TIPO_DOCUMENTO_FOTO = 7;
+
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_ACTA_NACIMIENTO_STR = "Acta de Nacimiento";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_INE_STR = "INE";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_CURP_STR = "CURP";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_CONSTANCIA_RESIDENCIA_STR = "Constancia de Residencia";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_DOMICILIO_STR = "Comprobante de Domicilio";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_INGRESOS_STR = "Comprobante de Ingresos";
+    public static final String DIAZFU_WEB_TIPO_DOCUMENTO_COMPROBANTE_FOTO_STR = "Foto";
 
     public static final int DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK = 1;
     public static final int DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER = 2;
@@ -133,6 +144,7 @@ public class Constants {
      **/
     public static final String KEY_MAIN_DECODE = "key_main_decode";
     public static final String KEY_MAIN_BUSQUEDA = "key_main_busqueda";
+    public static final String KEY_MAIN_DOCUMENTOS = "key_main_documento";
     public static final String KEY_SESSION_USER = "key_session_users";
 
     /**
@@ -148,6 +160,7 @@ public class Constants {
     public static final String FRAGMENT_LISTADO_PROXIMOS_PAGOS = "fragment_listado_proximos_pagos";
     public static final String FRAGMENT_LISTADO_ACTIVIDADES = "fragment_listado_actividades";
     public static final String FRAGMENT_LISTADO_COMISIONES = "fragment_listado_comisiones";
+    public static final String FRAGMENT_LISTADO_DOCUMENTOS = "fragment_listado_documentos";
 
     /**
      * Fragmentos de registros
@@ -216,6 +229,7 @@ public class Constants {
     public static final String FRAGMENT_BUSQUEDA_PROXIMOS_PAGOS = "fragment_busqueda_proximos_pagos";
     public static final String FRAGMENT_ACTIVIDADES = "fragment_actividades";
     public static final String FRAGMENT_COMISIONES = "fragment_comisiones";
+    public static final String FRAGMENT_DOCUMENTOS = "fragment_documentos";
 
     public static final HashMap<Integer, String> ITEM_FRAGMENT;
 
@@ -254,6 +268,7 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_ver_actividad, FRAGMENT_ACTIVIDADES_REGISTER);
         ITEM_FRAGMENT.put(R.id.item_btn_pagar_comision, FRAGMENT_COMISIONES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_buscar_proximo_pago, FRAGMENT_LISTADO_PROXIMOS_PAGOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_cliente, FRAGMENT_LISTADO_DOCUMENTOS);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -281,6 +296,7 @@ public class Constants {
         TAG_FRAGMENT.put(FRAGMENT_PRESTAMOS_INDIVIDUALES_ENTREGAS_PLAZOS, new IntegrantesPlazosEntregasFragment());
         TAG_FRAGMENT.put(FRAGMENT_ACTIVIDADES_REGISTER, new RegistroActividadesFragment());
         TAG_FRAGMENT.put(FRAGMENT_COMISIONES_REGISTER, new RegistroComisionesFragment());
+        TAG_FRAGMENT.put(FRAGMENT_LISTADO_DOCUMENTOS, new ListadoDocumentosFragment());
     }
 
     public static final HashMap<Integer, Integer> TITLE_ACTIVITY;
@@ -311,6 +327,7 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.btn_registrar_comision, R.string.default_activity_title_comisiones);
         TITLE_ACTIVITY.put(R.id.item_btn_pagar_comision, R.string.default_activity_title_comisiones);
         TITLE_ACTIVITY.put(R.id.btn_buscar_proximo_pago, R.string.default_activity_title_proximos_pagos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_cliente, R.string.default_activity_title_documentos);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;

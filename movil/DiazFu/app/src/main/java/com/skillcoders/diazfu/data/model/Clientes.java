@@ -35,9 +35,6 @@ public class Clientes implements Serializable {
     @SerializedName("CorreoElectronico")
     @Expose
     private String correoElectronico;
-    @SerializedName("URLFoto")
-    @Expose
-    private String uRLFoto;
     @SerializedName("NombreEmpresa")
     @Expose
     private String nombreEmpresa;
@@ -139,14 +136,6 @@ public class Clientes implements Serializable {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getuRLFoto() {
-        return uRLFoto;
-    }
-
-    public void setuRLFoto(String uRLFoto) {
-        this.uRLFoto = uRLFoto;
-    }
-
     public String getNombreEmpresa() {
         return nombreEmpresa;
     }
@@ -246,7 +235,6 @@ public class Clientes implements Serializable {
                 ", direccion='" + direccion + '\'' +
                 ", fechaNacimiento='" + fechaNacimiento + '\'' +
                 ", correoElectronico='" + correoElectronico + '\'' +
-                ", uRLFoto='" + uRLFoto + '\'' +
                 ", nombreEmpresa='" + nombreEmpresa + '\'' +
                 ", puestoEmpresa='" + puestoEmpresa + '\'' +
                 ", direccionEmpresa='" + direccionEmpresa + '\'' +

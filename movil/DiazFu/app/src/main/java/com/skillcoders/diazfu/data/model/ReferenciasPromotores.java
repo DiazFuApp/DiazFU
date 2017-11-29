@@ -45,9 +45,6 @@ public class ReferenciasPromotores {
     @SerializedName("CorreoElectronico")
     @Expose
     private String correoElectronico;
-    @SerializedName("URLFoto")
-    @Expose
-    private String uRLFoto;
     @SerializedName("IdEstatus")
     @Expose
     private Integer idEstatus;
@@ -151,14 +148,6 @@ public class ReferenciasPromotores {
         this.correoElectronico = correoElectronico;
     }
 
-    public String getURLFoto() {
-        return uRLFoto;
-    }
-
-    public void setURLFoto(String uRLFoto) {
-        this.uRLFoto = uRLFoto;
-    }
-
     public Integer getIdEstatus() {
         return idEstatus;
     }
@@ -190,7 +179,6 @@ public class ReferenciasPromotores {
                 ", telefonoCasa='" + telefonoCasa + '\'' +
                 ", telefonoCelular='" + telefonoCelular + '\'' +
                 ", correoElectronico='" + correoElectronico + '\'' +
-                ", uRLFoto='" + uRLFoto + '\'' +
                 ", idEstatus=" + idEstatus +
                 ", idUsuario=" + idUsuario +
                 '}';
