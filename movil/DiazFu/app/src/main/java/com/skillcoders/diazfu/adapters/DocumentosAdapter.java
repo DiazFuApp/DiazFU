@@ -28,7 +28,7 @@ public class DocumentosAdapter extends RecyclerView.Adapter<DocumentosAdapter.Vi
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        BootstrapThumbnail btnEditar;
+        BootstrapThumbnail btnView;
 
         public ViewHolder(View itemView) {
             super(itemView);

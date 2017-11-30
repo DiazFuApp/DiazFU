@@ -17,7 +17,7 @@
             android:layout_height="wrap_content">
 
             <com.beardedhen.androidbootstrap.BootstrapThumbnail
-                android:id="@+id/bct_chofer_perfil"
+                android:id="@+id/bt_view_document"
                 android:layout_width="0dp"
                 android:layout_height="350dp"
                 android:layout_weight="1"

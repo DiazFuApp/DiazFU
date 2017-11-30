@@ -8,9 +8,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.DocumentosAdapter;
@@ -39,10 +41,10 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
 
     private static Documentos _MAIN_DOCUMENTOS;
     private static List<Documentos> documentosList;
-    private static RecyclerView recyclerView;
     private static DocumentosAdapter documentosAdapter;
     private static DocumentosInterface activityInterface;
-    public static LinearLayout linearLayout;
+
+    public static BootstrapThumbnail btDocumento;
 
 
     /**
@@ -54,15 +56,16 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_documentos, container, false);
-        linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
 
         _MAIN_DOCUMENTOS = (Documentos) getActivity().getIntent().getSerializableExtra(Constants.KEY_MAIN_DOCUMENTOS);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_documentos);
+        btDocumento = (BootstrapThumbnail) view.findViewById(R.id.imagenView_documento);
+
         documentosAdapter = new DocumentosAdapter();
         documentosAdapter.setOnClickListener(this);
 
         documentosRest = ApiUtils.getDocumentosRest();
+        listadoDocumentos();
 
         return view;
     }
@@ -80,7 +83,6 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
     @Override
     public void onStart() {
         super.onStart();
-        this.listadoDocumentos();
     }
 
 
@@ -110,34 +112,14 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
                         documentosAdapter = new DocumentosAdapter();
                         documentosList = new ArrayList<>();
                         documentosList.addAll(data);
-                        onPreRender();
 
                         ListadoDocumentosFragment.btnAgegar.setText("Actualizar");
                         if (documentosList.size() == 0) {
-                            linearLayout.setVisibility(View.VISIBLE);
+                            btDocumento.setImageDrawable(btDocumento.getContext().getDrawable(R.drawable.diazfu_logo));
                             ListadoDocumentosFragment.btnAgegar.setText("Agregar");
                         }
                     }
                 });
-    }
-
-    /**
-     * Carga el listado predeterminado de firebase
-     **/
-    private static void onPreRender() {
-
-        Collections.sort(documentosList, new Comparator<Documentos>() {
-            @Override
-            public int compare(Documentos o1, Documentos o2) {
-                return (o1.getId().compareTo(o2.getId()));
-            }
-        });
-
-        documentosAdapter.addAll(documentosList);
-        recyclerView.setAdapter(documentosAdapter);
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(recyclerView.getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
     @Override

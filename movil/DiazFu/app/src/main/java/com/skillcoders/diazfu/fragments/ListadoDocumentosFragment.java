@@ -6,11 +6,14 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -21,16 +24,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.adapters.DocumentosAdapter;
 import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.services.FileService;
 import com.skillcoders.diazfu.utils.Constants;
+
+import org.w3c.dom.DocumentFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -75,18 +83,16 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
         spinnerTipoDocumento = (Spinner) view.findViewById(R.id.spinner_tipo_documento_documentos);
         spinnerTipoDocumento.setOnItemSelectedListener(this);
 
+        this.listadoTiposDocumentos();
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        this.listadoTiposDocumentos();
-
         getActivity().setTitle(getString(R.string.default_activity_title_documentos));
     }
-
 
     private void listadoTiposDocumentos() {
         tiposDocumentosList = new ArrayList<>();
@@ -123,19 +129,6 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_registrar_cliente:
-                DecodeExtraHelper extra = new DecodeExtraHelper();
-
-                extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
-                extra.setTituloFormulario(getString(R.string.default_form_title_new));
-                extra.setAccionFragmento(Constants.ACCION_REGISTRAR);
-                extra.setFragmentTag(Constants.ITEM_FRAGMENT.get(v.getId()));
-
-                Intent intent = new Intent(getActivity(), MainRegisterActivity.class);
-                intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
-                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
-                startActivity(intent);
-                break;
             case R.id.btn_agregar_documento:
                 this.checkCameraPermission();
                 break;
@@ -204,71 +197,52 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
         }
     }
 
-    /*
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            //fabPerfil.setVisibility(View.GONE);
-            //bctPerfil.setVisibility(View.VISIBLE);
-
             try {
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                File f = new File(mCurrentPhotoPath);
-                Uri contentUri = Uri.fromFile(f);
-                mediaScanIntent.setData(contentUri);
-                getActivity().sendBroadcast(mediaScanIntent);
-                performCrop(contentUri);
+                FileService.setPic(DocumentosFragment.btDocumento, mCurrentPhotoPath);
+                galleryAddPic();
             } catch (Exception e) {
                 Toast.makeText(getContext(), "No es posible obtener la foto, intente nuevamente...", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
-
-        if (requestCode == CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                try {
-                    //CHANGE_PHOTO = FileService.setPic(bctPerfil, mCurrentPhotoPathCROP);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
-    private void performCrop(Uri picUri) {
-        try {
-            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-            cropIntent.setDataAndType(picUri, "image/*");
-            cropIntent.putExtra("crop", "true");
-            cropIntent.putExtra("aspectX", 1);
-            cropIntent.putExtra("aspectY", 1);
-            cropIntent.putExtra("outputX", 300);
-            cropIntent.putExtra("outputY", 300);
-            // retrieve data on return
-            cropIntent.putExtra("return-data", true);
+    private void setPic() {
+        ImageView mImageView = DocumentosFragment.btDocumento;
 
-            File photoFile = null;
-            try {
-                photoFile = FileService.createImageFile();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        // Get the dimensions of the View
+        int targetW = mImageView.getWidth();
+        int targetH = mImageView.getHeight();
 
-            if (photoFile != null) {
-                try {
-                    mCurrentPhotoPathCROP = photoFile.getAbsolutePath();
-                    File f = new File(mCurrentPhotoPathCROP);
-                    cropIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    startActivityForResult(cropIntent, CROP_IMAGE_ACTIVITY_REQUEST_CODE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(getContext(), "Tus dispositivo no soporta esta acción ...", Toast.LENGTH_SHORT).show();
-        }
+        // Get the dimensions of the bitmap
+        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+        bmOptions.inJustDecodeBounds = true;
+        BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        int photoW = bmOptions.outWidth;
+        int photoH = bmOptions.outHeight;
+
+        // Determine how much to scale down the image
+        int scaleFactor = Math.min(photoW / targetW, photoH / targetH);
+
+        // Decode the image file into a Bitmap sized to fill the View
+        bmOptions.inJustDecodeBounds = false;
+        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inPurgeable = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+        mImageView.setImageBitmap(bitmap);
+        mImageView.setVisibility(View.VISIBLE);
     }
 
-    */
+    private void galleryAddPic() {
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(mCurrentPhotoPath);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        getActivity().sendBroadcast(mediaScanIntent);
+    }
 }

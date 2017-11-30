@@ -12,6 +12,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 
@@ -46,6 +48,7 @@ public class FileService {
 
     public static Boolean setPic(BootstrapThumbnail picture, String currentPath) {
         picture.setBackground(null);
+        picture.setVisibility(View.VISIBLE);
 
         // Get the dimensions of the View
         int targetW = picture.getWidth();
