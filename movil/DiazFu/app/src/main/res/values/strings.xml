@@ -56,4 +56,6 @@
     <string name="default_alert_dialog_cancelar">Cancelar</string>
     <string name="default_alert_dialog_si">Si</string>
     <string name="default_alert_dialog_no">No</string>
+
+    <string name="default_enable_permissions">Debes habilitar los permisos para la aplicación</string>
 </resources>
