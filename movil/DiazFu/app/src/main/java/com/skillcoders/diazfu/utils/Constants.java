@@ -269,6 +269,9 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.item_btn_pagar_comision, FRAGMENT_COMISIONES_REGISTER);
         ITEM_FRAGMENT.put(R.id.btn_buscar_proximo_pago, FRAGMENT_LISTADO_PROXIMOS_PAGOS);
         ITEM_FRAGMENT.put(R.id.btn_documentos_cliente, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_primera_referencia_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_segunda_referencia_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -328,6 +331,9 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.item_btn_pagar_comision, R.string.default_activity_title_comisiones);
         TITLE_ACTIVITY.put(R.id.btn_buscar_proximo_pago, R.string.default_activity_title_proximos_pagos);
         TITLE_ACTIVITY.put(R.id.btn_documentos_cliente, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_promotor, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_primera_referencia_promotor, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_segunda_referencia_promotor, R.string.default_activity_title_documentos);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;

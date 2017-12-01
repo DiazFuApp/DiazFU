@@ -3,29 +3,27 @@ package com.skillcoders.diazfu.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
-import com.skillcoders.diazfu.adapters.DocumentosAdapter;
 import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.DocumentosRest;
 import com.skillcoders.diazfu.fragments.interfaces.DocumentosInterface;
+import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.helpers.DocumentosHelper;
+import com.skillcoders.diazfu.services.DocumentosService;
+import com.skillcoders.diazfu.services.DownloadService;
+import com.skillcoders.diazfu.utils.FileUtils;
 import com.skillcoders.diazfu.utils.Constants;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.io.IOException;
 import java.util.List;
 
 import rx.Subscriber;
@@ -40,12 +38,11 @@ import rx.schedulers.Schedulers;
 public class DocumentosFragment extends Fragment implements View.OnClickListener {
 
     private static Documentos _MAIN_DOCUMENTOS;
-    private static List<Documentos> documentosList;
-    private static DocumentosAdapter documentosAdapter;
     private static DocumentosInterface activityInterface;
 
     public static BootstrapThumbnail btDocumento;
 
+    public static Documentos _documentoActual;
 
     /**
      * Implementaciones REST
@@ -60,9 +57,6 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
         _MAIN_DOCUMENTOS = (Documentos) getActivity().getIntent().getSerializableExtra(Constants.KEY_MAIN_DOCUMENTOS);
 
         btDocumento = (BootstrapThumbnail) view.findViewById(R.id.imagenView_documento);
-
-        documentosAdapter = new DocumentosAdapter();
-        documentosAdapter.setOnClickListener(this);
 
         documentosRest = ApiUtils.getDocumentosRest();
         listadoDocumentos();
@@ -86,15 +80,11 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
     }
 
 
-    public static void listadoDocumentos() {
+    public void listadoDocumentos() {
 
-        Documentos documento = _MAIN_DOCUMENTOS;
-        documento.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_CLIENTE);
-
-        documentosRest.getDocumentos(documento).subscribeOn(Schedulers.io())
+        documentosRest.getDocumentos(_MAIN_DOCUMENTOS).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Documentos>>() {
-
 
                     @Override
                     public void onCompleted() {
@@ -108,16 +98,16 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
 
                     @Override
                     public void onNext(List<Documentos> data) {
-
-                        documentosAdapter = new DocumentosAdapter();
-                        documentosList = new ArrayList<>();
-                        documentosList.addAll(data);
-
+                        _documentoActual = new Documentos();
                         ListadoDocumentosFragment.btnAgegar.setText("Actualizar");
-                        if (documentosList.size() == 0) {
+                        if (data.size() == 0) {
                             btDocumento.setImageDrawable(btDocumento.getContext().getDrawable(R.drawable.diazfu_logo));
                             ListadoDocumentosFragment.btnAgegar.setText("Agregar");
+                        } else {
+                            _documentoActual = data.get(0);
+                            new DownloadService(getActivity(), btDocumento, _documentoActual).execute();
                         }
+
                     }
                 });
     }
@@ -150,9 +140,19 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
             case R.id.item_btn_editar_cliente:
                 activityInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
-            case R.id.item_btn_eliminar_cliente:
-                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
-                break;
         }
+    }
+
+    public static void registrar(Documentos documento) {
+        DocumentosHelper helper = new DocumentosHelper();
+        helper.setDocumento(documento);
+
+        activityInterface.registrarDocumento(helper);
+    }
+
+    public static void actualizar(Documentos documento) {
+        DocumentosHelper helper = new DocumentosHelper();
+        helper.setDocumento(documento);
+
     }
 }

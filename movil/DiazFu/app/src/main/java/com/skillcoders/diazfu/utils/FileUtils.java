@@ -1,5 +1,6 @@
-package com.skillcoders.diazfu.services;
+package com.skillcoders.diazfu.utils;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,16 +8,18 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.beardedhen.androidbootstrap.BootstrapThumbnail;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,7 +34,7 @@ import java.util.Date;
  * Created by jvier on 13/07/2017.
  */
 
-public class FileService {
+public class FileUtils {
 
     public static File createImageFile(Context context) throws IOException {
         // Create an image file name
@@ -83,11 +86,11 @@ public class FileService {
 
         switch (orientation) {
             case ExifInterface.ORIENTATION_ROTATE_90:
-                Bitmap bMapScaled90 = Bitmap.createScaledBitmap(FileService.rotateBmp(bitmap, 90), 140, 140, true);
+                Bitmap bMapScaled90 = Bitmap.createScaledBitmap(FileUtils.rotateBmp(bitmap, 90), 140, 140, true);
                 picture.setImageBitmap(bMapScaled90);
                 break;
             case ExifInterface.ORIENTATION_ROTATE_180:
-                Bitmap bMapScaled180 = Bitmap.createScaledBitmap(FileService.rotateBmp(bitmap, 180), 140, 140, true);
+                Bitmap bMapScaled180 = Bitmap.createScaledBitmap(FileUtils.rotateBmp(bitmap, 180), 140, 140, true);
                 picture.setImageBitmap(bMapScaled180);
                 break;
             default:
@@ -106,13 +109,12 @@ public class FileService {
         return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
     }
 
-    public static String downloadFile(String fileURL) throws IOException {
-        String downloadFile = "";
+    public static Bitmap downloadFile(Context activity, String fileURL) {
+        Bitmap bitmap = null;
+        Boolean isImage = true;
+        String uriPath = "";
         try {
-            Boolean isImage = false;
-
-            String videoURIPath;
-            //fileURL = quitUrlBlackSpace(fileURL);
+            fileURL = quitUrlBlackSpace(fileURL);
             URL url = new URL(fileURL);
 
             HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();
@@ -127,9 +129,9 @@ public class FileService {
 
                 if (disposition != null) {
                     // extracts file name from header field
-                    int index = disposition.indexOf("filename*=");
+                    int index = disposition.indexOf("filename=");
                     if (index > 0) {
-                        fileName = disposition.substring(index + 15,
+                        fileName = disposition.substring(index + 10,
                                 disposition.length() - 1);
                     }
                 } else {
@@ -138,7 +140,7 @@ public class FileService {
                             fileURL.length());
                 }
 
-                isImage = (contentType.contains("image/"));
+                isImage = (fileName.contains("jpg"));
 
                 System.out.println("Content-Type = " + contentType);
                 System.out.println("Content-Disposition = " + disposition);
@@ -161,25 +163,40 @@ public class FileService {
                 outputStream.close();
                 inputStream.close();
 
-                videoURIPath = saveFilePath.toString();
+                uriPath = saveFilePath;
 
-                System.out.println("File downloaded" + videoURIPath);
+                System.out.println("File downloaded" + uriPath);
             } else {
                 System.out.println("No file to download. Server replied HTTP code: " + responseCode);
-                throw new Exception("No file to download. Server replied HTTP code: " + responseCode);
             }
 
             httpConn.disconnect();
 
-            Uri uri = Uri.fromFile(new File(videoURIPath));
-
-            downloadFile = uri.toString();
+            Uri uri = Uri.fromFile(new File(uriPath));
+            bitmap = (isImage) ? attachImgBitmap(activity, uri, 100) :
+                    ThumbnailUtils.createVideoThumbnail(new File(uriPath).getAbsolutePath(), MediaStore.Video.Thumbnails.MINI_KIND);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return downloadFile;
+        return bitmap;
+    }
+
+    public static Bitmap attachImgBitmap(Context activity, Uri uri, int size) throws Exception {
+        try {
+            InputStream is = activity.getContentResolver()
+                    .openInputStream(uri);
+            Bitmap img = BitmapFactory.decodeStream(is);
+            ByteArrayOutputStream convert = new ByteArrayOutputStream();
+            img.compress(Bitmap.CompressFormat.JPEG, size, convert);
+
+            return img;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("AttachImg Exception", e.getMessage());
+            throw new Exception("Error X");
+        }
     }
 
     private static String quitUrlBlackSpace(String fileURL) {

@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -10,9 +11,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.skillcoders.diazfu.DocumentosActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.Usuarios;
@@ -45,6 +49,8 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
 
     private static DecodeExtraHelper _MAIN_DECODE;
     private static Usuarios _SESSION_USER;
+
+    private Button btnDocumentos;
 
     private static TextInputLayout tilNombre, tilRFC, tilDireccion, tilTelefonoCasa, tilTelefonoCelular,
             tilCorreoElectronico, tilFacebook, tilTwitter, tilInstagram, tilFechaNacimiento, tilCURP,
@@ -82,6 +88,9 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
         tilCURP = (TextInputLayout) view.findViewById(R.id.curp_promotor);
         tilClaveElector = (TextInputLayout) view.findViewById(R.id.clave_elector_promotor);
 
+        btnDocumentos = (Button) view.findViewById(R.id.btn_documentos_promotor);
+        btnDocumentos.setOnClickListener(this);
+
         tilFechaNacimiento.getEditText().setOnClickListener(this);
 
         /**Crea el picker calendar**/
@@ -116,6 +125,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.obtenerPromotor();
+                btnDocumentos.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_REGISTRAR:
                 _promotorActual = new Promotores();
@@ -360,6 +370,24 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
                 new DatePickerDialog(getContext(), R.style.MyCalendarTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            case R.id.btn_documentos_promotor:
+                DecodeExtraHelper extra = new DecodeExtraHelper();
+
+                extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
+                extra.setTituloFormulario(_promotorActual.getNombre());
+                extra.setAccionFragmento(Constants.ACCION_VER);
+                extra.setFragmentTag(Constants.ITEM_FRAGMENT.get(v.getId()));
+
+                Documentos documento = new Documentos();
+                documento.setIdActor(_promotorActual.getId());
+                documento.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR);
+
+                Intent intent = new Intent(getActivity(), DocumentosActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+                intent.putExtra(Constants.KEY_MAIN_DOCUMENTOS, documento);
+                startActivity(intent);
                 break;
         }
     }

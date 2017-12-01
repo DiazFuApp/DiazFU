@@ -16,6 +16,7 @@
             android:id="@+id/imagenView_documento"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:src="@drawable/diazfu_logo"
             app:hasBorder="false" />
     </LinearLayout>
 </FrameLayout>

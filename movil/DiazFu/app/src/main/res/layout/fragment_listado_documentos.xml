@@ -101,13 +101,13 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_abrir_documento"
+                android:id="@+id/btn_guardar_documento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:background="@null"
-                android:text="ABRIR"
+                android:text="GUARDAR"
                 android:textColor="@color/colorPrimary"
                 android:visibility="gone" />
 

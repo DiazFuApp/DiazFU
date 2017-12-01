@@ -13,12 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Comisiones;
+import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
@@ -32,6 +34,7 @@ import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
+import com.skillcoders.diazfu.data.remote.rest.DocumentosRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
@@ -42,7 +45,9 @@ import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
+import com.skillcoders.diazfu.fragments.DocumentosFragment;
 import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
+import com.skillcoders.diazfu.fragments.ListadoDocumentosFragment;
 import com.skillcoders.diazfu.fragments.interfaces.DocumentosInterface;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.ActividadesHelper;
@@ -50,6 +55,7 @@ import com.skillcoders.diazfu.helpers.ClientesHelper;
 import com.skillcoders.diazfu.helpers.ComisionesHelper;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.helpers.DocumentosHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
@@ -72,7 +78,7 @@ import rx.schedulers.Schedulers;
  * Created by jvier on 04/09/2017.
  */
 
-public class DocumentosActivity extends AppCompatActivity implements DocumentosInterface, DialogInterface.OnClickListener {
+public class DocumentosActivity extends AppCompatActivity implements DocumentosInterface {
 
     private static final String TAG = DocumentosActivity.class.getSimpleName();
 
@@ -83,6 +89,7 @@ public class DocumentosActivity extends AppCompatActivity implements DocumentosI
     /**
      * Implementaciones REST
      */
+    private static DocumentosRest documentosRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +103,8 @@ public class DocumentosActivity extends AppCompatActivity implements DocumentosI
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+
+        documentosRest = ApiUtils.getDocumentosRest();
 
         this.onPreRender();
     }
@@ -175,99 +184,43 @@ public class DocumentosActivity extends AppCompatActivity implements DocumentosI
     }
 
     @Override
-    public void showQuestion(String titulo, String mensage) {
-        AlertDialog.Builder ad = new AlertDialog.Builder(this);
-
-        ad.setTitle(titulo);
-        ad.setMessage(mensage);
-        ad.setCancelable(false);
-        ad.setNegativeButton("Cancelar", this);
-        ad.setPositiveButton("Aceptar", this);
-        ad.show().getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getColor(R.color.bootstrap_brand_danger));
-    }
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        {
-            int operation = 0;
-
-            switch (which) {
-                case DialogInterface.BUTTON_POSITIVE:
-                    switch (_decodeItem.getIdView()) {
-                        case R.id.item_btn_eliminar_asignacion_grupo:
-                            operation = Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS;
-                            break;
-                        case R.id.item_btn_responsable_asignacion_grupo:
-                            operation = Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS;
-                            break;
-                    }
-
-                    this.webServiceOperations(operation);
-            }
-
-        }
-
-    }
-
-    private void webServiceOperations(int operation) {
+    public void registrarDocumento(DocumentosHelper documentosHelper) {
         pDialog = new ProgressDialog(DocumentosActivity.this);
         pDialog.setMessage(getString(R.string.default_loading_msg));
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         pDialog.show();
 
-        switch (operation) {
-            case Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS:
-                this.webServiceDeletePromotor();
-                break;
-            case Constants.WS_KEY_AUTORIZAR_ASIGNACIONES_GRUPOS:
-                this.webServiceAsignarPromotor();
-                break;
-        }
-
+        webServiceRegistrarDocumento(documentosHelper);
     }
 
-    private void webServiceDeletePromotor() {
-        Clientes cliente = (Clientes) _decodeItem.getItemModel();
-        AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
-        AsignacionGrupoFragment.clientesList.remove(cliente);
-        AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
+    private void webServiceRegistrarDocumento(DocumentosHelper helper) {
+        documentosRest.agregarDocumento(helper.getDocumento()).enqueue(new Callback<Documentos>() {
+            @Override
+            public void onResponse(Call<Documentos> call, Response<Documentos> response) {
 
-        if (cliente.getIdEstatus().equals(Constants.ESTATUS_RESPONSABLE)) {
-            FormularioGruposFragment._clienteResponsable = null;
-        }
+                if (response.isSuccessful()) {
 
-        IntegrantesGrupos integranteGrupo = new IntegrantesGrupos();
-        List<IntegrantesGrupos> integrantesGrupos = AsignacionGrupoFragment.integrantesGrupos;
+                    Documentos data = response.body();
 
-        for (IntegrantesGrupos integrante : integrantesGrupos) {
+                    if (null != data.getId()) {
+                        ListadoDocumentosFragment.btnGuardar.setVisibility(View.GONE);
+                        ListadoDocumentosFragment.btnAgegar.setText("Actualizar");
+                        pDialog.dismiss();
+                    }
 
-            if (integrante.getIdCliente().equals(cliente.getId())) {
-                integranteGrupo.setId(integrante.getId());
-                integranteGrupo.setIdEstatus(Constants.ACCION_ELIMINAR);
-                integranteGrupo.setIdCliente(cliente.getId());
-                integranteGrupo.setCliente(cliente.getNombre());
-                AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
-                break;
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
             }
-        }
 
-        pDialog.dismiss();
-    }
+            @Override
+            public void onFailure(Call<Documentos> call, Throwable t) {
 
-    private void webServiceAsignarPromotor() {
-        //TODO CHECAR RESPONSABLE CLIENTES
-        Clientes cliente = (Clientes) _decodeItem.getItemModel();
-
-        AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
-        AsignacionGrupoFragment.clientesList.remove(cliente);
-        cliente.setIdEstatus(Constants.ESTATUS_RESPONSABLE);
-        AsignacionGrupoFragment.clientesList.add(cliente);
-        AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
-
-        FormularioGruposFragment._clienteResponsable = cliente.getId();
-
-        pDialog.dismiss();
+            }
+        });
     }
 }
 
