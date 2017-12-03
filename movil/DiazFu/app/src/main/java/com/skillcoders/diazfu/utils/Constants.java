@@ -272,6 +272,12 @@ public class Constants {
         ITEM_FRAGMENT.put(R.id.btn_documentos_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
         ITEM_FRAGMENT.put(R.id.btn_documentos_primera_referencia_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
         ITEM_FRAGMENT.put(R.id.btn_documentos_segunda_referencia_promotor, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_aval_prestamos_grupales, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_primera_referencia_grupal, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_segunda_referencia_grupal, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_aval_prestamo_individual, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_primera_referencia_prestamo_individual, FRAGMENT_LISTADO_DOCUMENTOS);
+        ITEM_FRAGMENT.put(R.id.btn_documentos_segunda_referencia_prestamo_individual, FRAGMENT_LISTADO_DOCUMENTOS);
     }
 
     public static final HashMap<String, Fragment> TAG_FRAGMENT;
@@ -334,6 +340,12 @@ public class Constants {
         TITLE_ACTIVITY.put(R.id.btn_documentos_promotor, R.string.default_activity_title_documentos);
         TITLE_ACTIVITY.put(R.id.btn_documentos_primera_referencia_promotor, R.string.default_activity_title_documentos);
         TITLE_ACTIVITY.put(R.id.btn_documentos_segunda_referencia_promotor, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_aval_prestamos_grupales, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_primera_referencia_grupal, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_segunda_referencia_grupal, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_aval_prestamo_individual, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_primera_referencia_prestamo_individual, R.string.default_activity_title_documentos);
+        TITLE_ACTIVITY.put(R.id.btn_documentos_segunda_referencia_prestamo_individual, R.string.default_activity_title_documentos);
     }
 
     public static final HashMap<Integer, Integer> TITLE_FORM_ACTION;

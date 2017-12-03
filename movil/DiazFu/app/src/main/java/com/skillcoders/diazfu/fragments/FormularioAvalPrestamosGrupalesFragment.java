@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -10,12 +11,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.skillcoders.diazfu.DocumentosActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
@@ -41,6 +46,9 @@ import rx.schedulers.Schedulers;
 public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements View.OnClickListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
+
+    private Button btnDocumentos;
 
     private static TextInputLayout tilNombre, tilRFC, tilDireccion, tilDireccionReferencia, tilTelefonoCasa,
             tilTelefonoCelular, tilCorreoElectronico, tilFacebook, tilTwitter, tilInstagram, tilFechaNacimiento,
@@ -65,6 +73,7 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_prestamos_grupales_aval_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         tilNombre = (TextInputLayout) view.findViewById(R.id.nombre_aval_prestamo_grupal);
         tilRFC = (TextInputLayout) view.findViewById(R.id.rfc_aval_prestamo_grupal);
@@ -86,6 +95,9 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
         tilAntiguedadEmpresa = (TextInputLayout) view.findViewById(R.id.antiguedad_empresa_aval_prestamo_grupal);
         tilTelefonoEmpresa = (TextInputLayout) view.findViewById(R.id.telefono_empresa_aval_prestamo_grupal);
         tilNombreJefe = (TextInputLayout) view.findViewById(R.id.nombre_jefe_aval_prestamo_grupal);
+
+        btnDocumentos = (Button) view.findViewById(R.id.btn_documentos_aval_prestamos_grupales);
+        btnDocumentos.setOnClickListener(this);
 
         tilFechaNacimiento.getEditText().setOnClickListener(this);
 
@@ -124,6 +136,7 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
             case Constants.ACCION_AUTORIZAR:
             case Constants.ACCION_ENTREGAR:
                 this.obtenerAval();
+                btnDocumentos.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_REGISTRAR:
                 _avalActual = new ReferenciasPrestamos();
@@ -441,6 +454,24 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
                 new DatePickerDialog(getContext(), R.style.MyCalendarTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            case R.id.btn_documentos_aval_prestamos_grupales:
+                DecodeExtraHelper extra = new DecodeExtraHelper();
+
+                extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
+                extra.setTituloFormulario(_avalActual.getNombre());
+                extra.setAccionFragmento(Constants.ACCION_VER);
+                extra.setFragmentTag(Constants.ITEM_FRAGMENT.get(v.getId()));
+
+                Documentos documento = new Documentos();
+                documento.setIdActor(_avalActual.getId());
+                documento.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO);
+
+                Intent intent = new Intent(getActivity(), DocumentosActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+                intent.putExtra(Constants.KEY_MAIN_DOCUMENTOS, documento);
+                startActivity(intent);
                 break;
         }
     }

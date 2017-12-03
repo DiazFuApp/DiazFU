@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -10,12 +11,16 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
+import com.skillcoders.diazfu.DocumentosActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
@@ -41,6 +46,9 @@ import rx.schedulers.Schedulers;
 public class FormularioPrimeraReferenciaPrestamosGrupalesFragment extends Fragment implements View.OnClickListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
+
+    private Button btnDocumentos;
 
     private static TextInputLayout tilNombre, tilRFC, tilDireccion, tilDireccionReferencia, tilTelefonoCasa, tilTelefonoCelular,
             tilCorreoElectronico, tilFacebook, tilTwitter, tilInstagram, tilFechaNacimiento, tilCURP,
@@ -79,6 +87,9 @@ public class FormularioPrimeraReferenciaPrestamosGrupalesFragment extends Fragme
         tilCURP = (TextInputLayout) view.findViewById(R.id.curp_primera_referencia_prestamo_grupal);
         tilClaveElector = (TextInputLayout) view.findViewById(R.id.clave_elector_primera_referencia_prestamo_grupal);
 
+        btnDocumentos = (Button) view.findViewById(R.id.btn_documentos_primera_referencia_grupal);
+        btnDocumentos.setOnClickListener(this);
+
         tilFechaNacimiento.getEditText().setOnClickListener(this);
 
         /**Crea el picker calendar**/
@@ -116,6 +127,7 @@ public class FormularioPrimeraReferenciaPrestamosGrupalesFragment extends Fragme
             case Constants.ACCION_AUTORIZAR:
             case Constants.ACCION_ENTREGAR:
                 this.obtenerprimera_referencia();
+                btnDocumentos.setVisibility(View.VISIBLE);
                 break;
             case Constants.ACCION_REGISTRAR:
                 _referenciaActual = new ReferenciasPrestamos();
@@ -377,6 +389,24 @@ public class FormularioPrimeraReferenciaPrestamosGrupalesFragment extends Fragme
                 new DatePickerDialog(getContext(), R.style.MyCalendarTheme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+                break;
+            case R.id.btn_documentos_primera_referencia_grupal:
+                DecodeExtraHelper extra = new DecodeExtraHelper();
+
+                extra.setTituloActividad(getString(Constants.TITLE_ACTIVITY.get(v.getId())));
+                extra.setTituloFormulario(_referenciaActual.getNombre());
+                extra.setAccionFragmento(Constants.ACCION_VER);
+                extra.setFragmentTag(Constants.ITEM_FRAGMENT.get(v.getId()));
+
+                Documentos documento = new Documentos();
+                documento.setIdActor(_referenciaActual.getId());
+                documento.setIdTipoActor(Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO);
+
+                Intent intent = new Intent(getActivity(), DocumentosActivity.class);
+                intent.putExtra(Constants.KEY_MAIN_DECODE, extra);
+                intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+                intent.putExtra(Constants.KEY_MAIN_DOCUMENTOS, documento);
+                startActivity(intent);
                 break;
         }
     }

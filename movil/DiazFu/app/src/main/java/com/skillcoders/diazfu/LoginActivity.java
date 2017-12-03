@@ -1,5 +1,6 @@
 package com.skillcoders.diazfu;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
 import com.skillcoders.diazfu.utils.Constants;
 
+import java.net.SocketException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      **/
     private Button btnLogin;
     private EditText txtUsername, txtPassword;
+    private ProgressDialog pDialog;
 
     /**
      * Implementaciones REST
@@ -79,9 +82,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         usuario.setNombre(username);
         usuario.setContrasena(password);
 
+        pDialog = new ProgressDialog(LoginActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
         usuariosRest.usuariosLogin(usuario).enqueue(new Callback<Usuarios>() {
             @Override
             public void onResponse(Call<Usuarios> call, Response<Usuarios> response) {
+
+                pDialog.dismiss();
 
                 if (response.isSuccessful()) {
 
@@ -103,7 +114,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void onFailure(Call<Usuarios> call, Throwable t) {
-                Log.e(TAG, "Unable to submit post to API.");
+                pDialog.dismiss();
+                Toast.makeText(LoginActivity.this, "No es posible comunicarse con el servidor ", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Unable to submit post to API v1.");
             }
         });
     }
