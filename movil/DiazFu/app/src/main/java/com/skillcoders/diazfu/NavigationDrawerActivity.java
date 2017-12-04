@@ -611,5 +611,19 @@ public class NavigationDrawerActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    @Override
+    public void showProgressDialog() {
+        if (null == pDialog) {
+            pDialog = new ProgressDialog(NavigationDrawerActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+    }
 
+    @Override
+    public void stopProgressDialog() {
+        if (null != pDialog) pDialog.dismiss();
+    }
 }

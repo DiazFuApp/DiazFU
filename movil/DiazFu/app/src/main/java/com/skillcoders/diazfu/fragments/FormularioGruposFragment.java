@@ -25,6 +25,7 @@ import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
@@ -44,6 +45,8 @@ import rx.schedulers.Schedulers;
  */
 
 public class FormularioGruposFragment extends Fragment implements Spinner.OnItemSelectedListener, View.OnClickListener {
+
+    private MainRegisterInterface activityInterface;
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
@@ -105,12 +108,14 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
     }
 
     private void onPreRender() {
+        activityInterface.showProgressDialog();
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.obtenerGrupo();
                 break;
             case Constants.ACCION_REGISTRAR:
                 _grupoActual = new Grupos();
+                activityInterface.stopProgressDialog();
                 break;
             default:
                 break;
@@ -125,6 +130,11 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            activityInterface = (MainRegisterInterface) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + "debe implementar");
+        }
     }
 
     private void obtenerGrupo() {
@@ -140,11 +150,13 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
 
                     @Override
                     public void onError(Throwable e) {
+                        activityInterface.stopProgressDialog();
                     }
 
                     @Override
                     public void onNext(Grupos grupo) {
 
+                        activityInterface.stopProgressDialog();
                         _grupoActual = grupo;
 
                         tilNombre.getEditText().setText(grupo.getNombre());

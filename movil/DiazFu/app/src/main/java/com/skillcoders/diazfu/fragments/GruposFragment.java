@@ -38,7 +38,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     private static List<Grupos> gruposList;
     private static RecyclerView recyclerView;
     private static GruposAdapter gruposAdapter;
-    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static NavigationDrawerInterface activityInterface;
     public static LinearLayout linearLayout;
 
     /**
@@ -78,10 +78,12 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     }
 
     public static void listadoGrupos() {
+        activityInterface.showProgressDialog();
         gruposRest.getGrupos().enqueue(new Callback<List<Grupos>>() {
             @Override
             public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
 
+                activityInterface.stopProgressDialog();
                 if (response.isSuccessful()) {
                     gruposAdapter = new GruposAdapter();
                     gruposList = new ArrayList<>();
@@ -97,7 +99,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onFailure(Call<List<Grupos>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }
@@ -126,7 +128,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -139,17 +141,17 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
 
     public static void onListenerAction(DecodeItemHelper decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_editar_grupo:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_grupo:
-                navigationDrawerInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
             case R.id.item_btn_autorizan_grupo:
-                navigationDrawerInterface.showQuestion("Autorizar", "¿Esta seguro que desea autorizar?");
+                activityInterface.showQuestion("Autorizar", "¿Esta seguro que desea autorizar?");
                 break;
         }
     }

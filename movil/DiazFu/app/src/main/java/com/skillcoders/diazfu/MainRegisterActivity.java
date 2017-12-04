@@ -1716,7 +1716,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     private void webServiceAsignarPromotor() {
-        //TODO CHECAR RESPONSABLE CLIENTES
         Clientes cliente = (Clientes) _decodeItem.getItemModel();
 
         AsignacionGrupoFragment.adapter = new AsignacionesAdapter();
@@ -1728,6 +1727,22 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         FormularioGruposFragment._clienteResponsable = cliente.getId();
 
         pDialog.dismiss();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        if (null == pDialog) {
+            pDialog = new ProgressDialog(MainRegisterActivity.this);
+            pDialog.setMessage(getString(R.string.default_loading_msg));
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(false);
+            pDialog.show();
+        }
+    }
+
+    @Override
+    public void stopProgressDialog() {
+        if (null != pDialog) pDialog.dismiss();
     }
 }
 

@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.ComisionesAdapter;
-import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Comisiones;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
@@ -41,7 +40,7 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
     private static List<Comisiones> comisionesList;
     private static RecyclerView recyclerView;
     private static ComisionesAdapter adapter;
-    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static NavigationDrawerInterface activityInterface;
     private View view;
     public static LinearLayout linearLayout;
 
@@ -83,10 +82,12 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
     }
 
     public static void listadoActividades() {
+        activityInterface.showProgressDialog();
         comisionesRest.getComisiones().enqueue(new Callback<List<Comisiones>>() {
             @Override
             public void onResponse(Call<List<Comisiones>> call, Response<List<Comisiones>> response) {
 
+                activityInterface.stopProgressDialog();
                 if (response.isSuccessful()) {
                     adapter = new ComisionesAdapter();
                     comisionesList = new ArrayList<>();
@@ -101,7 +102,7 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onFailure(Call<List<Comisiones>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }
@@ -134,7 +135,7 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -147,11 +148,11 @@ public class ComisionesFragment extends Fragment implements View.OnClickListener
 
     public static void onListenerAction(DecodeItemHelper decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_pagar_comision:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_PAGAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_PAGAR, MainRegisterActivity.class);
                 break;
         }
     }

@@ -58,4 +58,8 @@ public interface MainRegisterInterface {
     void registrarComision(ComisionesHelper helper);
 
     void pagarComision(ComisionesHelper helper);
+
+    void showProgressDialog();
+
+    void stopProgressDialog();
 }

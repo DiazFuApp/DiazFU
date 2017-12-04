@@ -38,7 +38,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     private static List<Promotores> promotoresList;
     private static RecyclerView recyclerView;
     private static PromotoresAdapter promotoresAdapter;
-    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static NavigationDrawerInterface activityInterface;
     public static LinearLayout linearLayout;
 
     /**
@@ -78,10 +78,12 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     }
 
     public static void listadoPromotores() {
+        activityInterface.showProgressDialog();
         promotoresRest.getPromotores().enqueue(new Callback<List<Promotores>>() {
             @Override
             public void onResponse(Call<List<Promotores>> call, Response<List<Promotores>> response) {
 
+                activityInterface.stopProgressDialog();
                 if (response.isSuccessful()) {
                     promotoresAdapter = new PromotoresAdapter();
                     promotoresList = new ArrayList<>();
@@ -96,7 +98,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
 
             @Override
             public void onFailure(Call<List<Promotores>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }
@@ -125,7 +127,7 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -138,14 +140,14 @@ public class PromotoresFragment extends Fragment implements View.OnClickListener
 
     public static void onListenerAction(DecodeItemHelper decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_editar_promotor:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_promotor:
-                navigationDrawerInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
         }
     }

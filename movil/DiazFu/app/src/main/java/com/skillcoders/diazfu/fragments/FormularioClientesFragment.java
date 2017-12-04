@@ -148,6 +148,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     }
 
     private void onPreRender() {
+        activityInterface.stopProgressDialog();
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.obtenerCliente();
@@ -174,6 +175,11 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            activityInterface = (MainRegisterInterface) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + "debe implementar");
+        }
     }
 
     private void listadoPromotores() {
@@ -194,12 +200,13 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
                     }
 
                     onCargarSpinnerPromotores();
+                    activityInterface.stopProgressDialog();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Promotores>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }

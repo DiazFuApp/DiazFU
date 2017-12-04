@@ -21,4 +21,8 @@ public interface NavigationDrawerInterface {
      * Permte abrir una actividad externa enviando parametros en el DecodeItem
      **/
     void openExternalActivity(int action, Class<?> externalActivity);
+
+    void showProgressDialog();
+
+    void stopProgressDialog();
 }

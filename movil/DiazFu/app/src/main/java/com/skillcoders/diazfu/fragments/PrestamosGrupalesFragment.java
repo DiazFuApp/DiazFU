@@ -38,7 +38,7 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
     private static List<PrestamosGrupales> prestamosGrupalesList;
     private static RecyclerView recyclerView;
     private static PrestamosGrupalesAdapter adapter;
-    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static NavigationDrawerInterface activityInterface;
     public static LinearLayout linearLayout;
 
     /**
@@ -78,10 +78,12 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
     }
 
     public static void listadoGrupos() {
+        activityInterface.showProgressDialog();
         prestamosGrupalesRest.getPrestamosGrupales().enqueue(new Callback<List<PrestamosGrupales>>() {
             @Override
             public void onResponse(Call<List<PrestamosGrupales>> call, Response<List<PrestamosGrupales>> response) {
 
+                activityInterface.stopProgressDialog();
                 if (response.isSuccessful()) {
                     adapter = new PrestamosGrupalesAdapter();
                     prestamosGrupalesList = new ArrayList<>();
@@ -96,7 +98,7 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
 
             @Override
             public void onFailure(Call<List<PrestamosGrupales>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }
@@ -125,7 +127,7 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -138,20 +140,20 @@ public class PrestamosGrupalesFragment extends Fragment implements View.OnClickL
 
     public static void onListenerAction(DecodeItemHelper decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_pagar_prestamo_grupal:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_PAGAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_PAGAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_entregar_prestamo_grupal:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_ENTREGAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_ENTREGAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_autorizar_prestamo_grupal:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_AUTORIZAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_AUTORIZAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_ver_prestamo_grupal:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
         }
     }

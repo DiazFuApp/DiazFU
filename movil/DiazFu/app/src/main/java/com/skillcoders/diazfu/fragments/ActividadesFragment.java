@@ -40,7 +40,7 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
     private static List<Actividades> actividadesList;
     private static RecyclerView recyclerView;
     private static ActividadesAdapter actividadesAdapter;
-    private static NavigationDrawerInterface navigationDrawerInterface;
+    private static NavigationDrawerInterface activityInterface;
     private View view;
     public static LinearLayout linearLayout;
 
@@ -82,10 +82,12 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
     }
 
     public static void listadoActividades() {
+        activityInterface.showProgressDialog();
         actividadesRest.getActividades().enqueue(new Callback<List<Actividades>>() {
             @Override
             public void onResponse(Call<List<Actividades>> call, Response<List<Actividades>> response) {
 
+                activityInterface.stopProgressDialog();
                 if (response.isSuccessful()) {
                     actividadesAdapter = new ActividadesAdapter();
                     actividadesList = new ArrayList<>();
@@ -100,7 +102,7 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
 
             @Override
             public void onFailure(Call<List<Actividades>> call, Throwable t) {
-
+                activityInterface.stopProgressDialog();
             }
         });
     }
@@ -133,7 +135,7 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
     public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            navigationDrawerInterface = (NavigationDrawerInterface) getActivity();
+            activityInterface = (NavigationDrawerInterface) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(getActivity().toString() + "debe implementar");
         }
@@ -146,20 +148,20 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
 
     public static void onListenerAction(DecodeItemHelper decodeItem) {
         /**Inicializa DecodeItem en la activity principal**/
-        navigationDrawerInterface.setDecodeItem(decodeItem);
+        activityInterface.setDecodeItem(decodeItem);
 
         switch (decodeItem.getIdView()) {
             case R.id.item_btn_finalizar_actividad:
-                navigationDrawerInterface.showQuestion("Finalizar", "¿Esta seguro que desea finalizar?");
+                activityInterface.showQuestion("Finalizar", "¿Esta seguro que desea finalizar?");
                 break;
             case R.id.item_btn_editar_actividad:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_EDITAR, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_ver_actividad:
-                navigationDrawerInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
+                activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_actividad:
-                navigationDrawerInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
         }
     }

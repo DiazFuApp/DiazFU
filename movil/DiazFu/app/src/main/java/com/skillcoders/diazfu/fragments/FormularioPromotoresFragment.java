@@ -122,6 +122,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
     }
 
     private void onPreRender() {
+        activityInterface.showProgressDialog();
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_EDITAR:
                 this.obtenerPromotor();
@@ -133,6 +134,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
                 _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK, Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR, ""));
                 _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER, Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR, ""));
                 _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM, Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR, ""));
+                activityInterface.stopProgressDialog();
                 break;
             default:
                 break;
@@ -147,6 +149,11 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        try {
+            activityInterface = (MainRegisterInterface) getActivity();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(getActivity().toString() + "debe implementar");
+        }
     }
 
     private void updateTxtDate() {
@@ -168,6 +175,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
 
                     @Override
                     public void onError(Throwable e) {
+                        activityInterface.stopProgressDialog();
                     }
 
                     @Override
@@ -212,6 +220,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
 
                     @Override
                     public void onError(Throwable e) {
+                        activityInterface.stopProgressDialog();
 
                     }
 
@@ -237,6 +246,8 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
 
                             _redesSocialesActuales.add(redSocial);
                         }
+
+                        activityInterface.stopProgressDialog();
                     }
                 });
     }
