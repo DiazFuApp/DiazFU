@@ -166,6 +166,8 @@ public class AccionesPrestamosIndividualesFragment extends Fragment implements V
         helper.setSegundaReferencia(FormularioSegundaReferenciaPrestamosIndividualesFragment._referenciaActual);
         helper.setRedesSociales(new ArrayList<RedesSociales>());
         helper.getRedesSociales().addAll(FormularioAvalPrestamosIndividualesFragment._redesSocialesActuales);
+        helper.getRedesSociales().addAll(FormularioPrimeraReferenciaPrestamosIndividualesFragment._redesSocialesActuales);
+        helper.getRedesSociales().addAll(FormularioSegundaReferenciaPrestamosIndividualesFragment._redesSocialesActuales);
 
         activityInterface.registrarPrestamoIndividual(helper);
     }

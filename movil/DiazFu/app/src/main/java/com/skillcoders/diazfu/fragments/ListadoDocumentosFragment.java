@@ -205,7 +205,12 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
     }
 
     private void sincronizarDocumento() {
+        Documentos documento = DocumentosFragment._documentoActual;
+        documento.setIdTipoDocumento(_MAIN_DOCUMENTOS.getIdTipoDocumento());
+        documento.setIdActor(_MAIN_DOCUMENTOS.getIdActor());
+        documento.setIdTipoActor(_MAIN_DOCUMENTOS.getIdTipoActor());
+        
         new DocumentosService(getActivity(),
-                mCurrentPhotoPath, _MAIN_DOCUMENTOS).execute();
+                mCurrentPhotoPath, documento).execute();
     }
 }

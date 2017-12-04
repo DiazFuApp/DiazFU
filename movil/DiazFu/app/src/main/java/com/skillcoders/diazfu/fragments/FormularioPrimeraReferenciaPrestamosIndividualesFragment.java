@@ -31,6 +31,7 @@ import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -59,6 +60,7 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
 
     public static PrestamosIndividuales _prestamosIndividualesActual;
     public static ReferenciasPrestamos _referenciaActual;
+    public static List<RedesSociales> _redesSocialesActuales;
 
     /**
      * Implementaciones REST
@@ -130,6 +132,10 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
                 break;
             case Constants.ACCION_REGISTRAR:
                 _referenciaActual = new ReferenciasPrestamos();
+                _redesSocialesActuales = new ArrayList<>();
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO, ""));
+                _redesSocialesActuales.add(new RedesSociales(Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM, Constants.DIAZFU_WEB_TIPO_ACTOR_REFERENCIA_PRESTAMO, ""));
                 break;
             default:
                 break;
@@ -219,6 +225,8 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
                     @Override
                     public void onNext(List<RedesSociales> data) {
 
+                        _redesSocialesActuales = new ArrayList<>();
+
                         for (RedesSociales redSocial :
                                 data) {
 
@@ -233,6 +241,8 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
                                     tilInstagram.getEditText().setText(redSocial.getURL());
                                     break;
                             }
+
+                            _redesSocialesActuales.add(redSocial);
                         }
                     }
                 });
@@ -279,6 +289,7 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
             data.setClaveElector(claveElector);
 
             setReferenciaPromotor(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -329,6 +340,7 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
             data.setIdEstatus(_referenciaActual.getIdEstatus());
 
             setReferenciaPromotor(data);
+            setRedesSociales();
             valido = true;
         }
 
@@ -351,6 +363,24 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
 
         _referenciaActual.setIdEstatus(data.getIdEstatus());
         _referenciaActual.setIdUsuario(data.getIdUsuario());
+    }
+
+    public static void setRedesSociales() {
+        for (RedesSociales data :
+                _redesSocialesActuales) {
+            switch (data.getIdTipoRedSocial()) {
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
+                    data.setURL(tilFacebook.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_TWITTER:
+                    data.setURL(tilTwitter.getEditText().getText().toString());
+                    break;
+                case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_INSTAGRAM:
+                    data.setURL(tilInstagram.getEditText().getText().toString());
+                    break;
+            }
+
+        }
     }
 
     @Override

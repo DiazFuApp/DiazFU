@@ -351,6 +351,7 @@ public class FormularioSegundaReferenciaPrestamosGrupalesFragment extends Fragme
         _referenciaActual.setIdTipoPrestamo(data.getIdTipoPrestamo());
         _referenciaActual.setNombre(data.getNombre());
         _referenciaActual.setDireccion(data.getDireccion());
+        _referenciaActual.setReferenciaDireccion(data.getReferenciaDireccion());
         _referenciaActual.setTelefonoCasa(data.getTelefonoCasa());
         _referenciaActual.setTelefonoCelular(data.getTelefonoCelular());
         _referenciaActual.setCorreoElectronico(data.getCorreoElectronico());

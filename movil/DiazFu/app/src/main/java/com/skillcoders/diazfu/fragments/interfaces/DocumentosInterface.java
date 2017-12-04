@@ -14,4 +14,6 @@ public interface DocumentosInterface {
     void setDecodeItem(DecodeItemHelper decodeItem);
 
     void registrarDocumento(DocumentosHelper helper);
+
+    void actualizarDocumento(DocumentosHelper helper);
 }

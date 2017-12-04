@@ -91,6 +91,15 @@ public class DocumentosService extends AsyncTask<Void, Void, Boolean> {
                     + documento.getIdActor() + "_"
                     + documento.getIdTipoActor() + ".jpg";
 
+            if (null != documento.getURLDocumento()) {
+                // Retrieve reference to a blob named
+                String fileName = documento.getURLDocumento().substring(documento.getURLDocumento().lastIndexOf("/") + 1,
+                        documento.getURLDocumento().length());
+                CloudBlockBlob blob = container.getBlockBlobReference(fileName);
+
+                blob.deleteIfExists();
+            }
+
             CloudBlockBlob blob = container.getBlockBlobReference(nombreArchivo);
             File sourceFile = new File(path);
             blob.upload(new FileInputStream(sourceFile), sourceFile.length());

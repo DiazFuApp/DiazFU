@@ -870,8 +870,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         webServiceRegistrarPrestamoGrupal(prestamosGrupalesHelper);
     }
 
-    private void webServiceRegistrarPrestamoGrupal(final PrestamosGrupalesHelper prestamosGrupalesHelper) {
-        prestamosGrupalesRest.agregarPrestamoGrupal(prestamosGrupalesHelper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
+    private void webServiceRegistrarPrestamoGrupal(final PrestamosGrupalesHelper helper) {
+        prestamosGrupalesRest.agregarPrestamoGrupal(helper.getPrestamoGrupal()).enqueue(new Callback<PrestamosGrupales>() {
             @Override
             public void onResponse(Call<PrestamosGrupales> call, Response<PrestamosGrupales> response) {
 
@@ -882,22 +882,15 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     if (null != prestamoGrupal.getId()) {
 
                         _referencias = new ArrayList<>();
-                        _redesSociales = prestamosGrupalesHelper.getRedesSociales();
+                        _redesSociales = helper.getRedesSociales();
 
-                        prestamosGrupalesHelper.getAval().setIdPrestamo(prestamoGrupal.getId());
-                        prestamosGrupalesHelper.getPrimeraReferencia().setIdPrestamo(prestamoGrupal.getId());
-                        prestamosGrupalesHelper.getSegundaReferencia().setIdPrestamo(prestamoGrupal.getId());
+                        helper.getAval().setIdPrestamo(prestamoGrupal.getId());
+                        helper.getPrimeraReferencia().setIdPrestamo(prestamoGrupal.getId());
+                        helper.getSegundaReferencia().setIdPrestamo(prestamoGrupal.getId());
 
-                        _referencias.add(prestamosGrupalesHelper.getAval());
-                        _referencias.add(prestamosGrupalesHelper.getPrimeraReferencia());
-                        _referencias.add(prestamosGrupalesHelper.getSegundaReferencia());
-
-                        /*
-                        for (ReferenciasPrestamos referenciaPrestamo :
-                                _referencias) {
-                            webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
-                        }
-                        */
+                        _referencias.add(helper.getAval());
+                        _referencias.add(helper.getPrimeraReferencia());
+                        _referencias.add(helper.getSegundaReferencia());
 
                         //Se usa primero para registrar referencias
                         item = 0;
@@ -1264,13 +1257,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 _referencias.add(helper.getAval());
                                 _referencias.add(helper.getPrimeraReferencia());
                                 _referencias.add(helper.getSegundaReferencia());
-
-                                /*
-                                for (ReferenciasPrestamos referenciaPrestamo :
-                                        _referencias) {
-                                    webServiceRegistrarReferenciaPrestamo(referenciaPrestamo);
-                                }
-                                */
 
                                 //Se usa primero para registrar referencias
                                 item = 0;

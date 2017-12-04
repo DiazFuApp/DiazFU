@@ -222,5 +222,46 @@ public class DocumentosActivity extends AppCompatActivity implements DocumentosI
             }
         });
     }
+
+    @Override
+    public void actualizarDocumento(DocumentosHelper helper) {
+        pDialog = new ProgressDialog(DocumentosActivity.this);
+        pDialog.setMessage(getString(R.string.default_loading_msg));
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+        pDialog.show();
+
+        webServiceActualizarDocumento(helper);
+    }
+
+    private void webServiceActualizarDocumento(DocumentosHelper helper) {
+
+        documentosRest.editarDocumento(helper.getDocumento()).enqueue(new Callback<Documentos>() {
+            @Override
+            public void onResponse(Call<Documentos> call, Response<Documentos> response) {
+
+                if (response.isSuccessful()) {
+
+                    Documentos data = response.body();
+
+                    if (null != data.getId()) {
+                        ListadoDocumentosFragment.btnGuardar.setVisibility(View.GONE);
+                        ListadoDocumentosFragment.btnAgegar.setText("Actualizar");
+                        pDialog.dismiss();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Documentos> call, Throwable t) {
+
+            }
+        });
+    }
 }
 

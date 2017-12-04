@@ -154,5 +154,6 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
         DocumentosHelper helper = new DocumentosHelper();
         helper.setDocumento(documento);
 
+        activityInterface.actualizarDocumento(helper);
     }
 }
