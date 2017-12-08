@@ -1,5 +1,7 @@
 package com.skillcoders.diazfu.data.remote.rest;
 
+import com.skillcoders.diazfu.data.model.Clientes;
+import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.Usuarios;
 
 import java.util.List;
@@ -25,4 +27,16 @@ public interface UsuariosRest {
 
     @POST("usuarios/login")
     Call<Usuarios> usuariosLogin(@Body Usuarios usuario);
+
+    @POST("usuarios/objeto")
+    Observable<Usuarios> getUsuario(@Body Usuarios usuario);
+
+    @POST("usuarios/agregar")
+    Call<Usuarios> agregarUusuario(@Body Usuarios usuarios);
+
+    @POST("usuarios/actualizar")
+    Call<Usuarios> editarUsuario(@Body Usuarios usuario);
+
+    @POST("usuarios/eliminar")
+    Call<Usuarios> eliminarUsuario(@Body Usuarios usuario);
 }

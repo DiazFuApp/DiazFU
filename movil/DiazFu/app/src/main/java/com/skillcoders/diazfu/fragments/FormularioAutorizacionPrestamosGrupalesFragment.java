@@ -16,10 +16,12 @@ import android.widget.Spinner;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -37,6 +39,7 @@ import rx.schedulers.Schedulers;
 public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment implements Spinner.OnItemSelectedListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
 
     private static TextInputLayout tilCantidadOtorgada;
     private static Spinner spinnerPlazos;
@@ -61,6 +64,7 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
         view = inflater.inflate(R.layout.fragment_autorizaciones_prestamos_grupales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilCantidadOtorgada = (TextInputLayout) view.findViewById(R.id.cantidad_otorgar_autorizacion);
 
@@ -304,6 +308,6 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
         _pagosActual.setDescripcion(data.getDescripcion());
 
         _pagosActual.setIdEstatus(data.getIdEstatus());
-        _pagosActual.setIdUsuario(data.getIdUsuario());
+        _pagosActual.setIdUsuario(_SESSION_USER.getId());
     }
 }

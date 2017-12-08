@@ -25,6 +25,7 @@ import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
@@ -72,7 +73,7 @@ public class FormularioReferenciaPromotoresFragment extends Fragment implements 
         View view = inflater.inflate(R.layout.fragment_promotores_referencia_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilNombre = (TextInputLayout) view.findViewById(R.id.nombre_referencia);
         tilRFC = (TextInputLayout) view.findViewById(R.id.rfc_referencia);
@@ -323,7 +324,6 @@ public class FormularioReferenciaPromotoresFragment extends Fragment implements 
             data.setCorreoElectronico(correoElectronico);
             data.setClaveElector(claveElector);
 
-            data.setIdUsuario(_referenciaUnoActual.getIdUsuario());
             data.setIdEstatus(_referenciaUnoActual.getIdEstatus());
 
             setReferenciaPromotor(data);
@@ -349,12 +349,13 @@ public class FormularioReferenciaPromotoresFragment extends Fragment implements 
         _referenciaUnoActual.setClaveElector(data.getClaveElector());
 
         _referenciaUnoActual.setIdEstatus(data.getIdEstatus());
-        _referenciaUnoActual.setIdUsuario(data.getIdUsuario());
+        _referenciaUnoActual.setIdUsuario(_SESSION_USER.getId());
     }
 
     public static void setRedesSociales() {
         for (RedesSociales data :
                 _redesSocialesActuales) {
+            data.setIdUsuario(_SESSION_USER.getId());
             switch (data.getIdTipoRedSocial()) {
                 case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
                     data.setURL(tilFacebook.getEditText().getText().toString());

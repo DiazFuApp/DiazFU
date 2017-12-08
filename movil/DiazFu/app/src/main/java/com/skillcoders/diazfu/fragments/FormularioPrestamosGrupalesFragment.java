@@ -16,10 +16,12 @@ import android.widget.Spinner;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -40,6 +42,7 @@ import rx.schedulers.Schedulers;
 public class FormularioPrestamosGrupalesFragment extends Fragment implements Spinner.OnItemSelectedListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
 
     private static TextInputLayout tilMotivoPrstamo, tilCantidadSolicitada, tilGarantia, tilObservaciones;
     private static Spinner spinnerGrupos;
@@ -61,6 +64,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
         View view = inflater.inflate(R.layout.fragment_prestamos_grupales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilMotivoPrstamo = (TextInputLayout) view.findViewById(R.id.motivo_prestamos_prestamo_grupal);
         tilCantidadSolicitada = (TextInputLayout) view.findViewById(R.id.cantidad_solicitada_prestamo_grupal);
@@ -274,7 +278,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
             data.setAnticipo(0.0);
             data.setCantidadOtorgada(0.0);
             data.setInteres(7.0);
-            data.setFechaEntrega("2017-10-23");
+            data.setFechaEntrega("1988-10-02");
 
             setPrestamosGrupales(data);
             valido = true;
@@ -302,6 +306,6 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
         _prestamoGrupalActual.setFechaEntrega(data.getFechaEntrega());
 
         _prestamoGrupalActual.setIdEstatus(data.getIdEstatus());
-        _prestamoGrupalActual.setIdUsuario(data.getIdUsuario());
+        _prestamoGrupalActual.setIdUsuario(_SESSION_USER.getId());
     }
 }

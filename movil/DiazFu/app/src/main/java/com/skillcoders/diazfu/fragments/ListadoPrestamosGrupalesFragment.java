@@ -44,7 +44,7 @@ public class ListadoPrestamosGrupalesFragment extends Fragment implements View.O
         mainFragment.replace(R.id.listado_prestamos_grupales_container, new PrestamosGrupalesFragment(), Constants.FRAGMENT_PRESTAMOS_GRUPALES);
         mainFragment.commit();
 
-        getActivity().setTitle(getString(R.string.default_activity_title_grupos));
+        getActivity().setTitle(getString(R.string.default_activity_title_prestamos_grupales));
     }
 
     @Override

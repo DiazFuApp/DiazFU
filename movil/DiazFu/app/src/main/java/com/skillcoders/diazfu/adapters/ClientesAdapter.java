@@ -11,7 +11,9 @@ import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.fragments.ClientesFragment;
+import com.skillcoders.diazfu.fragments.GruposFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView txtNombre;
+        Button btnAutorizar;
         Button btnEditar;
         Button btnEliminar;
 
@@ -35,6 +38,7 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
             super(itemView);
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_cliente);
+            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_cliente);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_cliente);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_cliente);
         }
@@ -71,6 +75,24 @@ public class ClientesAdapter extends RecyclerView.Adapter<ClientesAdapter.ViewHo
         decodeItem.setItemModel(item);
         decodeItem.setPosition(position);
 
+        switch (item.getIdEstatus()) {
+            case Constants.DIAZFU_WEB_AUTORIZADO:
+                holder.btnAutorizar.setVisibility(View.GONE);
+                break;
+            case Constants.DIAZFU_WEB_SIN_AUTORIZACION:
+                holder.btnAutorizar.setVisibility(View.VISIBLE);
+                break;
+            default:
+                break;
+        }
+
+        holder.btnAutorizar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decodeItem.setIdView(v.getId());
+                ClientesFragment.onListenerAction(decodeItem);
+            }
+        });
 
         holder.txtNombre.setText(item.getNombre());
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {

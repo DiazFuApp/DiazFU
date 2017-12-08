@@ -27,28 +27,30 @@
                     android:id="@+id/fragment_registro_promotor_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
+                    android:background="@null" />
+
+                <FrameLayout
+                    android:id="@+id/fragment_registro_promotor_credenciales_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:background="@null" />
 
                 <FrameLayout
                     android:id="@+id/fragment_primera_referencia_promotor_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:background="@null" />
 
                 <FrameLayout
                     android:id="@+id/fragment_segunda_referencia_promotor_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:background="@null" />
 
                 <FrameLayout
                     android:id="@+id/fragment_acciones_promotor_container"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:background="@null" />
 
             </LinearLayout>

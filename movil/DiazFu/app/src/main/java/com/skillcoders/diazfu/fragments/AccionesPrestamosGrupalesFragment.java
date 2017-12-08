@@ -112,7 +112,7 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
             case R.id.btn_accion_prestamo_grupal:
                 switch (_MAIN_DECODE.getAccionFragmento()) {
                     case Constants.ACCION_ENTREGAR:
-                        this.showQuestion("¿Esta seguro que desea enregar?");
+                        this.showQuestion("¿Esta seguro que desea entregar?");
                         break;
                     case Constants.ACCION_AUTORIZAR:
                         this.showQuestion("¿Esta seguro que desea autorizar?");

@@ -20,9 +20,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/diazfu_logo"
+        android:icon="@mipmap/diazfu_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/diazfu_logo"
+        android:roundIcon="@mipmap/diazfu_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".MainActivity">

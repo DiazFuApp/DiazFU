@@ -150,7 +150,7 @@ public class GruposFragment extends Fragment implements View.OnClickListener {
             case R.id.item_btn_eliminar_grupo:
                 activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
-            case R.id.item_btn_autorizan_grupo:
+            case R.id.item_btn_autorizar_grupo:
                 activityInterface.showQuestion("Autorizar", "¿Esta seguro que desea autorizar?");
                 break;
         }

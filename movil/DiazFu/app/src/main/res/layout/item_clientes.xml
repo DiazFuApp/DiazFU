@@ -26,6 +26,15 @@
                 android:text="Nombre del interesado" />
 
             <Button
+                android:id="@+id/item_btn_autorizar_cliente"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/ic_lock_open_black_48dp"
+                android:backgroundTint="@color/bootstrap_brand_success" />
+
+            <Button
                 android:id="@+id/item_btn_editar_cliente"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -41,7 +50,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:background="@mipmap/ic_delete_black_48dp"
-                android:backgroundTint="@color/bootstrap_brand_danger"  />
+                android:backgroundTint="@color/bootstrap_brand_danger" />
 
 
         </LinearLayout>

@@ -140,7 +140,7 @@ public class FileUtils {
                             fileURL.length());
                 }
 
-                isImage = (fileName.contains("jpg"));
+                isImage = (fileName.contains("jpg") || fileName.contains("png"));
 
                 System.out.println("Content-Type = " + contentType);
                 System.out.println("Content-Disposition = " + disposition);

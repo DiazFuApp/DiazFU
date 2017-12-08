@@ -30,11 +30,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Autorizado"
-                android:textStyle="bold"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textStyle="bold" />
 
             <Button
-                android:id="@+id/item_btn_autorizan_grupo"
+                android:id="@+id/item_btn_autorizar_grupo"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"

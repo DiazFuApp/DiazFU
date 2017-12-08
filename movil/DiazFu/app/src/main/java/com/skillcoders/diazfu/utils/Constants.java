@@ -137,6 +137,7 @@ public class Constants {
     public static final String KEY_PREF_CREDENCIALS = "key_pref_credencials";
     public static final String KEY_PREF_CREDENCIALS_USERNAME = "key_pref_credencials_username";
     public static final String KEY_PREF_CREDENCIALS_PASSWORD = "key_pref_credencials_password";
+    public static final String KEY_PREF_CREDENCIALS_USER_ID = "key_pref_credencials_user_id";
     public static final String KEY_PREF_CREDENCIALS_SESSION = "key_pref_credencials_session";
 
     /**
@@ -181,6 +182,7 @@ public class Constants {
      * Formularios
      **/
     public static final String FORMULARIO_PROMOTORES = "fragment_formulario_promotores";
+    public static final String FORMULARIO_PROMOTORES_CREDENCIALES = "fragment_formulario_promotores_credenciales";
     public static final String FORMULARIO_PROMOTORES_REFERENCIA = "fragment_formulario_promotores_referencia";
     public static final String FORMULARIO_PROMOTORES_SEGUNDA_REFERENCIA = "fragment_formulario_promotores_segunda_referencia";
     public static final String FORMULARIO_PROMOTORES_ACCIONES = "fragment_formulario_promotores_acciones";
@@ -407,6 +409,7 @@ public class Constants {
      **/
     public static final int WS_KEY_ELIMINAR_PROMOTORES = 10;
     public static final int WS_KEY_ELIMINAR_CLIENTES = 20;
+    public static final int WS_KEY_AUTORIZAR_CLIENTES = 21;
     public static final int WS_KEY_ELIMINAR_GRUPOS = 30;
     public static final int WS_KEY_AUTORIZAR_GRUPOS = 31;
     public static final int WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS = 40;

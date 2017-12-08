@@ -38,7 +38,7 @@ public class GruposAdapter extends RecyclerView.Adapter<GruposAdapter.ViewHolder
 
             txtNombre = (TextView) itemView.findViewById(R.id.item_nombre_grupo);
             txtEstatus = (TextView) itemView.findViewById(R.id.item_estatus_grupo);
-            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizan_grupo);
+            btnAutorizar = (Button) itemView.findViewById(R.id.item_btn_autorizar_grupo);
             btnEditar = (Button) itemView.findViewById(R.id.item_btn_editar_grupo);
             btnEliminar = (Button) itemView.findViewById(R.id.item_btn_eliminar_grupo);
         }

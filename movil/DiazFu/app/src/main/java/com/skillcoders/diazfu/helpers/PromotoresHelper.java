@@ -3,6 +3,7 @@ package com.skillcoders.diazfu.helpers;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
+import com.skillcoders.diazfu.data.model.Usuarios;
 
 import java.util.List;
 
@@ -13,6 +14,7 @@ import java.util.List;
 public class PromotoresHelper {
 
     private Promotores promotor;
+    private Usuarios usuario;
     private ReferenciasPromotores primeraReferencia;
     private ReferenciasPromotores segundaReferencia;
     private List<RedesSociales> redesSocialesPromotor;
@@ -28,6 +30,14 @@ public class PromotoresHelper {
 
     public void setPromotor(Promotores promotor) {
         this.promotor = promotor;
+    }
+
+    public Usuarios getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuarios usuario) {
+        this.usuario = usuario;
     }
 
     public ReferenciasPromotores getPrimeraReferencia() {

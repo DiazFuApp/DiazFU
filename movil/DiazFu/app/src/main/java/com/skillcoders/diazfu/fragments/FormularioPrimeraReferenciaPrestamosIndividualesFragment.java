@@ -26,6 +26,7 @@ import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.DateTimeUtils;
 import com.skillcoders.diazfu.utils.ValidationUtils;
@@ -73,6 +74,7 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
         View view = inflater.inflate(R.layout.fragment_prestamos_individuales_primera_referencia_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilNombre = (TextInputLayout) view.findViewById(R.id.nombre_primera_referencia_prestamo_individual);
         tilRFC = (TextInputLayout) view.findViewById(R.id.rfc_primera_referencia_prestamo_individual);
@@ -368,6 +370,7 @@ public class FormularioPrimeraReferenciaPrestamosIndividualesFragment extends Fr
     public static void setRedesSociales() {
         for (RedesSociales data :
                 _redesSocialesActuales) {
+            data.setIdUsuario(_SESSION_USER.getId());
             switch (data.getIdTipoRedSocial()) {
                 case Constants.DIAZFU_WEB_TIPO_RED_SOCIAL_FACEBOOK:
                     data.setURL(tilFacebook.getEditText().getText().toString());

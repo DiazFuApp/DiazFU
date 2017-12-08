@@ -22,6 +22,7 @@ import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.CommonUtils;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
@@ -68,7 +69,7 @@ public class FormularioComisionesFragment extends Fragment implements AdapterVie
         View view = inflater.inflate(R.layout.fragment_comisiones_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilDescripcion = (TextInputLayout) view.findViewById(R.id.descripcion_comision);
         tilComision = (TextInputLayout) view.findViewById(R.id.comision_comision);
@@ -281,8 +282,6 @@ public class FormularioComisionesFragment extends Fragment implements AdapterVie
             data.setComision(Double.valueOf(comision));
             data.setDescripcion(descripcion);
 
-
-            data.setIdUsuario(_comisionActual.getIdUsuario());
             data.setIdEstatus(Constants.DIAZFU_WEB_FINALIZADO);
 
             setComision(data);
@@ -298,6 +297,6 @@ public class FormularioComisionesFragment extends Fragment implements AdapterVie
         _comisionActual.setComision(data.getComision());
 
         _comisionActual.setIdEstatus(data.getIdEstatus());
-        _comisionActual.setIdUsuario(data.getIdUsuario());
+        _comisionActual.setIdUsuario(_SESSION_USER.getId());
     }
 }

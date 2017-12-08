@@ -22,6 +22,7 @@ import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -69,7 +70,7 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
         View view = inflater.inflate(R.layout.fragment_actividades_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilTitulo = (TextInputLayout) view.findViewById(R.id.titulo_actividad);
         tilDescripcion = (TextInputLayout) view.findViewById(R.id.descripcion_actividad);
@@ -342,7 +343,6 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
             data.setTitulo(titulo);
             data.setDescripcion(descripcion);
 
-            data.setIdUsuario(_actividadActual.getIdUsuario());
             data.setIdEstatus(_actividadActual.getIdEstatus());
 
             setActividad(data);
@@ -359,6 +359,6 @@ public class FormularioActividadesFragment extends Fragment implements AdapterVi
         _actividadActual.setDescripcion(data.getDescripcion());
 
         _actividadActual.setIdEstatus(data.getIdEstatus());
-        _actividadActual.setIdUsuario(data.getIdUsuario());
+        _actividadActual.setIdUsuario(_SESSION_USER.getId());
     }
 }

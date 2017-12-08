@@ -17,10 +17,12 @@ import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosIndividualesRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -41,6 +43,7 @@ import rx.schedulers.Schedulers;
 public class FormularioPrestamosIndividualesFragment extends Fragment implements Spinner.OnItemSelectedListener {
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
 
     private static TextInputLayout tilMotivoPrstamo, tilCantidadSolicitada, tilGarantia, tilObservaciones;
     private static Spinner spinnerClientes;
@@ -62,6 +65,7 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_prestamos_individuales_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilMotivoPrstamo = (TextInputLayout) view.findViewById(R.id.motivo_prestamos_prestamo_individual);
         tilCantidadSolicitada = (TextInputLayout) view.findViewById(R.id.cantidad_solicitada_prestamo_individual);
@@ -275,7 +279,7 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
             data.setAnticipo(0.0);
             data.setCantidadOtorgada(0.0);
             data.setInteres(7.0);
-            data.setFechaEntrega("2017-10-23");
+            data.setFechaEntrega("1988-10-04");
 
             setPrestamoIndividual(data);
             valido = true;
@@ -303,6 +307,6 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
         _prestamoIndividualActual.setFechaEntrega(data.getFechaEntrega());
 
         _prestamoIndividualActual.setIdEstatus(data.getIdEstatus());
-        _prestamoIndividualActual.setIdUsuario(data.getIdUsuario());
+        _prestamoIndividualActual.setIdUsuario(_SESSION_USER.getId());
     }
 }

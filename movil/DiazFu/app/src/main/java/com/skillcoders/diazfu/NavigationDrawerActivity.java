@@ -26,6 +26,7 @@ import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
@@ -38,6 +39,7 @@ import com.skillcoders.diazfu.fragments.PromotoresFragment;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener {
 
     private static final String TAG = NavigationDrawerActivity.class.getSimpleName();
+
+    private static Usuarios _SESSION_USER;
 
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 1;
 
@@ -81,6 +85,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getApplicationContext());
 
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -361,8 +367,11 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     case R.id.item_btn_eliminar_grupo:
                         operation = Constants.WS_KEY_ELIMINAR_GRUPOS;
                         break;
-                    case R.id.item_btn_autorizan_grupo:
+                    case R.id.item_btn_autorizar_grupo:
                         operation = Constants.WS_KEY_AUTORIZAR_GRUPOS;
+                        break;
+                    case R.id.item_btn_autorizar_cliente:
+                        operation = Constants.WS_KEY_AUTORIZAR_CLIENTES;
                         break;
                     case R.id.item_btn_finalizar_actividad:
                         operation = Constants.WS_KEY_FINALIZAR_ACTIVIDADES;
@@ -397,6 +406,9 @@ public class NavigationDrawerActivity extends AppCompatActivity
             case Constants.WS_KEY_AUTORIZAR_GRUPOS:
                 this.webServiceAutorizarGrupo();
                 break;
+            case Constants.WS_KEY_AUTORIZAR_CLIENTES:
+                this.webServiceAutorizarCliente();
+                break;
             case Constants.WS_KEY_ELIMINAR_ASIGNACIONES_GRUPOS:
                 this.webServiceAutorizarGrupo();
                 break;
@@ -414,6 +426,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void webServiceDeletePromotor() {
         Promotores promotor = (Promotores) _decodeItem.getItemModel();
+        promotor.setIdUsuario(_SESSION_USER.getId());
         promotoresRest.eliminarPromotor(promotor).enqueue(new Callback<Promotores>() {
             @Override
             public void onResponse(Call<Promotores> call, Response<Promotores> response) {
@@ -444,6 +457,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void webServiceDeleteCliente() {
         Clientes cliente = (Clientes) _decodeItem.getItemModel();
+        cliente.setIdUsuario(_SESSION_USER.getId());
         clientesRest.eliminarCliente(cliente).enqueue(new Callback<Clientes>() {
             @Override
             public void onResponse(Call<Clientes> call, Response<Clientes> response) {
@@ -473,6 +487,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void webServiceDeleteActividad() {
         Actividades actividad = (Actividades) _decodeItem.getItemModel();
+        actividad.setIdUsuario(_SESSION_USER.getId());
         actividadesRest.eliminarActividad(actividad).enqueue(new Callback<Actividades>() {
             @Override
             public void onResponse(Call<Actividades> call, Response<Actividades> response) {
@@ -502,6 +517,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     private void webServiceDeleteGrupos() {
         Grupos grupo = (Grupos) _decodeItem.getItemModel();
+        grupo.setIdUsuario(_SESSION_USER.getId());
         gruposRest.eliminarGrupo(grupo).enqueue(new Callback<Grupos>() {
             @Override
             public void onResponse(Call<Grupos> call, Response<Grupos> response) {
@@ -532,6 +548,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private void webServiceAutorizarGrupo() {
         Grupos grupo = (Grupos) _decodeItem.getItemModel();
         grupo.setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
+        grupo.setIdUsuario(_SESSION_USER.getId());
         gruposRest.editarGrupo(grupo).enqueue(new Callback<Grupos>() {
             @Override
             public void onResponse(Call<Grupos> call, Response<Grupos> response) {
@@ -560,9 +577,42 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
     }
 
+    private void webServiceAutorizarCliente() {
+        Clientes cliente = (Clientes) _decodeItem.getItemModel();
+        cliente.setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
+        cliente.setIdUsuario(_SESSION_USER.getId());
+        clientesRest.editarCliente(cliente).enqueue(new Callback<Clientes>() {
+            @Override
+            public void onResponse(Call<Clientes> call, Response<Clientes> response) {
+
+                if (response.isSuccessful()) {
+                    pDialog.dismiss();
+
+                    Clientes data = response.body();
+
+                    if (null != data.getId()) {
+                        ClientesFragment.listadoClientes();
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Clientes> call, Throwable t) {
+
+            }
+        });
+
+    }
+
     private void webServiceFinalizarActividad() {
         Actividades actividad = (Actividades) _decodeItem.getItemModel();
         actividad.setIdEstatus(Constants.DIAZFU_WEB_FINALIZADO);
+        actividad.setIdUsuario(_SESSION_USER.getId());
         actividadesRest.editarActividad(actividad).enqueue(new Callback<Actividades>() {
             @Override
             public void onResponse(Call<Actividades> call, Response<Actividades> response) {
@@ -607,7 +657,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
         Intent intent = new Intent(this, externalActivity);
         intent.putExtra(Constants.KEY_MAIN_DECODE, extraParams);
-        //intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
+        intent.putExtra(Constants.KEY_SESSION_USER, _SESSION_USER);
         startActivity(intent);
     }
 

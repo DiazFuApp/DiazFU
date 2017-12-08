@@ -21,12 +21,14 @@ import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.ValidationUtils;
 
@@ -49,6 +51,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
     private MainRegisterInterface activityInterface;
 
     private static DecodeExtraHelper _MAIN_DECODE;
+    private static Usuarios _SESSION_USER;
 
     private static TextInputLayout tilNombre;
     private static Spinner spinnerPromotor, spinnerClientes;
@@ -76,6 +79,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         View view = inflater.inflate(R.layout.fragment_grupos_formulario, container, false);
 
         _MAIN_DECODE = (DecodeExtraHelper) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
 
         tilNombre = (TextInputLayout) view.findViewById(R.id.nombre_grupo);
 
@@ -337,7 +341,6 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
                 data.setIdClienteResponsable(_clienteResponsable);
 
                 data.setIdEstatus(_grupoActual.getIdEstatus());
-                data.setIdUsuario(_grupoActual.getIdUsuario());
 
                 setGrupos(data);
                 valido = true;
@@ -376,7 +379,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         _grupoActual.setIdClienteResponsable(data.getIdClienteResponsable());
 
         _grupoActual.setIdEstatus(data.getIdEstatus());
-        _grupoActual.setIdUsuario(data.getIdUsuario());
+        _grupoActual.setIdUsuario(_SESSION_USER.getId());
     }
 
     @Override
@@ -399,6 +402,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         integranteGrupo.setIdEstatus(Constants.ACCION_REGISTRAR);
         integranteGrupo.setIdCliente(cliente.getId());
         integranteGrupo.setCliente(cliente.getNombre());
+        integranteGrupo.setIdUsuario(_SESSION_USER.getId());
         AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
 
         _clienteSeleccionado = new Clientes();

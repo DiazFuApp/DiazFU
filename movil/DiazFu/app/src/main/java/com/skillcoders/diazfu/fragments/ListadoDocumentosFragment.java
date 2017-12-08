@@ -25,6 +25,7 @@ import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Documentos;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.services.DocumentosService;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.FileUtils;
 import com.skillcoders.diazfu.utils.Constants;
 
@@ -60,7 +61,7 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listado_documentos, container, false);
 
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getContext());
         _MAIN_DOCUMENTOS = (Documentos) getActivity().getIntent().getSerializableExtra(Constants.KEY_MAIN_DOCUMENTOS);
 
         btnAgegar = (Button) view.findViewById(R.id.btn_agregar_documento);
@@ -209,7 +210,8 @@ public class ListadoDocumentosFragment extends Fragment implements View.OnClickL
         documento.setIdTipoDocumento(_MAIN_DOCUMENTOS.getIdTipoDocumento());
         documento.setIdActor(_MAIN_DOCUMENTOS.getIdActor());
         documento.setIdTipoActor(_MAIN_DOCUMENTOS.getIdTipoActor());
-        
+        documento.setIdUsuario(_SESSION_USER.getId());
+
         new DocumentosService(getActivity(),
                 mCurrentPhotoPath, documento).execute();
     }

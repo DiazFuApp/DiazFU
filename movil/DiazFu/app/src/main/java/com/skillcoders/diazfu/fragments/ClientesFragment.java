@@ -157,6 +157,9 @@ public class ClientesFragment extends Fragment implements View.OnClickListener {
             case R.id.item_btn_eliminar_cliente:
                 activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
                 break;
+            case R.id.item_btn_autorizar_cliente:
+                activityInterface.showQuestion("Autorizar", "¿Esta seguro que desea autorizar?");
+                break;
         }
     }
 }

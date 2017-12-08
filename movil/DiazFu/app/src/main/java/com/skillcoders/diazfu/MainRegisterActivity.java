@@ -28,6 +28,7 @@ import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.RedesSociales;
 import com.skillcoders.diazfu.data.model.ReferenciasPrestamos;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
@@ -41,6 +42,7 @@ import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.RedesSocialesRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.UsuariosRest;
 import com.skillcoders.diazfu.fragments.AsignacionGrupoFragment;
 import com.skillcoders.diazfu.fragments.FormularioGruposFragment;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
@@ -54,6 +56,7 @@ import com.skillcoders.diazfu.helpers.PagosHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.helpers.PrestamosIndividualesHelper;
 import com.skillcoders.diazfu.helpers.PromotoresHelper;
+import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
 import com.skillcoders.diazfu.utils.DateTimeUtils;
 
@@ -76,6 +79,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private static final String TAG = MainRegisterActivity.class.getSimpleName();
 
     private DecodeExtraHelper _MAIN_DECODE;
+    private Usuarios _SESSION_USER;
     private static DecodeItemHelper _decodeItem;
     public static ProgressDialog pDialog;
 
@@ -100,6 +104,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private ActividadesRest actividadesRest;
     private ComisionesRest comisionesRest;
     private RedesSocialesRest redesSocialesRest;
+    private UsuariosRest usuariosRest;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -110,6 +115,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         setSupportActionBar(toolbar);
 
         _MAIN_DECODE = (DecodeExtraHelper) getIntent().getExtras().getSerializable(Constants.KEY_MAIN_DECODE);
+        _SESSION_USER = SharedPreferencesService.getUsuarioActual(getApplicationContext());
 
         ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
@@ -126,6 +132,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         actividadesRest = ApiUtils.getActividadesRest();
         comisionesRest = ApiUtils.getComisionesRest();
         redesSocialesRest = ApiUtils.getRedesSocialesRest();
+        usuariosRest = ApiUtils.getUsuariosRest();
 
         this.onPreRender();
     }
@@ -206,37 +213,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     if (null != promotor.getId()) {
 
-                        Integer id = promotor.getId();
-                        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
+                        promotoresHelper.getPromotor().setId(promotor.getId());
 
-                        for (RedesSociales redSocial :
-                                _redesSociales) {
-
-                            switch (redSocial.getIdTipoActor()) {
-                                case Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR:
-                                    redSocial.setIdActor(id);
-                                    break;
-                            }
-                        }
-
-                        promotoresHelper.getPrimeraReferencia().setIdActor(promotor.getId());
-                        promotoresHelper.getSegundaReferencia().setIdActor(promotor.getId());
-
-                        List<ReferenciasPromotores> referencias = new ArrayList<>();
-
-                        referencias.add(promotoresHelper.getPrimeraReferencia());
-                        referencias.add(promotoresHelper.getSegundaReferencia());
-
-                        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
-                        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
-
-                        for (ReferenciasPromotores referenciasPromotor : referencias) {
-                            webServiceRegistrarRefererenciaPromotor(referenciasPromotor);
-                        }
-
-                        item = 0;
-                        webServiceRegistrarRedesSociales();
-
+                        webServiceRegistrarUsuario(promotoresHelper);
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -254,6 +233,69 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    private void webServiceRegistrarUsuario(final PromotoresHelper promotoresHelper) {
+
+        usuariosRest.agregarUusuario(promotoresHelper.getUsuario()).enqueue(new Callback<Usuarios>() {
+            @Override
+            public void onResponse(Call<Usuarios> call, Response<Usuarios> response) {
+
+                if (response.isSuccessful()) {
+
+                    Usuarios data = response.body();
+
+                    if (null != data.getId()) {
+                        webServiceContenidoPromotor(promotoresHelper);
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuarios> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void webServiceContenidoPromotor(PromotoresHelper promotoresHelper) {
+        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
+        Promotores promotor = promotoresHelper.getPromotor();
+
+        for (RedesSociales redSocial :
+                _redesSociales) {
+
+            switch (redSocial.getIdTipoActor()) {
+                case Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR:
+                    redSocial.setIdActor(promotor.getId());
+                    break;
+            }
+        }
+
+        promotoresHelper.getPrimeraReferencia().setIdActor(promotor.getId());
+        promotoresHelper.getSegundaReferencia().setIdActor(promotor.getId());
+
+        List<ReferenciasPromotores> referencias = new ArrayList<>();
+
+        referencias.add(promotoresHelper.getPrimeraReferencia());
+        referencias.add(promotoresHelper.getSegundaReferencia());
+
+        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
+        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
+
+        for (ReferenciasPromotores referenciasPromotor : referencias) {
+            webServiceRegistrarRefererenciaPromotor(referenciasPromotor);
+        }
+
+        item = 0;
+        webServiceRegistrarRedesSociales();
 
     }
 
@@ -323,21 +365,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     Promotores promotor = response.body();
 
                     if (null != promotor.getId()) {
-                        List<ReferenciasPromotores> referencias = new ArrayList<>();
 
-                        referencias.add(promotoresHelper.getPrimeraReferencia());
-                        referencias.add(promotoresHelper.getSegundaReferencia());
-
-                        for (ReferenciasPromotores referenciasPromotor : referencias) {
-                            webServiceEditarRefererenciaPromotor(referenciasPromotor);
-                        }
-
-                        item = 0;
-                        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
-                        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
-                        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
-                        webServiceEditarRedesSociales();
-
+                        webServiceUpdateUsuario(promotoresHelper);
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -352,6 +381,52 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             }
         });
+    }
+
+    private void webServiceUpdateUsuario(final PromotoresHelper promotoresHelper) {
+
+        usuariosRest.editarUsuario(promotoresHelper.getUsuario()).enqueue(new Callback<Usuarios>() {
+            @Override
+            public void onResponse(Call<Usuarios> call, Response<Usuarios> response) {
+
+                if (response.isSuccessful()) {
+
+                    Usuarios data = response.body();
+
+                    if (null != data.getId()) {
+                        webServiceEditarContenidoPromotor(promotoresHelper);
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuarios> call, Throwable t) {
+                Toast.makeText(MainRegisterActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void webServiceEditarContenidoPromotor(PromotoresHelper promotoresHelper) {
+        List<ReferenciasPromotores> referencias = new ArrayList<>();
+
+        referencias.add(promotoresHelper.getPrimeraReferencia());
+        referencias.add(promotoresHelper.getSegundaReferencia());
+
+        for (ReferenciasPromotores referenciasPromotor : referencias) {
+            webServiceEditarRefererenciaPromotor(referenciasPromotor);
+        }
+
+        item = 0;
+        _redesSociales = promotoresHelper.getRedesSocialesPromotor();
+        _redesSociales.addAll(promotoresHelper.getRedesSocialesPrimerReferencia());
+        _redesSociales.addAll(promotoresHelper.getRedesSocialesSegundaReferencia());
+        webServiceEditarRedesSociales();
     }
 
     private void webServiceEditarRefererenciaPromotor(ReferenciasPromotores referenciaPromotor) {
@@ -1019,7 +1094,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 pago.setMorosidad(0.0);
                                 pago.setDescripcion("");
                                 pago.setIdEstatus(Constants.DIAZFU_WEB_PENDIENTE);
-                                pago.setIdUsuario(pago.getIdUsuario());
+                                pago.setIdUsuario(data.getIdUsuario());
 
                                 day = day + 7;
                                 _plazos.add(pago);
@@ -1707,6 +1782,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 integranteGrupo.setIdEstatus(Constants.ACCION_ELIMINAR);
                 integranteGrupo.setIdCliente(cliente.getId());
                 integranteGrupo.setCliente(cliente.getNombre());
+                integrante.setIdUsuario(_SESSION_USER.getId());
                 AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
                 break;
             }

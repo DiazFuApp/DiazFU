@@ -39,6 +39,7 @@ public class RegistroPromotoresFragment extends Fragment {
         FragmentTransaction mainFragment = fragmentManager.beginTransaction();
 
         mainFragment.replace(R.id.fragment_registro_promotor_container, new FormularioPromotoresFragment(), Constants.FORMULARIO_PROMOTORES);
+        mainFragment.replace(R.id.fragment_registro_promotor_credenciales_container, new FormularioPromotoresCredencialesFragment(), Constants.FORMULARIO_PROMOTORES_CREDENCIALES);
         mainFragment.replace(R.id.fragment_primera_referencia_promotor_container, new FormularioReferenciaPromotoresFragment(), Constants.FORMULARIO_PROMOTORES_REFERENCIA);
         mainFragment.replace(R.id.fragment_segunda_referencia_promotor_container, new FormularioSegundaReferenciaPromotoresFragment(), Constants.FORMULARIO_PROMOTORES_SEGUNDA_REFERENCIA);
         mainFragment.replace(R.id.fragment_acciones_promotor_container, new AccionesPromotoresFragment(), Constants.FORMULARIO_PROMOTORES_ACCIONES);

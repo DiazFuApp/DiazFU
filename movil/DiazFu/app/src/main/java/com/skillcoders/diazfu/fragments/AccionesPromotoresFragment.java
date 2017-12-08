@@ -93,6 +93,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
                         break;
                     case Constants.ACCION_REGISTRAR:
                         if (FormularioPromotoresFragment.validarDatosRegistro()
+                                && FormularioPromotoresCredencialesFragment.validarDatosRegistro()
                                 && FormularioReferenciaPromotoresFragment.validarDatosRegistro()
                                 && FormularioSegundaReferenciaPromotoresFragment.validarDatosRegistro())
                             registrar();
@@ -118,6 +119,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
         switch (which) {
             case DialogInterface.BUTTON_POSITIVE:
                 if (FormularioPromotoresFragment.validarDatosEdicion()
+                        && FormularioPromotoresCredencialesFragment.validarDatosEdicion()
                         && FormularioReferenciaPromotoresFragment.validarDatosEdicion()
                         && FormularioSegundaReferenciaPromotoresFragment.validarDatosEdicion())
                     editar();
@@ -128,6 +130,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     private void registrar() {
         PromotoresHelper helper = new PromotoresHelper();
         helper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        helper.setUsuario(FormularioPromotoresCredencialesFragment._usuariosActual);
         helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
         helper.setRedesSocialesPromotor(FormularioPromotoresFragment._redesSocialesActuales);
@@ -140,6 +143,7 @@ public class AccionesPromotoresFragment extends Fragment implements View.OnClick
     private void editar() {
         PromotoresHelper helper = new PromotoresHelper();
         helper.setPromotor(FormularioPromotoresFragment._promotorActual);
+        helper.setUsuario(FormularioPromotoresCredencialesFragment._usuariosActual);
         helper.setPrimeraReferencia(FormularioReferenciaPromotoresFragment._referenciaUnoActual);
         helper.setSegundaReferencia(FormularioSegundaReferenciaPromotoresFragment._referenciaDosActual);
         helper.setRedesSocialesPromotor(FormularioPromotoresFragment._redesSocialesActuales);
