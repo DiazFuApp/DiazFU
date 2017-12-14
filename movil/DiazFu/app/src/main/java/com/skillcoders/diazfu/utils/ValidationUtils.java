@@ -2,8 +2,11 @@ package com.skillcoders.diazfu.utils;
 
 import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
+import android.util.Patterns;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import java.util.regex.Matcher;
 
 /**
  * Created by jvier on 07/10/2017.
@@ -37,6 +40,27 @@ public class ValidationUtils {
         }
 
         return true;
+    }
+
+    public static boolean esEmailValido(TextInputLayout txt, String texto) {
+
+        txt.setError(null);
+        txt.setErrorEnabled(false);
+
+        if (texto.isEmpty()) {
+            txt.setError("Texto inválido");
+            txt.setErrorEnabled(true);
+            return false;
+        } else {
+            Matcher matcher = Patterns.EMAIL_ADDRESS.matcher(texto);
+
+            if (!matcher.matches()) {
+                txt.setError("Correo inválido");
+                txt.setErrorEnabled(true);
+            }
+
+            return matcher.matches();
+        }
     }
 
     public static boolean esSpinnerValido(Spinner spinner) {

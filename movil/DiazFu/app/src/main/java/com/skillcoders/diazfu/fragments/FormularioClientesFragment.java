@@ -382,7 +382,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         boolean b = ValidationUtils.esTextoValido(tilDireccion, direccion);
         boolean c = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean d = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean e = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean e = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean f = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);
         boolean g = ValidationUtils.esTextoValido(tilNombreEmpresa, fechaNacimiento);
         boolean h = ValidationUtils.esTextoValido(tilPuestoEmpresa, fechaNacimiento);
@@ -445,7 +445,7 @@ public class FormularioClientesFragment extends Fragment implements View.OnClick
         boolean b = ValidationUtils.esTextoValido(tilDireccion, direccion);
         boolean c = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean d = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean e = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean e = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean f = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);
         boolean g = ValidationUtils.esTextoValido(tilNombreEmpresa, fechaNacimiento);
         boolean h = ValidationUtils.esTextoValido(tilPuestoEmpresa, fechaNacimiento);

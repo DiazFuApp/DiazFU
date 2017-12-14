@@ -99,10 +99,10 @@ public class DocumentosFragment extends Fragment implements View.OnClickListener
                     @Override
                     public void onNext(List<Documentos> data) {
                         _documentoActual = new Documentos();
-                        ListadoDocumentosFragment.btnAgegar.setText("Actualizar");
+                        ListadoDocumentosFragment.btnAgegar.setText("Reemplazar Foto");
                         if (data.size() == 0) {
                             btDocumento.setImageDrawable(btDocumento.getContext().getDrawable(R.drawable.diazfu_logo));
-                            ListadoDocumentosFragment.btnAgegar.setText("Agregar");
+                            ListadoDocumentosFragment.btnAgegar.setText("Agregar Foto");
                         } else {
                             _documentoActual = data.get(0);
                             new DownloadService(getActivity(), btDocumento, _documentoActual).execute();
