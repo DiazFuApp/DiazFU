@@ -15,7 +15,6 @@ import android.widget.Spinner;
 
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
-import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -102,7 +101,7 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
                 break;
             case Constants.ACCION_REGISTRAR:
                 _prestamoIndividualActual = new PrestamosIndividuales();
-                this.listadoGrupos();
+                this.listadoClientes();
                 break;
             default:
                 break;
@@ -146,7 +145,7 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
 
                         onPreRenderUI();
 
-                        listadoGrupos();
+                        listadoClientes();
                     }
                 });
     }
@@ -158,7 +157,7 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
         tilObservaciones.getEditText().setKeyListener(null);
     }
 
-    private void listadoGrupos() {
+    private void listadoClientes() {
         clientesRest.getClientes().enqueue(new Callback<List<Clientes>>() {
             @Override
             public void onResponse(Call<List<Clientes>> call, Response<List<Clientes>> response) {
@@ -185,6 +184,8 @@ public class FormularioPrestamosIndividualesFragment extends Fragment implements
                         case Constants.ACCION_REGISTRAR:
                             for (Clientes cliente :
                                     response.body()) {
+                                if (!cliente.getIdEstatus().equals(Constants.ACCION_AUTORIZAR))
+                                    continue;
                                 clientesList.add(cliente.getNombre());
                                 clientes.add(cliente);
                             }

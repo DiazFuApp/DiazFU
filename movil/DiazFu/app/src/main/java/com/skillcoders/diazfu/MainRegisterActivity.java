@@ -209,11 +209,12 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                 if (response.isSuccessful()) {
 
-                    Promotores promotor = response.body();
+                    Promotores data = response.body();
 
-                    if (null != promotor.getId()) {
+                    if (null != data.getId()) {
 
-                        promotoresHelper.getPromotor().setId(promotor.getId());
+                        promotoresHelper.getPromotor().setId(data.getId());
+                        promotoresHelper.getUsuario().setIdActor(data.getId());
 
                         webServiceRegistrarUsuario(promotoresHelper);
                     }
@@ -248,6 +249,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
                     if (null != data.getId()) {
                         webServiceContenidoPromotor(promotoresHelper);
+                    } else {
+                        pDialog.dismiss();
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
@@ -365,7 +368,6 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     Promotores promotor = response.body();
 
                     if (null != promotor.getId()) {
-
                         webServiceUpdateUsuario(promotoresHelper);
                     }
 
@@ -587,7 +589,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     }
 
     private void webServiceEditarRedesSociales() {
-        redesSocialesRest.agregarRedSocial(_redesSociales.get(item)).enqueue(new Callback<RedesSociales>() {
+        redesSocialesRest.editarRedSocial(_redesSociales.get(item)).enqueue(new Callback<RedesSociales>() {
             @Override
             public void onResponse(Call<RedesSociales> call, Response<RedesSociales> response) {
 

@@ -26,12 +26,15 @@ import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.Promotores;
+import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
+import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
+import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
 import com.skillcoders.diazfu.fragments.ActividadesFragment;
 import com.skillcoders.diazfu.fragments.ClientesFragment;
 import com.skillcoders.diazfu.fragments.GruposFragment;
@@ -41,8 +44,10 @@ import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.services.SharedPreferencesService;
 import com.skillcoders.diazfu.utils.Constants;
+import com.skillcoders.diazfu.utils.DateTimeUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +55,9 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class NavigationDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, NavigationDrawerInterface, DialogInterface.OnClickListener {
@@ -65,12 +73,18 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private NavigationView navigationView;
 
     /**
+     * Variable para llevar consecutivos, se necesita inicializar antes de usar
+     **/
+    private int item;
+
+    /**
      * Implementaciones REST
      */
     private PromotoresRest promotoresRest;
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
     private ActividadesRest actividadesRest;
+    private ReferenciasPromotoresRest referenciasPromotoresRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +109,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
         actividadesRest = ApiUtils.getActividadesRest();
+        referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
 
         onPreRenderMenu(navigationView);
         checkAndRequestPermissions();
@@ -434,14 +449,16 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 if (response.isSuccessful()) {
                     pDialog.dismiss();
 
-                    Promotores promotor = response.body();
+                    Promotores data = response.body();
 
-                    if (null != promotor.getId()) {
-                        PromotoresFragment.listadoPromotores();
+                    if (null != data.getId()) {
+                        /**Eliminar referencia**/
+                        eliminarReferenciasPromotor(data);
                     }
 
                     Log.i(TAG, "post submitted to API." + response.body().toString());
                 } else {
+                    pDialog.dismiss();
                     int statusCode = response.code();
                     Log.e(TAG, "CODIGO: " + statusCode);
                 }
@@ -449,7 +466,72 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<Promotores> call, Throwable t) {
+                pDialog.dismiss();
+            }
+        });
+    }
 
+    private void eliminarReferenciasPromotor(Promotores data) {
+        ReferenciasPromotores referenciasPromotores = new ReferenciasPromotores();
+        referenciasPromotores.setIdActor(data.getId());
+
+        item = 0;
+
+        referenciasPromotoresRest.getReferenciaPromotor(referenciasPromotores).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<ReferenciasPromotores>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<ReferenciasPromotores> referenciasPromotores) {
+                        if (referenciasPromotores.size() > 0) {
+                            webServiceBajaLogicaReferenciaPromotor(referenciasPromotores);
+                        } else {
+                            PromotoresFragment.listadoPromotores();
+                            pDialog.dismiss();
+                        }
+
+                    }
+                });
+    }
+
+    private void webServiceBajaLogicaReferenciaPromotor(final List<ReferenciasPromotores> referenciasPromotores) {
+        referenciasPromotores.get(item).setIdEstatus(Constants.ACCION_ELIMINAR);
+        referenciasPromotoresRest.editarReferenciaPromotor(referenciasPromotores.get(item)).enqueue(new Callback<ReferenciasPromotores>() {
+            @Override
+            public void onResponse(Call<ReferenciasPromotores> call, Response<ReferenciasPromotores> response) {
+
+                if (response.isSuccessful()) {
+
+                    ReferenciasPromotores data = response.body();
+                    item++;
+
+                    if (null != data.getId()) {
+                        if (item < referenciasPromotores.size()) {
+                            webServiceBajaLogicaReferenciaPromotor(referenciasPromotores);
+                        } else {
+                            PromotoresFragment.listadoPromotores();
+                            pDialog.dismiss();
+                        }
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                    Toast.makeText(NavigationDrawerActivity.this, "Se ha presentado un error, codigo " + statusCode, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferenciasPromotores> call, Throwable t) {
+                Toast.makeText(NavigationDrawerActivity.this, "Se ha presentado un error, intente más tarde ...", Toast.LENGTH_SHORT).show();
             }
         });
     }

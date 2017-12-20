@@ -271,7 +271,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
         boolean c = ValidationUtils.esTextoValido(tilDireccion, direccion);
         boolean d = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean e = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean f = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean f = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean g = ValidationUtils.esTextoValido(tilCURP, curp);
         boolean h = ValidationUtils.esTextoValido(tilClaveElector, claveElector);
         boolean i = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);
@@ -314,7 +314,7 @@ public class FormularioPromotoresFragment extends Fragment implements View.OnCli
         boolean c = ValidationUtils.esTextoValido(tilDireccion, direccion);
         boolean d = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean e = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean f = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean f = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean g = ValidationUtils.esTextoValido(tilCURP, curp);
         boolean h = ValidationUtils.esTextoValido(tilClaveElector, claveElector);
         boolean i = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);

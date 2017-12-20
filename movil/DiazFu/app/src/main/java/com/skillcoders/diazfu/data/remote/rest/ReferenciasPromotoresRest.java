@@ -31,5 +31,5 @@ public interface ReferenciasPromotoresRest {
     Call<ReferenciasPromotores> editarReferenciaPromotor(@Body ReferenciasPromotores referenciaPromotor);
 
     @POST("referenciaspromotores/eliminar")
-    Call<ReferenciasPromotores> eliminarPromotor(@Body Promotores promotor);
+    Call<ReferenciasPromotores> eliminarReferenciaPromotor(@Body Promotores promotor);
 }

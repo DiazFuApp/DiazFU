@@ -291,7 +291,7 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
         boolean d = ValidationUtils.esTextoValido(tilDireccionReferencia, referenciaDireccion);
         boolean e = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean f = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean g = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean g = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean h = ValidationUtils.esTextoValido(tilCURP, curp);
         boolean i = ValidationUtils.esTextoValido(tilClaveElector, claveElector);
         boolean j = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);
@@ -360,7 +360,7 @@ public class FormularioAvalPrestamosGrupalesFragment extends Fragment implements
         boolean d = ValidationUtils.esTextoValido(tilDireccionReferencia, referenciaDireccion);
         boolean e = ValidationUtils.esTextoValido(tilTelefonoCasa, telefonoCasa);
         boolean f = ValidationUtils.esTextoValido(tilTelefonoCelular, telefonoCelular);
-        boolean g = ValidationUtils.esTextoValido(tilCorreoElectronico, correoElectronico);
+        boolean g = ValidationUtils.esEmailValido(tilCorreoElectronico, correoElectronico);
         boolean h = ValidationUtils.esTextoValido(tilCURP, curp);
         boolean i = ValidationUtils.esTextoValido(tilClaveElector, claveElector);
         boolean j = ValidationUtils.esTextoValido(tilFechaNacimiento, fechaNacimiento);

@@ -209,6 +209,10 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
 
                     for (Clientes cliente :
                             response.body()) {
+
+                        if (!cliente.getIdEstatus().equals(Constants.DIAZFU_WEB_AUTORIZADO))
+                            continue;
+
                         clientesList.add(cliente.getNombre());
                         clientes.add(cliente);
                     }

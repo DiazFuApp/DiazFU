@@ -108,6 +108,7 @@ public class BusquedaProximosPagosFragment extends Fragment implements View.OnCl
 
                     for (Clientes data :
                             response.body()) {
+                        if (!data.getIdEstatus().equals(Constants.ACCION_AUTORIZAR)) continue;
                         clientesList.add(data.getNombre());
                         clientes.add(data);
                     }
