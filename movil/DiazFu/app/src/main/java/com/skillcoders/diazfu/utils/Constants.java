@@ -138,6 +138,7 @@ public class Constants {
     public static final String KEY_PREF_CREDENCIALS_USERNAME = "key_pref_credencials_username";
     public static final String KEY_PREF_CREDENCIALS_PASSWORD = "key_pref_credencials_password";
     public static final String KEY_PREF_CREDENCIALS_USER_ID = "key_pref_credencials_user_id";
+    public static final String KEY_PREF_CREDENCIALS_TIPO_USER = "key_pref_credencials_tipo_user";
     public static final String KEY_PREF_CREDENCIALS_SESSION = "key_pref_credencials_session";
 
     /**

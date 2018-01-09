@@ -6,6 +6,7 @@ import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.DocumentosRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
@@ -43,6 +44,10 @@ public class ApiUtils {
 
     public static GruposRest getGruposRest() {
         return RetrofitClient.getClient(BASE_URL).create(GruposRest.class);
+    }
+
+    public static GruposHistoricoRest getGruposHistoricoRest() {
+        return RetrofitClient.getClient(BASE_URL).create(GruposHistoricoRest.class);
     }
 
     public static ReferenciasPromotoresRest getReferenciasPromotoresRest() {

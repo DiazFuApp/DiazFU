@@ -23,7 +23,6 @@ import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
-import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -133,7 +132,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
     private void listadoClientes() {
         _prestamoGrupalActual = ((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel());
 
-        integrantesGruposRest.getIntegrantesGrupo(_prestamoGrupalActual.getIdGrupo())
+        integrantesGruposRest.getIntegrantesGrupo(_prestamoGrupalActual.getIdGrupoHistorico())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<IntegrantesGrupos>>() {

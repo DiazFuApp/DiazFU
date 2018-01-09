@@ -17,8 +17,10 @@ public class SharedPreferencesService {
         SharedPreferences credenciales = context.getSharedPreferences(Constants.KEY_PREF_CREDENCIALS, Context.MODE_PRIVATE);
         String username = credenciales.getString(Constants.KEY_PREF_CREDENCIALS_USERNAME, "");
         Integer idUsuario = credenciales.getInt(Constants.KEY_PREF_CREDENCIALS_USER_ID, 0);
+        Integer idTipoActor = credenciales.getInt(Constants.KEY_PREF_CREDENCIALS_TIPO_USER, 0);
 
         usuario.setId(idUsuario);
+        usuario.setIdTipoActor(idTipoActor);
         usuario.setNombre(username);
 
         return usuario;

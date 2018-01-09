@@ -137,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor credencials = prefsCredencials.edit();
         credencials.putString(Constants.KEY_PREF_CREDENCIALS_USERNAME, usuario.getNombre());
         credencials.putInt(Constants.KEY_PREF_CREDENCIALS_USER_ID, usuario.getId());
+        credencials.putInt(Constants.KEY_PREF_CREDENCIALS_TIPO_USER, usuario.getIdTipoActor());
         credencials.putBoolean(Constants.KEY_PREF_CREDENCIALS_SESSION, true);
         credencials.commit();
     }

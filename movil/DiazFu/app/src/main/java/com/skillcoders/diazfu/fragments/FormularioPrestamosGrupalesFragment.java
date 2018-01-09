@@ -175,7 +175,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
                         case Constants.ACCION_ENTREGAR:
                             for (Grupos grupo :
                                     response.body()) {
-                                if (grupo.getId().equals(((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel()).getIdGrupo())) {
+                                if (grupo.getId().equals(((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel()).getIdGrupoHistorico())) {
                                     gruposList.add(grupo.getNombre());
                                     grupos.add(grupo);
                                 }
@@ -225,7 +225,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
                 PrestamosGrupales prestamoGrupal = _prestamoGrupalActual;
                 for (Grupos grupo : grupos) {
                     item++;
-                    if (grupo.getId().equals(prestamoGrupal.getIdGrupo())) {
+                    if (grupo.getId().equals(prestamoGrupal.getIdGrupoHistorico())) {
                         break;
                     }
                 }
@@ -273,7 +273,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
             data.setCantidadSolicitada(Double.valueOf(cantidad));
             data.setGarantia(garantia);
             data.setObservaciones(observaciones);
-            data.setIdGrupo(_grupoSeleccionado.getId());
+            data.setIdGrupoHistorico(_grupoSeleccionado.getId());
 
             data.setAnticipo(0.0);
             data.setCantidadOtorgada(0.0);
@@ -295,7 +295,7 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
     }
 
     public static void setPrestamosGrupales(PrestamosGrupales data) {
-        _prestamoGrupalActual.setIdGrupo(data.getIdGrupo());
+        _prestamoGrupalActual.setIdGrupoHistorico(data.getIdGrupoHistorico());
         _prestamoGrupalActual.setMotivo(data.getMotivo());
         _prestamoGrupalActual.setCantidadSolicitada(data.getCantidadSolicitada());
         _prestamoGrupalActual.setGarantia(data.getGarantia());

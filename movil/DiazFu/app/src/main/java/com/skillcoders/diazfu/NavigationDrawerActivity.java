@@ -25,12 +25,14 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
+import com.skillcoders.diazfu.data.model.GruposHistorico;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
@@ -83,6 +85,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private PromotoresRest promotoresRest;
     private ClientesRest clientesRest;
     private GruposRest gruposRest;
+    private GruposHistoricoRest gruposHistoricoRest;
     private ActividadesRest actividadesRest;
     private ReferenciasPromotoresRest referenciasPromotoresRest;
 
@@ -108,6 +111,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
+        gruposHistoricoRest = ApiUtils.getGruposHistoricoRest();
         actividadesRest = ApiUtils.getActividadesRest();
         referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
 
@@ -276,7 +280,20 @@ public class NavigationDrawerActivity extends AppCompatActivity
     }
 
     public void onPreRenderMenu(NavigationView navigationView) {
+        onPreRenderSessionMenu(navigationView.getMenu());
         onNavigationItemSelected(navigationView.getMenu().getItem(0));
+    }
+
+    private void onPreRenderSessionMenu(Menu menu) {
+
+        switch (_SESSION_USER.getIdTipoActor()) {
+            case Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR:
+                menu.findItem(R.id.menu_item_comisiones).setVisible(false);
+                break;
+            default:
+                /**Sin restricciones para el admin**/
+                break;
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -610,6 +627,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     Grupos grupo = response.body();
 
                     if (null != grupo.getId()) {
+                        webServiceRegistrarGrupoHistorico(grupo);
                         GruposFragment.listadoGrupos();
                     }
 
@@ -627,6 +645,43 @@ public class NavigationDrawerActivity extends AppCompatActivity
         });
     }
 
+    private void webServiceRegistrarGrupoHistorico(Grupos grupo) {
+        GruposHistorico historico = new GruposHistorico();
+
+        historico.setIdClienteResponsable(grupo.getIdClienteResponsable());
+        historico.setIdGrupo(grupo.getId());
+        historico.setIdPromotor(grupo.getIdPromotor());
+        historico.setIdEstatus(grupo.getIdEstatus());
+        historico.setNombre(grupo.getNombre());
+        historico.setIdUsuario(grupo.getIdUsuario());
+
+        gruposHistoricoRest.agregarGrupo(historico).enqueue(new Callback<GruposHistorico>() {
+            @Override
+            public void onResponse(Call<GruposHistorico> call, Response<GruposHistorico> response) {
+
+                if (response.isSuccessful()) {
+
+                    GruposHistorico data = response.body();
+
+                    if (null != data.getId()) {
+
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GruposHistorico> call, Throwable t) {
+
+            }
+        });
+    }
+
+
     private void webServiceAutorizarGrupo() {
         Grupos grupo = (Grupos) _decodeItem.getItemModel();
         grupo.setIdEstatus(Constants.DIAZFU_WEB_AUTORIZADO);
@@ -641,6 +696,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                     Grupos grupo = response.body();
 
                     if (null != grupo.getId()) {
+                        webServiceRegistrarGrupoHistorico(grupo);
                         GruposFragment.listadoGrupos();
                     }
 

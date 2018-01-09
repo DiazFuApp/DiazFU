@@ -14,7 +14,6 @@ import com.skillcoders.diazfu.IntegrantesPlazosActivity;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.IntegrantesPlazosAdapter;
-import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -103,7 +102,7 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
 
         final PrestamosGrupales prestamoGrupal = (PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        integrantesRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupo())
+        integrantesRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupoHistorico())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<IntegrantesGrupos>>() {

@@ -24,6 +24,7 @@ import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
@@ -71,6 +72,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
      * Implementaciones REST
      */
     private GruposRest gruposRest;
+    private GruposHistoricoRest gruposHistoricoRest;
     private PromotoresRest promotoresRest;
     private ClientesRest clientesRest;
 
@@ -94,6 +96,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         promotoresRest = ApiUtils.getPromotoresRest();
         clientesRest = ApiUtils.getClientesRest();
         gruposRest = ApiUtils.getGruposRest();
+        gruposHistoricoRest = ApiUtils.getGruposHistoricoRest();
 
         return view;
     }

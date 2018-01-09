@@ -14,9 +14,9 @@ public class PrestamosGrupales implements Serializable {
     @SerializedName("Id")
     @Expose
     private Integer id;
-    @SerializedName("IdGrupo")
+    @SerializedName("IdGrupoHistorico")
     @Expose
-    private Integer idGrupo;
+    private Integer IdGrupoHistorico;
     @SerializedName("Grupo")
     @Expose
     private String grupo;
@@ -65,12 +65,12 @@ public class PrestamosGrupales implements Serializable {
         this.id = id;
     }
 
-    public Integer getIdGrupo() {
-        return idGrupo;
+    public Integer getIdGrupoHistorico() {
+        return IdGrupoHistorico;
     }
 
-    public void setIdGrupo(Integer idGrupo) {
-        this.idGrupo = idGrupo;
+    public void setIdGrupoHistorico(Integer idGrupoHistorico) {
+        this.IdGrupoHistorico = idGrupoHistorico;
     }
 
     public String getGrupo() {
@@ -165,7 +165,7 @@ public class PrestamosGrupales implements Serializable {
     public String toString() {
         return "PrestamosGrupales{" +
                 "id=" + id +
-                ", idGrupo=" + idGrupo +
+                ", IdGrupoHistorico=" + IdGrupoHistorico +
                 ", grupo='" + grupo + '\'' +
                 ", motivo='" + motivo + '\'' +
                 ", cantidadSolicitada=" + cantidadSolicitada +
