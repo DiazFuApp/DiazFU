@@ -26,6 +26,8 @@ import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.GruposHistorico;
+import com.skillcoders.diazfu.data.model.Pagos;
+import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.ReferenciasPromotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
@@ -34,6 +36,8 @@ import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
+import com.skillcoders.diazfu.data.remote.rest.PagosRest;
+import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.data.remote.rest.PromotoresRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPrestamosRest;
 import com.skillcoders.diazfu.data.remote.rest.ReferenciasPromotoresRest;
@@ -88,6 +92,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
     private GruposHistoricoRest gruposHistoricoRest;
     private ActividadesRest actividadesRest;
     private ReferenciasPromotoresRest referenciasPromotoresRest;
+    private static PrestamosGrupalesRest prestamosGrupalesRest;
+    private static PagosRest pagosRest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +120,8 @@ public class NavigationDrawerActivity extends AppCompatActivity
         gruposHistoricoRest = ApiUtils.getGruposHistoricoRest();
         actividadesRest = ApiUtils.getActividadesRest();
         referenciasPromotoresRest = ApiUtils.getReferenciasPromotoresRest();
+        prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
+        pagosRest = ApiUtils.getPagosRest();
 
         onPreRenderMenu(navigationView);
         checkAndRequestPermissions();
@@ -433,7 +441,7 @@ public class NavigationDrawerActivity extends AppCompatActivity
                 this.webServiceDeleteCliente();
                 break;
             case Constants.WS_KEY_ELIMINAR_GRUPOS:
-                this.webServiceDeleteGrupos();
+                this.webServiceDeleteGruposValidar();
                 break;
             case Constants.WS_KEY_AUTORIZAR_GRUPOS:
                 this.webServiceAutorizarGrupo();
@@ -612,6 +620,88 @@ public class NavigationDrawerActivity extends AppCompatActivity
 
             }
         });
+    }
+
+    private void webServiceDeleteGruposValidar() {
+        validarProximosPagosGrupo();
+    }
+
+    private void validarProximosPagosGrupo() {
+        Grupos grupo = (Grupos) _decodeItem.getItemModel();
+
+        GruposHistorico historico = new GruposHistorico();
+        historico.setIdGrupo(grupo.getId());
+
+        gruposHistoricoRest.getGruposCreados(historico).enqueue(new Callback<List<GruposHistorico>>() {
+            @Override
+            public void onResponse(Call<List<GruposHistorico>> call, Response<List<GruposHistorico>> response) {
+
+                if (response.isSuccessful()) {
+
+                    if (response.body().size() > 0) {
+                        obtenerPrestamos(response.body().get(0).getId());
+                    } else {
+                        webServiceDeleteGrupos();
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GruposHistorico>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void obtenerPrestamos(Integer id) {
+        PrestamosGrupales prestamoGrupal = new PrestamosGrupales();
+        prestamoGrupal.setIdGrupoHistorico(id);
+
+        prestamosGrupalesRest.getPrestamosGrupales(prestamoGrupal).enqueue(new Callback<List<PrestamosGrupales>>() {
+            @Override
+            public void onResponse(Call<List<PrestamosGrupales>> call, Response<List<PrestamosGrupales>> response) {
+
+                if (response.body().size() > 0) {
+                    obtenerPagosPendientes(response.body().get(0).getId());
+                } else {
+                    webServiceDeleteGrupos();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PrestamosGrupales>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void obtenerPagosPendientes(Integer idPrestamo) {
+        Pagos pago = new Pagos();
+        pago.setIdPrestamo(idPrestamo);
+        pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);
+
+        pagosRest.getProximosPagos(pago).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Pagos>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<Pagos> pagos) {
+
+                        if (pagos.size() > 0) {
+                            pDialog.dismiss();
+                            Toast.makeText(getApplicationContext(), "No es posible eliminar el grupo, existen pagos pendientes.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            webServiceDeleteGrupos();
+                        }
+
+                    }
+                });
     }
 
     private void webServiceDeleteGrupos() {

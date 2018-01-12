@@ -158,47 +158,57 @@ public class FormularioPrestamosGrupalesFragment extends Fragment implements Spi
     }
 
     private void listadoGrupos() {
-        gruposRest.getGrupos().enqueue(new Callback<List<Grupos>>() {
-            @Override
-            public void onResponse(Call<List<Grupos>> call, Response<List<Grupos>> response) {
+        Grupos filtroGrupo = new Grupos();
 
-                if (response.isSuccessful()) {
-                    gruposList = new ArrayList<>();
-                    grupos = new ArrayList<>();
+        gruposRest.getGruposAutorizados(filtroGrupo)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Grupos>>() {
 
-                    gruposList.add("Seleccione ...");
 
-                    switch (_MAIN_DECODE.getAccionFragmento()) {
-                        case Constants.ACCION_EDITAR:
-                        case Constants.ACCION_VER:
-                        case Constants.ACCION_AUTORIZAR:
-                        case Constants.ACCION_ENTREGAR:
-                            for (Grupos grupo :
-                                    response.body()) {
-                                if (grupo.getId().equals(((PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel()).getIdGrupoHistorico())) {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<Grupos> data) {
+
+                        gruposList = new ArrayList<>();
+                        grupos = new ArrayList<>();
+
+                        gruposList.add("Seleccione ...");
+
+                        switch (_MAIN_DECODE.getAccionFragmento()) {
+                            case Constants.ACCION_EDITAR:
+                            case Constants.ACCION_VER:
+                            case Constants.ACCION_AUTORIZAR:
+                            case Constants.ACCION_ENTREGAR:
+                                PrestamosGrupales pg = (PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel();
+                                Grupos grupoActual = new Grupos();
+
+                                grupoActual.setId(pg.getIdGrupoHistorico());
+                                grupoActual.setNombre(pg.getGrupo());
+
+                                gruposList.add(grupoActual.getNombre());
+                                grupos.add(grupoActual);
+                                break;
+                            case Constants.ACCION_REGISTRAR:
+                                for (Grupos grupo :
+                                        data) {
                                     gruposList.add(grupo.getNombre());
                                     grupos.add(grupo);
                                 }
-                            }
-                            break;
-                        case Constants.ACCION_REGISTRAR:
-                            for (Grupos grupo :
-                                    response.body()) {
-                                gruposList.add(grupo.getNombre());
-                                grupos.add(grupo);
-                            }
-                            break;
+                                break;
+                        }
+
+                        onCargarSpinnerGrupos();
                     }
-
-                    onCargarSpinnerGrupos();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Grupos>> call, Throwable t) {
-
-            }
-        });
+                });
     }
 
     /**

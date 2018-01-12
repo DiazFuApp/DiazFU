@@ -14,12 +14,10 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.ProximosPagosAdapter;
-import com.skillcoders.diazfu.data.model.Actividades;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
-import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
@@ -27,9 +25,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -82,10 +77,10 @@ public class ProximosPagosFragment extends Fragment implements View.OnClickListe
     @Override
     public void onStart() {
         super.onStart();
-        listadoActividades();
+        proximosPagos();
     }
 
-    public void listadoActividades() {
+    public void proximosPagos() {
 
         Pagos pago = (Pagos) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_MAIN_BUSQUEDA);
 

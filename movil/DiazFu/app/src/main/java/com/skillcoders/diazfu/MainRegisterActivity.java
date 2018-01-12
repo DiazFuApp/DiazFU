@@ -916,6 +916,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 case Constants.ACCION_REGISTRAR:
                                     webServiceAgregarIntegranteGrupo(integranteGrupo);
                                     break;
+                                case Constants.ACCION_ELIMINAR:
+                                    webServiceEliminarIntegranteGrupo(integranteGrupo);
+                                    break;
                             }
                         }
 

@@ -15,6 +15,7 @@ import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.ActividadesAdapter;
 import com.skillcoders.diazfu.data.model.Actividades;
+import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ActividadesRest;
 import com.skillcoders.diazfu.fragments.interfaces.NavigationDrawerInterface;
@@ -37,6 +38,8 @@ import retrofit2.Response;
 
 public class ActividadesFragment extends Fragment implements View.OnClickListener {
 
+    private static Usuarios _SESSION_USER;
+
     private static List<Actividades> actividadesList;
     private static RecyclerView recyclerView;
     private static ActividadesAdapter actividadesAdapter;
@@ -55,6 +58,8 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
 
         view = inflater.inflate(R.layout.fragment_actividades, container, false);
         linearLayout = (LinearLayout) view.findViewById(R.id.view_no_resultados);
+
+        _SESSION_USER = (Usuarios) getActivity().getIntent().getExtras().getSerializable(Constants.KEY_SESSION_USER);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_actividades);
         actividadesAdapter = new ActividadesAdapter();
@@ -91,7 +96,23 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
                 if (response.isSuccessful()) {
                     actividadesAdapter = new ActividadesAdapter();
                     actividadesList = new ArrayList<>();
-                    actividadesList.addAll(response.body());
+
+                    for (Actividades actividad :
+                            response.body()) {
+
+                        switch (_SESSION_USER.getIdTipoActor()) {
+                            case Constants.DIAZFU_WEB_TIPO_ACTOR_ADMINISTRADOR:
+                                actividadesList.add(actividad);
+                                break;
+                            case Constants.DIAZFU_WEB_TIPO_ACTOR_PROMOTOR:
+                                if (actividad.getIdPromotor().equals(_SESSION_USER.getIdActor())) {
+                                    actividadesList.add(actividad);
+                                }
+                                break;
+                        }
+                    }
+
+
                     onPreRenderActividades();
 
                     if (actividadesList.size() == 0) {
@@ -161,7 +182,7 @@ public class ActividadesFragment extends Fragment implements View.OnClickListene
                 activityInterface.openExternalActivity(Constants.ACCION_VER, MainRegisterActivity.class);
                 break;
             case R.id.item_btn_eliminar_actividad:
-                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea eliminar?");
                 break;
         }
     }

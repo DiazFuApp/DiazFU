@@ -21,6 +21,12 @@ public interface GruposRest {
     @GET("grupos")
     Call<List<Grupos>> getGrupos();
 
+    @POST("grupos/objeto")
+    Observable<List<Grupos>> getGrupos(@Body Grupos grupo);
+
+    @POST("grupos/autorizados")
+    Observable<List<Grupos>> getGruposAutorizados(@Body Grupos grupo);
+
     @GET("grupos/{id}")
     Observable<Grupos> getGrupo(@Path("id") long id);
 

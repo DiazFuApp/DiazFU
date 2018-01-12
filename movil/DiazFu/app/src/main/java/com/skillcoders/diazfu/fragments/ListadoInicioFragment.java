@@ -20,13 +20,9 @@ import com.skillcoders.diazfu.utils.Constants;
 
 public class ListadoInicioFragment extends Fragment {
 
-    private static Usuarios _SESSION_USER;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_listado_inicio, container, false);
-
-        _SESSION_USER = (Usuarios) getActivity().getIntent().getSerializableExtra(Constants.KEY_SESSION_USER);
 
         return view;
     }
@@ -48,33 +44,4 @@ public class ListadoInicioFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
     }
-
-    /*
-    private void playVideo() {
-        try {
-            String videopath = "https://sec.ch9.ms/ch9/6444/cf94e114-a959-4317-a22b-c00024d06444/AzureMediaServicesPlatformPromo_mid.mp4";
-            progressDialog = ProgressDialog.show(getActivity(), "",
-                    "Buffering video...", false);
-            progressDialog.setCancelable(true);
-            getActivity().getWindow().setFormat(PixelFormat.OPAQUE);
-
-            mediaController = new MediaController(getContext());
-
-            Uri video = Uri.parse(videopath);
-            videoView.setMediaController(mediaController);
-            videoView.setVideoURI(video);
-            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
-                public void onPrepared(MediaPlayer mp) {
-                    progressDialog.dismiss();
-                    videoView.start();
-                }
-            });
-
-        } catch (Exception e) {
-            progressDialog.dismiss();
-            System.out.println("Video Play Error :" + e.getMessage());
-        }
-    }
-    */
 }

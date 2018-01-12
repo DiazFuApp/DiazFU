@@ -1,6 +1,5 @@
 package com.skillcoders.diazfu.data.remote.rest;
 
-import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 
 import java.util.List;
@@ -20,6 +19,9 @@ public interface PrestamosGrupalesRest {
 
     @GET("prestamosgrupales")
     Call<List<PrestamosGrupales>> getPrestamosGrupales();
+
+    @POST("prestamosgrupales/objeto")
+    Call<List<PrestamosGrupales>> getPrestamosGrupales(@Body PrestamosGrupales prestamoGrupal);
 
     @GET("prestamosgrupales/{id}")
     Observable<PrestamosGrupales> getPrestamoGrupal(@Path("id") long id);

@@ -202,7 +202,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
                 activityInterface.showQuestion("Autorizar", "¿Esta seguro que desea hacer responsable?");
                 break;
             case R.id.item_btn_eliminar_asignacion_grupo:
-                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea elminar?");
+                activityInterface.showQuestion("Eliminar", "¿Esta seguro que desea eliminar?");
                 break;
         }
     }

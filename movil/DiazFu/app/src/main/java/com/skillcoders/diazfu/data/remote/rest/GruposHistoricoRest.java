@@ -20,6 +20,9 @@ public interface GruposHistoricoRest {
     @GET("gruposhistorico")
     Call<List<GruposHistorico>> getGrupos();
 
+    @POST("gruposhistorico/gruposcreados")
+    Call<List<GruposHistorico>> getGruposCreados(@Body GruposHistorico grupo);
+
     @GET("gruposhistorico/{id}")
     Observable<GruposHistorico> getGrupo(@Path("id") long id);
 
