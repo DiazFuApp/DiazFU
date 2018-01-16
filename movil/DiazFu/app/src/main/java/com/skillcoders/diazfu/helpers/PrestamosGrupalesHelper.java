@@ -17,7 +17,7 @@ public class PrestamosGrupalesHelper {
     private ReferenciasPrestamos aval;
     private ReferenciasPrestamos primeraReferencia;
     private ReferenciasPrestamos segundaReferencia;
-    private Pagos pagos;
+    private List<Pagos> pagosProgramados;
     private List<RedesSociales> redesSociales;
 
     public PrestamosGrupalesHelper() {
@@ -55,12 +55,12 @@ public class PrestamosGrupalesHelper {
         this.segundaReferencia = segundaReferencia;
     }
 
-    public Pagos getPagos() {
-        return pagos;
+    public List<Pagos> getPagosProgramados() {
+        return pagosProgramados;
     }
 
-    public void setPagos(Pagos pagos) {
-        this.pagos = pagos;
+    public void setPagosProgramados(List<Pagos> pagosProgramados) {
+        this.pagosProgramados = pagosProgramados;
     }
 
     public List<RedesSociales> getRedesSociales() {

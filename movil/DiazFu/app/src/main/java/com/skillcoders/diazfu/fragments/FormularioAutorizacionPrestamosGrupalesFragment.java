@@ -6,14 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.Usuarios;
@@ -49,6 +53,7 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
 
     public static PrestamosGrupales _prestamoGrupalActual;
     public static Pagos _pagosActual;
+    public static List<Pagos> _pagosProgramadosActual;
     public static int _plazosSeleccionado;
 
     private View view;
@@ -99,6 +104,7 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
                 break;
             case Constants.ACCION_AUTORIZAR:
                 _pagosActual = new Pagos();
+                _pagosProgramadosActual = new ArrayList<>();
                 this.obtenerGrupo();
                 //RegistroPrestamosGrupalesFragment.frameAutorizacion.setVisibility(View.VISIBLE);
                 view.setVisibility(View.VISIBLE);
@@ -154,6 +160,12 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
     private void onPreRenderUI() {
         switch (_MAIN_DECODE.getAccionFragmento()) {
             case Constants.ACCION_AUTORIZAR:
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction mainFragment = fragmentManager.beginTransaction();
+                mainFragment.replace(R.id.fragment_listado_integrantes_cantidades_prestamos_grupales_container, new IntegrantesCantidadesPrestamosGrupalesFragment(), Constants.FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_CANTIDADES);
+                mainFragment.commit();
+
                 break;
             default:
                 tilCantidadOtorgada.getEditText().setKeyListener(null);
@@ -287,27 +299,60 @@ public class FormularioAutorizacionPrestamosGrupalesFragment extends Fragment im
 
             FormularioPrestamosGrupalesFragment._prestamoGrupalActual.setCantidadOtorgada(Double.valueOf(cantidadOtorgada));
 
-            setPagos(data);
+            //setPagos(data);
             valido = true;
         }
 
         return valido;
     }
 
-    public static void setPagos(Pagos data) {
-        _pagosActual.setIdPrestamo(data.getIdPrestamo());
-        _pagosActual.setIdCliente(data.getIdPrestamo());
-        _pagosActual.setIdTipoPrestamo(data.getIdTipoPrestamo());
-        _pagosActual.setMontoAPagar(data.getMontoAPagar());
-        _pagosActual.setMontoPagado(data.getMontoPagado());
-        _pagosActual.setPlazo(data.getPlazo());
-        _pagosActual.setTipoPago(data.getTipoPago());
-        _pagosActual.setFechaProgramada(data.getFechaProgramada());
-        _pagosActual.setFechaPago(data.getFechaPago());
-        _pagosActual.setMorosidad(data.getMorosidad());
-        _pagosActual.setDescripcion(data.getDescripcion());
+    public static boolean validarDatosAutorizacionIntegrantes() {
+        boolean valido = false;
 
-        _pagosActual.setIdEstatus(data.getIdEstatus());
-        _pagosActual.setIdUsuario(_SESSION_USER.getId());
+        List<IntegrantesGrupos> integrantes = IntegrantesCantidadesPrestamosGrupalesFragment.integrantesGruposList;
+        _pagosProgramadosActual = new ArrayList<>();
+        Double cantidadOtorgadaGrupal = new Double(0.0);
+
+        for (IntegrantesGrupos integrante :
+                integrantes) {
+            try {
+                String cantidadOtorgada = integrante.getCantidadOtorgada().toString();
+
+                if (cantidadOtorgada.isEmpty()) {
+                    Toast.makeText(spinnerPlazos.getContext(), "La cantidad otorgada para el integrante " + integrante.getCliente() + " debe ser mayor a $ 0.0", Toast.LENGTH_SHORT).show();
+                    return false;
+                } else if (Double.valueOf(cantidadOtorgada) <= 0) {
+                    Toast.makeText(spinnerPlazos.getContext(), "La cantidad otorgada para el integrante " + integrante.getCliente() + " debe ser mayor a $ 0.0", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                boolean a = ValidationUtils.esSpinnerValido(spinnerPlazos);
+
+                if (a) {
+                    Pagos data = new Pagos();
+                    data.setIdPrestamo(_prestamoGrupalActual.getId());
+                    data.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);
+                    data.setMontoAPagar(Double.valueOf(cantidadOtorgada) / _plazosSeleccionado);
+                    data.setPlazo(String.valueOf(_plazosSeleccionado));
+                    data.setFechaPago(null);
+                    data.setMorosidad(null);
+                    data.setDescripcion(null);
+                    data.setIdCliente(integrante.getIdCliente());
+                    data.setIdUsuario(_SESSION_USER.getId());
+
+                    cantidadOtorgadaGrupal = cantidadOtorgadaGrupal + Double.valueOf(cantidadOtorgada);
+                    FormularioPrestamosGrupalesFragment._prestamoGrupalActual.setCantidadOtorgada(cantidadOtorgadaGrupal);
+
+                    _pagosProgramadosActual.add(data);
+                    valido = true;
+                }
+            } catch (NullPointerException e) {
+                Toast.makeText(spinnerPlazos.getContext(), "La cantidad otorgada para el integrante " + integrante.getCliente() + " debe ser mayor a $ 0.0", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        }
+
+        return valido;
     }
 }

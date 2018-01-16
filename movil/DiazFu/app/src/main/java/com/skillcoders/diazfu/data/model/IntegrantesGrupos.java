@@ -30,6 +30,8 @@ public class IntegrantesGrupos implements Serializable {
     @Expose
     private Integer idUsuario;
 
+    private Double cantidadOtorgada;
+
     public IntegrantesGrupos() {
     }
 
@@ -81,6 +83,14 @@ public class IntegrantesGrupos implements Serializable {
         this.idUsuario = idUsuario;
     }
 
+    public Double getCantidadOtorgada() {
+        return cantidadOtorgada;
+    }
+
+    public void setCantidadOtorgada(Double cantidadOtorgada) {
+        this.cantidadOtorgada = cantidadOtorgada;
+    }
+
     @Override
     public String toString() {
         return "IntegrantesGrupos{" +
@@ -90,6 +100,7 @@ public class IntegrantesGrupos implements Serializable {
                 ", Cliente='" + Cliente + '\'' +
                 ", idEstatus=" + idEstatus +
                 ", idUsuario=" + idUsuario +
+                ", cantidadOtorgada=" + cantidadOtorgada +
                 '}';
     }
 }

@@ -204,6 +204,7 @@ public class Constants {
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_PLAZOS_ENTREGAS = "fragment_formulario_prestamos_grupales_integrantes_plazos_entregas";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS = "fragment_formulario_prestamos_grupales_pagos";
     public static final String FORMULARIO_PRESTAMOS_GRUPALES_PAGOS_HISTORIAL_LISTADO = "fragment_formulario_prestamos_grupales_pagos_historial_listado";
+    public static final String FORMULARIO_PRESTAMOS_GRUPALES_INTEGRANTES_CANTIDADES = "fragment_formulario_prestamos_grupales_integrantes_cantidades";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES = "fragment_formulario_prestamos_individuales";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_AVAL = "fragment_formulario_prestamos_individuales_aval";
     public static final String FORMULARIO_PRESTAMOS_INDIVIDUALES_PRIMER_REFERENCIA = "fragment_formulario_prestamos_individuales_primer_referencia";

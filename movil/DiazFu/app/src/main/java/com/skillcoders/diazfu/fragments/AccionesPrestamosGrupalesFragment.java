@@ -12,15 +12,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
+import com.skillcoders.diazfu.data.model.GruposHistorico;
+import com.skillcoders.diazfu.data.model.Pagos;
+import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.RedesSociales;
+import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
+import com.skillcoders.diazfu.data.remote.rest.PagosRest;
+import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.PrestamosGrupalesHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jvier on 03/10/2017.
@@ -34,6 +50,13 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
 
     private int _idBtnOrigen;
 
+    /**
+     * Implementaciones REST
+     */
+    private static PrestamosGrupalesRest prestamosGrupalesRest;
+    private static GruposHistoricoRest gruposHistoricoRest;
+    private static PagosRest pagosRest;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_prestamos_grupales_acciones_formulario, container, false);
@@ -42,6 +65,10 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
 
         btnRegistrar = (Button) view.findViewById(R.id.btn_accion_prestamo_grupal);
         btnRegistrar.setOnClickListener(this);
+
+        prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
+        gruposHistoricoRest = ApiUtils.getGruposHistoricoRest();
+        pagosRest = ApiUtils.getPagosRest();
 
         return view;
     }
@@ -148,15 +175,65 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
                 switch (_idBtnOrigen) {
                     case Constants.ACCION_ENTREGAR:
                         if (FormularioEntregaPrestamosGrupalesFragment.validarDatosEntrega())
-                            entregar();
+                            validarProximosPagosGrupo();
                         break;
                     case Constants.ACCION_AUTORIZAR:
-                        if (FormularioAutorizacionPrestamosGrupalesFragment.validarDatosAutorizacion())
+                        if (FormularioAutorizacionPrestamosGrupalesFragment.validarDatosAutorizacionIntegrantes())
                             autorizar();
                         break;
                 }
                 break;
         }
+    }
+
+    private void validarProximosPagosGrupo() {
+        PrestamosGrupales prestamoGrupal = new PrestamosGrupales();
+        prestamoGrupal.setIdGrupoHistorico(FormularioPrestamosGrupalesFragment._prestamoGrupalActual.getIdGrupoHistorico());
+
+        prestamosGrupalesRest.getPrestamosGrupales(prestamoGrupal).enqueue(new Callback<List<PrestamosGrupales>>() {
+            @Override
+            public void onResponse(Call<List<PrestamosGrupales>> call, Response<List<PrestamosGrupales>> response) {
+
+                if (response.body().size() > 0) {
+                    obtenerPagosPendientes(response.body().get(0).getId());
+                } else {
+                    entregar();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<PrestamosGrupales>> call, Throwable t) {
+            }
+        });
+    }
+
+    private void obtenerPagosPendientes(Integer idPrestamo) {
+        Pagos pago = new Pagos();
+        pago.setIdPrestamo(idPrestamo);
+        pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);
+
+        pagosRest.getProximosPagos(pago).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Pagos>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<Pagos> pagos) {
+
+                        if (pagos.size() > 0) {
+                            Toast.makeText(getActivity(), "No es posible entregar el prestamo, existen pagos pendientes.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            entregar();
+                        }
+
+                    }
+                });
     }
 
     private void registrar() {
@@ -176,7 +253,7 @@ public class AccionesPrestamosGrupalesFragment extends Fragment implements View.
     private void autorizar() {
         PrestamosGrupalesHelper helper = new PrestamosGrupalesHelper();
         helper.setPrestamoGrupal(FormularioPrestamosGrupalesFragment._prestamoGrupalActual);
-        helper.setPagos(FormularioAutorizacionPrestamosGrupalesFragment._pagosActual);
+        helper.setPagosProgramados(FormularioAutorizacionPrestamosGrupalesFragment._pagosProgramadosActual);
 
         activityInterface.autorizarPrestamoGrupal(helper);
     }

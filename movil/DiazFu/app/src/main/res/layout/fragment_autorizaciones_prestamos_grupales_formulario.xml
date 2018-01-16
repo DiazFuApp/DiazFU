@@ -82,6 +82,18 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <FrameLayout
+                    android:id="@+id/fragment_listado_integrantes_cantidades_prestamos_grupales_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@null" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

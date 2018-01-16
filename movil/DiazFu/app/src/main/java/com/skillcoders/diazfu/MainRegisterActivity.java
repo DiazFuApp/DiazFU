@@ -1137,16 +1137,27 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                         for (IntegrantesGrupos integrante :
                                 integrantesGruposes) {
 
-                            Pagos data = prestamosGrupalesHelper.getPagos();
-                            int plazos = Integer.valueOf(data.getPlazo());
+                            Pagos proximoPago = new Pagos();
+
+                            List<Pagos> data = prestamosGrupalesHelper.getPagosProgramados();
+
+                            for (Pagos pago : data) {
+                                if (pago.getIdCliente().equals(integrante.getIdCliente())) {
+                                    proximoPago = pago;
+                                    break;
+                                }
+                            }
+
+
+                            int plazos = Integer.valueOf(proximoPago.getPlazo());
                             int day = 6;
 
                             for (int i = 1; i <= plazos; i++) {
                                 Pagos pago = new Pagos();
-                                pago.setIdPrestamo(data.getIdPrestamo());
+                                pago.setIdPrestamo(proximoPago.getIdPrestamo());
                                 pago.setIdCliente(integrante.getIdCliente());
-                                pago.setIdTipoPrestamo(data.getIdTipoPrestamo());
-                                pago.setMontoAPagar(data.getMontoAPagar());
+                                pago.setIdTipoPrestamo(proximoPago.getIdTipoPrestamo());
+                                pago.setMontoAPagar(proximoPago.getMontoAPagar());
                                 pago.setMontoPagado(0.0);
                                 pago.setPlazo(i + "/" + plazos);
                                 pago.setTipoPago("");
@@ -1155,7 +1166,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                                 pago.setMorosidad(0.0);
                                 pago.setDescripcion("");
                                 pago.setIdEstatus(Constants.DIAZFU_WEB_PENDIENTE);
-                                pago.setIdUsuario(data.getIdUsuario());
+                                pago.setIdUsuario(proximoPago.getIdUsuario());
 
                                 day = day + 7;
                                 _plazos.add(pago);
