@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.GruposHistorico;
+import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -27,6 +29,7 @@ import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.helpers.GruposHelper;
 import com.skillcoders.diazfu.utils.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -226,6 +229,8 @@ public class AccionesGruposFragment extends Fragment implements View.OnClickList
     }
 
     private void registrar() {
+        this.transformIntegrantesGrupo();
+        
         GruposHelper helper = new GruposHelper();
         helper.setGrupo(FormularioGruposFragment._grupoActual);
         helper.setIntegrantesGrupos(AsignacionGrupoFragment.integrantesGrupos);
@@ -234,11 +239,30 @@ public class AccionesGruposFragment extends Fragment implements View.OnClickList
     }
 
     private void editar() {
+
+        this.transformIntegrantesGrupo();
+
         GruposHelper helper = new GruposHelper();
         helper.setGrupo(FormularioGruposFragment._grupoActual);
         helper.setIntegrantesGrupos(AsignacionGrupoFragment.integrantesGrupos);
 
         activityInterface.editarGrupo(helper);
+    }
+
+    private void transformIntegrantesGrupo() {
+        AsignacionGrupoFragment.integrantesGrupos = new ArrayList<>();
+
+        for (IntegrantesGruposHistorico data : AsignacionGrupoFragment.integrantesGruposHistorico) {
+
+            IntegrantesGrupos integrate = new IntegrantesGrupos();
+
+            integrate.setId(data.getId());
+            integrate.setIdCliente(data.getIdCliente());
+            integrate.setIdEstatus(data.getIdEstatus());
+            integrate.setIdUsuario(data.getIdUsuario());
+
+            AsignacionGrupoFragment.integrantesGrupos.add(integrate);
+        }
     }
 
 

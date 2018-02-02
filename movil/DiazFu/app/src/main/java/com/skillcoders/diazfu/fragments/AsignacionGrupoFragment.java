@@ -16,8 +16,10 @@ import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
@@ -47,12 +49,14 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
     public static AsignacionesAdapter adapter;
     private static MainRegisterInterface activityInterface;
 
+    public static List<IntegrantesGruposHistorico> integrantesGruposHistorico;
     public static List<IntegrantesGrupos> integrantesGrupos;
 
     /**
      * Implementaciones REST
      */
     private static IntegrantesGruposRest integrantesRest;
+    private static IntegrantesGruposHistoricoRest integrantesGruposHistoricoRest;
     private static ClientesRest clientesRest;
 
     @Override
@@ -68,6 +72,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
 
         clientesRest = ApiUtils.getClientesRest();
         integrantesRest = ApiUtils.getIntegrantesGruposRest();
+        integrantesGruposHistoricoRest = ApiUtils.getIntegrantesGruposHistoricoRest();
 
         return view;
     }
@@ -91,6 +96,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
     private void onPreRender() {
 
         integrantesGrupos = new ArrayList<>();
+        integrantesGruposHistorico = new ArrayList<>();
         clientesList = new ArrayList<>();
 
         switch (_MAIN_DECODE.getAccionFragmento()) {
@@ -102,6 +108,59 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
         }
     }
 
+    private void listadoIntegrantes() {
+
+        final Grupos grupos = (Grupos) _MAIN_DECODE.getDecodeItem().getItemModel();
+
+        integrantesGruposHistoricoRest.getIntegrantesGrupo(grupos.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<IntegrantesGruposHistorico>>() {
+
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<IntegrantesGruposHistorico> integrantesGruposes) {
+
+                        adapter = new AsignacionesAdapter();
+                        clientesList = new ArrayList<>();
+
+                        for (IntegrantesGruposHistorico integrante :
+                                integrantesGruposes) {
+
+                            Clientes cliente = new Clientes();
+                            cliente.setNombre(integrante.getCliente());
+                            cliente.setId(integrante.getIdCliente());
+                            cliente.setIdEstatus((grupos.getIdClienteResponsable().equals(cliente.getId())
+                                    ? Constants.ESTATUS_RESPONSABLE : Constants.ESTATUS_NO_RESPONSABLE));
+
+                            integrante.setIdEstatus(Constants.ACCION_VER);
+
+                            FormularioGruposFragment._clienteResponsable = (grupos.getIdClienteResponsable().equals(cliente.getId())
+                                    ? cliente.getId() : FormularioGruposFragment._clienteResponsable);
+
+                            clientesList.add(cliente);
+                            integrantesGruposHistorico.add(integrante);
+                        }
+
+                        onPreRenderListadoIntegrantes();
+
+                        if (integrantesGruposes.size() > 0)
+                            AsignacionesGruposFragment.showMessageAsignacion(View.GONE, "");
+                    }
+                });
+    }
+
+    /*
     private void listadoIntegrantes() {
 
         final Grupos grupos = (Grupos) _MAIN_DECODE.getDecodeItem().getItemModel();
@@ -153,6 +212,7 @@ public class AsignacionGrupoFragment extends Fragment implements View.OnClickLis
                     }
                 });
     }
+    */
 
     /**
      * Carga el listado predeterminado de firebase

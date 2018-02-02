@@ -19,6 +19,7 @@ import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
@@ -51,6 +52,7 @@ public class IntegrantesCantidadesPrestamosGrupalesFragment extends Fragment imp
      * Implementaciones REST
      */
     private static IntegrantesGruposRest integrantesRest;
+    private static IntegrantesGruposHistoricoRest integrantesHistoricoRest;
     private static ClientesRest clientesRest;
 
     @Override
@@ -66,6 +68,7 @@ public class IntegrantesCantidadesPrestamosGrupalesFragment extends Fragment imp
 
         clientesRest = ApiUtils.getClientesRest();
         integrantesRest = ApiUtils.getIntegrantesGruposRest();
+        integrantesHistoricoRest = ApiUtils.getIntegrantesGruposHistoricoRest();
 
         return view;
     }

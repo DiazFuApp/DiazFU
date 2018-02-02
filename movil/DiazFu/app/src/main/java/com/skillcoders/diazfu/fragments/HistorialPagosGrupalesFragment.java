@@ -17,6 +17,7 @@ import com.skillcoders.diazfu.adapters.HistorialPagosGrupalesAdapter;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.fragments.interfaces.MainRegisterInterface;
@@ -55,6 +56,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
      * Implementaciones REST
      */
     private static IntegrantesGruposRest integrantesRest;
+    private static IntegrantesGruposHistoricoRest integrantesGruposHistoricoRest;
     private static PagosRest pagosRest;
 
     @Override
@@ -70,6 +72,7 @@ public class HistorialPagosGrupalesFragment extends Fragment implements View.OnC
 
         pagosRest = ApiUtils.getPagosRest();
         integrantesRest = ApiUtils.getIntegrantesGruposRest();
+        integrantesGruposHistoricoRest = ApiUtils.getIntegrantesGruposHistoricoRest();
 
         return view;
     }

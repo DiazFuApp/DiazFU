@@ -22,6 +22,7 @@ import com.skillcoders.diazfu.data.model.Comisiones;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.GruposHistorico;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.model.PrestamosIndividuales;
@@ -36,6 +37,7 @@ import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
 import com.skillcoders.diazfu.data.remote.rest.ComisionesRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.GruposRest;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.data.remote.rest.PagosRest;
 import com.skillcoders.diazfu.data.remote.rest.PrestamosGrupalesRest;
@@ -100,6 +102,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
     private GruposRest gruposRest;
     private GruposHistoricoRest gruposHistoricoRest;
     private IntegrantesGruposRest integrantesGruposRest;
+    private IntegrantesGruposHistoricoRest integrantesGruposHistoricoRest;
     private PrestamosGrupalesRest prestamosGrupalesRest;
     private PrestamosIndividualesRest prestamosIndividualesRest;
     private ReferenciasPrestamosRest referenciasPrestamosRest;
@@ -129,6 +132,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         gruposRest = ApiUtils.getGruposRest();
         gruposHistoricoRest = ApiUtils.getGruposHistoricoRest();
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
+        integrantesGruposHistoricoRest = ApiUtils.getIntegrantesGruposHistoricoRest();
         prestamosGrupalesRest = ApiUtils.getPrestamosGrupalesRest();
         prestamosIndividualesRest = ApiUtils.getPrestamosIndividualesRest();
         referenciasPrestamosRest = ApiUtils.getReferenciasPrestamosRest();
@@ -828,7 +832,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             }
                         }
 
-                        webServiceRegistrarGrupoHistorico(grupo);
+                        gruposHelper.setGrupo(grupo);
+                        webServiceRegistrarGrupoHistorico(gruposHelper);
 
                         finish();
                         pDialog.dismiss();
@@ -848,8 +853,9 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
         });
     }
 
-    private void webServiceRegistrarGrupoHistorico(Grupos grupo) {
+    private void webServiceRegistrarGrupoHistorico(final GruposHelper gruposHelper) {
         GruposHistorico historico = new GruposHistorico();
+        final Grupos grupo = gruposHelper.getGrupo();
 
         historico.setIdClienteResponsable(grupo.getIdClienteResponsable());
         historico.setIdGrupo(grupo.getId());
@@ -867,6 +873,21 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                     GruposHistorico data = response.body();
 
                     if (null != data.getId()) {
+                        List<IntegrantesGrupos> integrantesGrupos = gruposHelper.getIntegrantesGrupos();
+
+                        for (IntegrantesGrupos integranteGrupo :
+                                integrantesGrupos) {
+                            integranteGrupo.setIdGrupo(data.getIdGrupo());
+
+                            switch (integranteGrupo.getIdEstatus()) {
+                                case Constants.ACCION_REGISTRAR:
+                                    webServiceAgregarIntegranteGrupoHistorico(integranteGrupo);
+                                    break;
+                                case Constants.ACCION_ELIMINAR:
+                                    webServiceEliminarIntegranteGrupoHistorico(integranteGrupo);
+                                    break;
+                            }
+                        }
 
                     }
 
@@ -922,7 +943,8 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                             }
                         }
 
-                        webServiceRegistrarGrupoHistorico(grupo);
+                        gruposHelper.setGrupo(grupo);
+                        webServiceRegistrarGrupoHistorico(gruposHelper);
 
                         finish();
                         pDialog.dismiss();
@@ -964,6 +986,71 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
 
             @Override
             public void onFailure(Call<IntegrantesGrupos> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void webServiceAgregarIntegranteGrupoHistorico(IntegrantesGrupos integranteGrupo) {
+        IntegrantesGruposHistorico historico = new IntegrantesGruposHistorico();
+        historico.setIdCliente(integranteGrupo.getIdCliente());
+        historico.setIdGrupoHistorico(integranteGrupo.getIdGrupo());
+        historico.setIdEstatus(integranteGrupo.getIdEstatus());
+
+
+        integrantesGruposHistoricoRest.agregarIntegrante(historico).enqueue(new Callback<IntegrantesGruposHistorico>() {
+            @Override
+            public void onResponse(Call<IntegrantesGruposHistorico> call, Response<IntegrantesGruposHistorico> response) {
+
+                if (response.isSuccessful()) {
+
+                    IntegrantesGruposHistorico grupo = response.body();
+
+                    if (null != grupo.getId()) {
+
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IntegrantesGruposHistorico> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void webServiceEliminarIntegranteGrupoHistorico(IntegrantesGrupos integranteGrupo) {
+        IntegrantesGruposHistorico historico = new IntegrantesGruposHistorico();
+        historico.setId(integranteGrupo.getId());
+        historico.setIdCliente(integranteGrupo.getIdCliente());
+        historico.setIdGrupoHistorico(integranteGrupo.getIdGrupo());
+        historico.setIdEstatus(integranteGrupo.getIdEstatus());
+
+        integrantesGruposHistoricoRest.eliminarIntegrante(historico).enqueue(new Callback<IntegrantesGruposHistorico>() {
+            @Override
+            public void onResponse(Call<IntegrantesGruposHistorico> call, Response<IntegrantesGruposHistorico> response) {
+
+                if (response.isSuccessful()) {
+
+                    IntegrantesGruposHistorico grupo = response.body();
+
+                    if (null != grupo.getId()) {
+                    }
+
+                    Log.i(TAG, "post submitted to API." + response.body().toString());
+                } else {
+                    int statusCode = response.code();
+                    Log.e(TAG, "CODIGO: " + statusCode);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<IntegrantesGruposHistorico> call, Throwable t) {
 
             }
         });
@@ -1844,10 +1931,10 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
             FormularioGruposFragment._clienteResponsable = null;
         }
 
-        IntegrantesGrupos integranteGrupo = new IntegrantesGrupos();
-        List<IntegrantesGrupos> integrantesGrupos = AsignacionGrupoFragment.integrantesGrupos;
+        IntegrantesGruposHistorico integranteGrupo = new IntegrantesGruposHistorico();
+        List<IntegrantesGruposHistorico> integrantesGrupos = AsignacionGrupoFragment.integrantesGruposHistorico;
 
-        for (IntegrantesGrupos integrante : integrantesGrupos) {
+        for (IntegrantesGruposHistorico integrante : integrantesGrupos) {
 
             if (integrante.getIdCliente().equals(cliente.getId())) {
                 integranteGrupo.setId(integrante.getId());
@@ -1855,7 +1942,7 @@ public class MainRegisterActivity extends AppCompatActivity implements MainRegis
                 integranteGrupo.setIdCliente(cliente.getId());
                 integranteGrupo.setCliente(cliente.getNombre());
                 integrante.setIdUsuario(_SESSION_USER.getId());
-                AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
+                AsignacionGrupoFragment.integrantesGruposHistorico.add(integranteGrupo);
                 break;
             }
         }

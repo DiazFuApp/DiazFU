@@ -23,6 +23,7 @@ import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
+import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposHistoricoRest;
 import com.skillcoders.diazfu.data.remote.rest.IntegrantesGruposRest;
 import com.skillcoders.diazfu.helpers.DecodeExtraHelper;
 import com.skillcoders.diazfu.utils.Constants;
@@ -61,6 +62,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
      * Implementaciones REST
      */
     private IntegrantesGruposRest integrantesGruposRest;
+    private IntegrantesGruposHistoricoRest integrantesGruposHistoricoRest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class FormularioPagosGrupalesFragment extends Fragment implements Spinner
         _prestamoGrupalActual = new PrestamosGrupales();
 
         integrantesGruposRest = ApiUtils.getIntegrantesGruposRest();
+        integrantesGruposHistoricoRest = ApiUtils.getIntegrantesGruposHistoricoRest();
 
         return view;
     }

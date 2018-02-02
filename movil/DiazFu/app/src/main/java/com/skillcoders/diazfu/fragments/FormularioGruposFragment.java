@@ -20,6 +20,7 @@ import com.skillcoders.diazfu.adapters.AsignacionesAdapter;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.Grupos;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.model.Promotores;
 import com.skillcoders.diazfu.data.model.Usuarios;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
@@ -405,12 +406,12 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
         AsignacionGrupoFragment.clientesList.add(cliente);
         AsignacionGrupoFragment.onPreRenderListadoIntegrantes();
 
-        IntegrantesGrupos integranteGrupo = new IntegrantesGrupos();
+        IntegrantesGruposHistorico integranteGrupo = new IntegrantesGruposHistorico();
         integranteGrupo.setIdEstatus(Constants.ACCION_REGISTRAR);
         integranteGrupo.setIdCliente(cliente.getId());
         integranteGrupo.setCliente(cliente.getNombre());
         integranteGrupo.setIdUsuario(_SESSION_USER.getId());
-        AsignacionGrupoFragment.integrantesGrupos.add(integranteGrupo);
+        AsignacionGrupoFragment.integrantesGruposHistorico.add(integranteGrupo);
 
         _clienteSeleccionado = new Clientes();
         spinnerClientes.setSelection(0);
