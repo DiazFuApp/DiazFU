@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.data.model.Clientes;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.fragments.IntegrantesPlazosPrestamosGrupalesFragment;
 import com.skillcoders.diazfu.helpers.DecodeItemHelper;
 
@@ -23,7 +24,7 @@ import java.util.List;
 public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPlazosAdapter.ViewHolder> {
 
     View.OnClickListener onClickListener;
-    List<IntegrantesGrupos> integrantesGrupos = new ArrayList<>();
+    List<IntegrantesGruposHistorico> integrantesGrupos = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -42,11 +43,11 @@ public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPl
         this.onClickListener = onClickListener;
     }
 
-    public IntegrantesGrupos getItemByPosition(int position) {
+    public IntegrantesGruposHistorico getItemByPosition(int position) {
         return integrantesGrupos.get(position);
     }
 
-    public void addAll(List<IntegrantesGrupos> _data) {
+    public void addAll(List<IntegrantesGruposHistorico> _data) {
         this.integrantesGrupos.addAll(_data);
     }
 
@@ -62,7 +63,7 @@ public class IntegrantesPlazosAdapter extends RecyclerView.Adapter<IntegrantesPl
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final IntegrantesGrupos item = integrantesGrupos.get(position);
+        final IntegrantesGruposHistorico item = integrantesGrupos.get(position);
         /**Llenar el objeto que sera enviado al fragmento**/
         final DecodeItemHelper decodeItem = new DecodeItemHelper();
 

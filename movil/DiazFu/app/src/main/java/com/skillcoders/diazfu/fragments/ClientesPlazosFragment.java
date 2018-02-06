@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.PlazosAdapter;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.model.Pagos;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
@@ -91,7 +92,7 @@ public class ClientesPlazosFragment extends Fragment implements View.OnClickList
 
     private void listadoIntegrantes() {
 
-        final IntegrantesGrupos integranteGrupo = (IntegrantesGrupos) _MAIN_DECODE.getDecodeItem().getItemModel();
+        final IntegrantesGruposHistorico integranteGrupo = (IntegrantesGruposHistorico) _MAIN_DECODE.getDecodeItem().getItemModel();
 
         Pagos pago = new Pagos();
         pago.setIdTipoPrestamo(Constants.TIPO_PRESTAMO_GRUPAL);

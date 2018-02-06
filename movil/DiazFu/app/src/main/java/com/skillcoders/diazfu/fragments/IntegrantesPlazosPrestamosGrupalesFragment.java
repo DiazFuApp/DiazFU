@@ -15,6 +15,7 @@ import com.skillcoders.diazfu.MainRegisterActivity;
 import com.skillcoders.diazfu.R;
 import com.skillcoders.diazfu.adapters.IntegrantesPlazosAdapter;
 import com.skillcoders.diazfu.data.model.IntegrantesGrupos;
+import com.skillcoders.diazfu.data.model.IntegrantesGruposHistorico;
 import com.skillcoders.diazfu.data.model.PrestamosGrupales;
 import com.skillcoders.diazfu.data.remote.ApiUtils;
 import com.skillcoders.diazfu.data.remote.rest.ClientesRest;
@@ -43,7 +44,7 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
 
     private static DecodeExtraHelper _MAIN_DECODE;
 
-    public static List<IntegrantesGrupos> integrantesGruposList;
+    public static List<IntegrantesGruposHistorico> integrantesGruposList;
     private static RecyclerView recyclerView;
     public static IntegrantesPlazosAdapter adapter;
     private static MainRegisterInterface activityInterface;
@@ -105,10 +106,10 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
 
         final PrestamosGrupales prestamoGrupal = (PrestamosGrupales) _MAIN_DECODE.getDecodeItem().getItemModel();
 
-        integrantesRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupoHistorico())
+        integrantesGruposHistoricoRest.getIntegrantesGrupo(prestamoGrupal.getIdGrupoHistorico())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<IntegrantesGrupos>>() {
+                .subscribe(new Subscriber<List<IntegrantesGruposHistorico>>() {
 
 
                     @Override
@@ -122,12 +123,12 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
                     }
 
                     @Override
-                    public void onNext(List<IntegrantesGrupos> integrantesGruposes) {
+                    public void onNext(List<IntegrantesGruposHistorico> integrantesGruposes) {
 
                         adapter = new IntegrantesPlazosAdapter();
                         integrantesGruposList = new ArrayList<>();
 
-                        for (IntegrantesGrupos integranteGrupo : integrantesGruposes) {
+                        for (IntegrantesGruposHistorico integranteGrupo : integrantesGruposes) {
                             integranteGrupo.setId(prestamoGrupal.getId());
                             integrantesGruposList.add(integranteGrupo);
                         }
@@ -142,9 +143,9 @@ public class IntegrantesPlazosPrestamosGrupalesFragment extends Fragment impleme
      **/
     public static void onPreRenderListadoIntegrantes() {
 
-        Collections.sort(integrantesGruposList, new Comparator<IntegrantesGrupos>() {
+        Collections.sort(integrantesGruposList, new Comparator<IntegrantesGruposHistorico>() {
             @Override
-            public int compare(IntegrantesGrupos o1, IntegrantesGrupos o2) {
+            public int compare(IntegrantesGruposHistorico o1, IntegrantesGruposHistorico o2) {
                 return (o1.getCliente().compareTo(o2.getCliente()));
             }
         });

@@ -111,7 +111,6 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
     public void onStart() {
         super.onStart();
         this.onPreRender();
-        this.listadoPromotores();
         this.listadoClientes();
     }
 
@@ -124,6 +123,7 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
             case Constants.ACCION_REGISTRAR:
                 _grupoActual = new Grupos();
                 activityInterface.stopProgressDialog();
+                this.listadoPromotores();
                 break;
             default:
                 break;
@@ -168,6 +168,8 @@ public class FormularioGruposFragment extends Fragment implements Spinner.OnItem
                         _grupoActual = grupo;
 
                         tilNombre.getEditText().setText(grupo.getNombre());
+
+                        listadoPromotores();
                     }
                 });
     }
